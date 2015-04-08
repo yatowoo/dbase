@@ -9,6 +9,10 @@
 # the array .
 # The extension is already found.  Any number of sources could be listed here.
 
+
+Set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/dbase/cmake/modules" ${CMAKE_MODULE_PATH})
+
+
 Set(INCLUDE_DIRECTORIES
   ${CMAKE_SOURCE_DIR}/fairtools
   ${CMAKE_SOURCE_DIR}/base
@@ -127,3 +131,8 @@ if (ZMQ_FOUND AND Boost_FOUND)
 add_subdirectory(dbMQ)
 endif()
 
+find_package(Wt)
+
+if (Wt_FOUND AND Boost_FOUND)
+add_subdirectory(dbWt) 
+endif()
