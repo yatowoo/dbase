@@ -478,16 +478,26 @@ void ValTimeStamp::DumpTMStruct(const tm_t& tmstruct)
          tmstruct.tm_wday,
          tmstruct.tm_yday,
          tmstruct.tm_isdst);
-#ifdef linux
-//#ifdef __GNUC__
-// special GCC extras
+  //#ifdef linux
+#ifdef __GNUCC__
+#include <features.h>
   printf(",\n      tm_gmtoff %7ld,  tm_zone \"%s\"",
-#ifdef __USE_BSD
-         tmstruct.tm_gmtoff,tmstruct.tm_zone);
-#else
+
+#if __GNUC_PREREQ(4,9)
+ #ifdef __USE_MISC
+	 tmstruct.tm_gmtoff,tmstruct.tm_zone);
+ #else
          tmstruct.__tm_gmtoff,tmstruct.__tm_zone);
+ #endif
+#else
+ #ifdef __USE_BSD  
+          tmstruct.tm_gmtoff,tmstruct.tm_zone);
+ #else
+         tmstruct.__tm_gmtoff,tmstruct.__tm_zone);
+ #endif
 #endif
 #endif
+
   printf("}\n");
 }
 

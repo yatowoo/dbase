@@ -95,6 +95,7 @@ dbInterface/FairDbValRecordMap.cxx
 dbInterface/FairDbDataTypeUnion.cxx
 dbInterface/FairDbStreamer.cxx
 dbInterface/FairDbParSet.cxx
+dbInterface/FairDbParFactory.cxx
 dbUtils/FairDbLog.cxx
 dbUtils/FairDbLogFormat.cxx
 dbUtils/FairDbLogOSStream.cxx
@@ -136,3 +137,8 @@ find_package(Wt)
 if (Wt_FOUND AND Boost_FOUND)
 add_subdirectory(dbWt) 
 endif()
+
+if (Boost_FOUND)
+add_subdirectory(dbExamples) 
+endif()
+

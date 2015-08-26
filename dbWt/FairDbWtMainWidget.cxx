@@ -1,56 +1,22 @@
-#include <WAnchor>
-#include <WText>
-#include <WMenu>
-#include <WStackedWidget>
-#include <WVBoxLayout>
-#include <WHBoxLayout>
-#include <WNavigationBar>
-
-#include <WApplication>
-#include <Auth/AuthWidget>
-
-
 #include "FairDbWtMainWidget.h"
-
 #include "FairDbWtConnMySQLWidget.h"
 #include "FairDbWtTreeView.h"
-#include "FileTreeTable.h"
+//#include "FileTreeTable.h"
 
+#include <iostream>
+
+
+using namespace std;
 using namespace Wt;
 
 FairDbWtMainWidget::FairDbWtMainWidget(WContainerWidget *parent):
   WContainerWidget(parent)
 {
-  fNavigation = new WNavigationBar();
-  fNavigation->addStyleClass("main-nav");
-  fNavigation->setTitle("FairDb Connections","");
-  fNavigation->setResponsive(false);
+ // Create the basic widgets   
+}
 
-  fContentstack = new WStackedWidget();
 
-  WAnimation animation(WAnimation::Fade,
-                       WAnimation::Linear,
-                       200);
-  fContentstack->setTransitionAnimation(animation, true);
-
-  WMenu *menu = new WMenu(fContentstack, 0);
-  menu->setInternalPathEnabled();
-  menu->setInternalBasePath("/");
-
-  
-  addToMenu(menu, "MySQL@demac013", new FairDbWtTreeView());
-  addToMenu(menu, "PgSQL@demac013", new FairDbWtConnMySQLWidget());
-
-   //   ->setPathComponent("trees-tables");
-     
-  fNavigation->addMenu(menu);
-
-  // Add it inside Layout
-  WVBoxLayout *layout = new WVBoxLayout(this);
-  layout->addWidget(fNavigation);
-  layout->addWidget(fContentstack, 1);
-  layout->setContentsMargins(0, 0, 0, 0);
-
+FairDbWtMainWidget::~FairDbWtMainWidget(){
 }
 
 
@@ -59,6 +25,10 @@ WMenuItem *FairDbWtMainWidget::addToMenu(WMenu *menu,
                                         const WString& name,
                                         WContainerWidget *topic)
 {
+//menu->addItem("Home", new Wt::WText("There is no better place!"));
+//menu->addItem("Layout", new Wt::WText("Layout contents"));
+
+
   WContainerWidget *result = new WContainerWidget();
   WContainerWidget *pane = new WContainerWidget();
 
@@ -75,12 +45,12 @@ WMenuItem *FairDbWtMainWidget::addToMenu(WMenu *menu,
   WStackedWidget *subStack = new WStackedWidget();
   subStack->addStyleClass("contents");
   subStack->setOverflow(WContainerWidget::OverflowAuto);
-  /*
+  
   WAnimation animation(WAnimation::Fade,
          WAnimation::Linear,
          100);
   subStack->setTransitionAnimation(animation, true);
-  */
+  
 
   WMenu *subMenu = new WMenu(subStack);
   subMenu->addStyleClass("nav-pills nav-stacked submenu");
@@ -92,9 +62,7 @@ WMenuItem *FairDbWtMainWidget::addToMenu(WMenu *menu,
   subMenu->setInternalPathEnabled();
   subMenu->setInternalBasePath("/" + item->pathComponent());
 
-  // Should be here new inheritance
-  //((FairDbWtConnMySQLWidget*) topic)->populateSubMenu(subMenu);
-
+ 
   return item;
 }
 

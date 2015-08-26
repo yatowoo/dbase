@@ -133,7 +133,7 @@ void FairDbWtTCanvasWidget::drawTGraph(WPainter& painter, TGraph* aGraph)
   chart->axis(YAxis).setLocation(ZeroValue);
 
   // Automatically layout chart (space for axes, legend, ...)
-  chart->setAutoLayoutEnabled();
+  //chart->setAutoLayoutEnabled();
 
   // Add the curves
   WDataSeries s(1, CurveSeries);
@@ -143,7 +143,7 @@ void FairDbWtTCanvasWidget::drawTGraph(WPainter& painter, TGraph* aGraph)
   int ww = fCanvas->GetWindowWidth();
   int wh = fCanvas->GetWindowHeight();
 
-  chart->resize(ww, wh); // WPaintedWidget must be given explicit size
+  //chart->resize(ww, wh); // WPaintedWidget must be given explicit size
 
   chart->setMargin(10, Top | Bottom);            // add margin vertically
   chart->setMargin(WLength::Auto, Left | Right); // center horizontally

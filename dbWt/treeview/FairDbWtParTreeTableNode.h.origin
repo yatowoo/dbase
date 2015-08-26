@@ -1,0 +1,66 @@
+#ifndef FAIRDBWTPARTREETABLENODE_H
+#define FAIRDBWTPARTREETABLENODE_H
+
+#include <map> 
+#include <iostream>     
+#include <iomanip>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iterator>
+#include <sstream>
+
+
+#include <string>
+#include <WContainerWidget>
+#include <WTable>
+#include <WTreeTableNode>
+#include <WString>
+
+#include "FairDbObjTableMap.h"
+#include "FairRuntimeDb.h"
+#include "FairParTSQLIo.h"
+#include "FairDbConnectionPool.h"
+
+#include "ValTimeStamp.h"
+#include "FairDbTutPar.h"
+#include "FairDbTutParBin.h"
+
+using namespace std;
+using namespace Wt;
+
+
+class FairDbWtParTreeTableNode : public Wt::WTreeTableNode
+{
+public:
+  FairDbWtParTreeTableNode(FairDbObjTableMap* aPar,
+                           WString& pName, bool isDir);
+
+
+WTable* createTable(WContainerWidget* aParent,string pName); 
+
+
+private:
+  virtual void createTree();
+  virtual bool expandable();
+  
+  // <DB> dirty trick to map the par. names
+  // and table names ... need to be checked.
+  void initContainer(string pname);
+
+
+  void split(const std::string& str, std::vector<std::string>& v);   
+  static Wt::WIconPair *createIcon(bool isDir);
+
+  FairRuntimeDb* fRtdb;
+  FairParTSQLIo* fInput; 
+  FairDbConnectionPool* fConnections;
+  
+  map<string , string> creationDate;
+  map<string , string> modifiedDate;
+  map<string , FairDbObjTableMap*> fMapObjects;
+
+  
+};
+
+#endif // FAIRDBWTPARTREETABLENODE_H

@@ -99,10 +99,6 @@ WString  FairDbWtConnMySQLWidget::reindent(const WString& text)
 
 
 
-
-#include "forms/SimpleForm.cxx"
-#include "forms/FormModel.cxx"
-
 WWidget *FairDbWtConnMySQLWidget::introduction()
 {
  
@@ -121,7 +117,7 @@ WWidget *FairDbWtConnMySQLWidget::introduction()
 
  */
 
-  //return result;
+  return NULL;
 }
 
 

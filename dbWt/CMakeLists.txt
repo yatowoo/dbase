@@ -17,11 +17,11 @@ ${ZMQ_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}/parbase
 ${Wt_INCLUDE_DIR}
 ${Wt_INCLUDE_DIR}/Wt
-${CMAKE_SOURCE_DIR}/dbase/DbWt
-${CMAKE_SOURCE_DIR}/dbase/DbWt/treeview
-${CMAKE_SOURCE_DIR}/dbase/DbWt/graphics
-${CMAKE_SOURCE_DIR}/dbase/DbWt/examples/filetree
-${CMAKE_SOURCE_DIR}/dbase/DbWt/examples/mandelbrot
+${CMAKE_SOURCE_DIR}/dbase/dbWt
+${CMAKE_SOURCE_DIR}/dbase/dbWt/treeview
+${CMAKE_SOURCE_DIR}/dbase/dbWt/graphics
+${CMAKE_SOURCE_DIR}/dbase/dbWt/examples/filetree
+${CMAKE_SOURCE_DIR}/dbase/dbWt/examples/mandelbrot
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface
 ${CMAKE_SOURCE_DIR}/dbase/dbValidation
 ${CMAKE_SOURCE_DIR}/dbase/dbInput
@@ -49,6 +49,7 @@ FairDbWtApplication.cxx
 FairDbWtMainWidget.cxx
 FairDbWtConnMySQLWidget.cxx
 FairDbWtItemsTpl.cxx
+FairDbWtParFactory.cxx
 treeview/FairDbWtFileModel.cxx
 treeview/FairDbWtFileEditDialog.cxx
 treeview/FairDbWtTreeView.cxx
@@ -56,7 +57,7 @@ treeview/FairDbWtParTreeTable.cxx
 treeview/FairDbWtParTreeTableNode.cxx
 treeview/FairDbWtPaintedImage.cxx
 treeview/CsvUtil.cxx
-treeview/Folderview.cxx
+treeview/FolderView.cxx
 graphics/FairDbWtTCanvas.cxx
 graphics/FairDbWtTCanvasWidget.cxx
 )

@@ -10,15 +10,23 @@
 #include "FairDbWtApplication.h"
 #include "FairDbWtMainWidget.h"
 
+using namespace std;
 
 FairDbWtApplication::FairDbWtApplication(const WEnvironment& env)
   : WApplication(env)
 {
-  // Title of Application
-  setTitle("FairDB Wt");
-  setCssTheme("polished");  
-  new FairDbWtMainWidget(root());
+
+ cout << "-I- FairDbWtApplication ctor " << endl;
 
 }
 
 
+
+void FairDbWtApplication::initialise()
+{
+ // Title of Application
+ cout << "-I- FairDbWtApplication user initialisation" << endl;
+ setTitle("FairDB Wt");
+ setCssTheme("polished");  
+ FairDbWtMainWidget *w_main = new FairDbWtMainWidget(root());
+ }

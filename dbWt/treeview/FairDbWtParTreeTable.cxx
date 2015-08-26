@@ -8,17 +8,23 @@ using namespace Wt;
 FairDbWtParTreeTable::FairDbWtParTreeTable(WContainerWidget *parent)
   : WTreeTable(parent)
 {
-  //addColumn("Created", 80);
-  addColumn("Created", 110);
-  addColumn("Last Modified", 110);
+ 
+}
 
-  //header(1)->setStyleClass("fsize");
-  header(1)->setStyleClass("date");
-  header(2)->setStyleClass("date");
 
-  WString topName="ParamList";
-  setTreeRoot(new FairDbWtParTreeTableNode(0,topName, 1), "FairDb Contents");
+void FairDbWtParTreeTable::createTableLayout(FairDbWtParTreeTableNode *pNode)
+ {
+ 
+ // <DB> tree of parameter objects 
+ // should be as light as possible  
+ // addColumn("Last Modified", 150);
+ // header(1)->setStyleClass("date");
+ 
+  // Create the tree  
+  pNode->createTree();
+  setTreeRoot(pNode, "FairDb Contents");
 
   treeRoot()->setImagePack("icons/");
   treeRoot()->expand();
+  resize(300,300);
 }

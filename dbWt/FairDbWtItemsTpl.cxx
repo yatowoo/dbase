@@ -1,7 +1,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "FairDBWtItemsTpl.h"
+#include "FairDbWtItemsTpl.h"
 
 #include <Wt/WStringStream>
 

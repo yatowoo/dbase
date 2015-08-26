@@ -28,21 +28,26 @@
 class FairDbDetector
 {
   public:
-    typedef enum EDetector {
-      kUnknown          = 0x00,
-      kCal              = 0x01,
-      kCalCrystal       = 0x02,
-      kDch              = 0x04,
-      kGfi              = 0x08,
-      kLand             = 0x10,
-      kMtof             = 0x12,
-      kTof              = 0x14,
-      kTracker          = 0x16,
-      kLos              = 0x18,
-    } Detector_t;
+  
+    public:  
+     typedef enum EDetector {
+       kUnknown          = 0x00,
+       kCal              = 0x01,
+       kCalCrystal       = 0x02,
+       kDch              = 0x04,
+       kGfi              = 0x08,
+       kLand             = 0x10,
+       kMtof             = 0x12,
+       kTof              = 0x14,
+       kTracker          = 0x16,
+       kLos              = 0x18,
+       kSts              = 0x20
+     } Detector_t;
+  
 
+  
     static Int_t       FullMask() {
-      return kCal|kCalCrystal|kDch|kGfi|kLand|kMtof|kTof|kTracker|kLos;
+      return kCal|kCalCrystal|kDch|kGfi|kLand|kMtof|kTof|kTracker|kLos|kSts;
     }
 
 
@@ -77,6 +82,9 @@ class FairDbDetector
         break;
       case kLos:
         return "Los";
+        break;
+      case kSts:
+        return "Sts";
         break;
       default:
         return "?Unknown?";
@@ -121,6 +129,8 @@ class FairDbDetector
       case 'O':
       case 0x18:
         return kLos;
+      case 0x20:
+        return kSts;
       default:
         return kUnknown;
       }
@@ -162,6 +172,7 @@ class FairDbDetector
       if (thestring.Contains("t")) { mask |= kTof; }
       if (thestring.Contains("T")) { mask |= kTracker; }
       if (thestring.Contains("O")) { mask |= kLos; }
+      if (thestring.Contains("S")) { mask |= kSts; }
 
       return mask;
     }
@@ -202,6 +213,9 @@ class FairDbDetector
       case kLos:
         return kLos;
         break;
+      case kSts:
+        return kSts;
+        break;
       default:
         return kUnknown;
         break;
@@ -222,6 +236,7 @@ class FairDbDetector
       else if ( detMask & FairDbDetector::kTof)        { fDetType = FairDbDetector::kTof; }
       else if ( detMask & FairDbDetector::kTracker)    { fDetType = FairDbDetector::kTracker; }
       else if ( detMask & FairDbDetector::kLos)        { fDetType = FairDbDetector::kLos; }
+      else if ( detMask & FairDbDetector::kSts)        { fDetType = FairDbDetector::kSts; }
 
       return fDetType;
     }

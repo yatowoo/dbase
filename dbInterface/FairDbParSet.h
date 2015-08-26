@@ -10,6 +10,8 @@
 
 
 #include "FairDbObjTableMap.h"
+#include "FairDbReader.h"
+#include "FairDbWriter.h"
 
 
 class FairDbParSet : public FairDbObjTableMap
@@ -24,10 +26,10 @@ class FairDbParSet : public FairDbObjTableMap
     FairDbParSet& operator=(const FairDbParSet&);
 
     virtual ~FairDbParSet();
-
+    
+  
   protected:
    
-
     ClassDef(FairDbParSet,0)   // FairDbObjTableMap for a specific database table.
 
 };

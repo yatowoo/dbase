@@ -109,8 +109,7 @@
 
 
 // #### SQL object
-//#pragma link C++ class FairTSQLObject+;
-//#pragma link C++ enum  FairDBObjectMemberTypes;
-//#pragma link C++ union FairDBObjectMemberValues;
-//#pragma link C++ class FairDBObjectMemberValue+;
+//#pragma link off class FairDbParRegistry;
+//#pragma link off class FairDbParFactory;
+
 #endif

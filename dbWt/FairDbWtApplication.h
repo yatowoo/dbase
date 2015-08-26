@@ -1,5 +1,5 @@
-#ifndef FAIRDBWTAPP_H
-#define FAIRDBWTAPP_H
+#ifndef FAIRDBWTAPPLICATION_H
+#define FAIRDBWTAPPLICATION_H
 
 
 #include <WApplication>
@@ -15,10 +15,13 @@ using namespace Wt;
 
 class FairDbWtApplication : public WApplication
 {
+
 public:
-FairDbWtApplication(const WEnvironment& env);  
-  
-private:
+FairDbWtApplication(const WEnvironment& env);
+
+protected:
+virtual void  initialise();
+
 
 };
 

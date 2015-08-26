@@ -4,7 +4,9 @@
 #include <WVBoxLayout>
 #include <WHBoxLayout>
 #include <WNavigationBar>
-#include <Wt/WTreeTableNode>
+#include <WTreeTableNode>
+#include <WStandardItemModel>
+
 #include <WPanel>
 #include <WTable>
 
@@ -20,7 +22,6 @@
 #include <Wt/Utils>
 
 
-#include "FileTreeTable.h"
 #include "FairDbWtTreeView.h"
 #include "FairDbWtParTreeTable.h"
 #include "FairDbWtParTreeTableNode.h"
@@ -36,6 +37,7 @@
 #include "TCanvas.h"
 #include "TGraph.h"
 #include "TFrame.h"
+#include "TAxis.h"
 
 
 using namespace std;
@@ -44,69 +46,160 @@ using namespace Wt;
 
 FairDbWtTreeView::FairDbWtTreeView(WContainerWidget *parent):
   WContainerWidget(parent)
-{
- 
-     setStyleClass("maindiv");
-
-     WGridLayout *layout = new WGridLayout(this);
-     layout->addWidget(createTitle("Parameters"), 0, 0);
-     layout->addWidget(createTitle("View"), 0, 1);
-     layout->addWidget(TreeTableView(), 1, 0); 
-     layout->setColumnResizable(0);
-     
-
-    // <DB> do not put anchor "this" to the Box Layout
-     WVBoxLayout *vbox = new WVBoxLayout();
-  
-     // Top Right Frame
-     WContainerWidget *rFrame_top = new WContainerWidget();  
-     rFrame_top->setOverflow(OverflowAuto);  
-     //rFrame_top->resize(WLength::Auto,WLength::Auto);   
-     rFrame_top->setAttributeValue
-             ("oncontextmenu",
-              "event.cancelBubble = true; event.returnValue = false; return false;"); 
-     fTabWidget_top = new WTabWidget(); 
-     fTabWidget_top->setStyleClass("tabwidget");
-     
-     rFrame_top->addWidget(fTabWidget_top);
-     rFrame_top->mouseWentDown().connect(this, &FairDbWtTreeView::showPopup);    
-     vbox->addWidget(rFrame_top,1);
-
- 
-     //Down Right Frame 
-     WContainerWidget *rFrame_down = new WContainerWidget();
-     rFrame_down->setOverflow(OverflowAuto);    
-     rFrame_down->setAttributeValue
-             ("oncontextmenu",
-              "event.cancelBubble = true; event.returnValue = false; return false;"); 
-     fTabWidget_down = new WTabWidget(); 
-     fTabWidget_down->setStyleClass("tabwidget");
-     
-     rFrame_down->addWidget(fTabWidget_down);
-     rFrame_down->mouseWentDown().connect(this, &FairDbWtTreeView::showPopup);
-   
-     // ROOT Histos 
-     //WWidget *whist = ghist();
-     //WMenuItem *tab = fTabWidget_down->addTab(whist, "TGraph", WTabWidget::PreLoading);
-    
-     vbox->addWidget(rFrame_down,1);
-     vbox->setResizable(0);
-
-     // Add VBox
-     layout->addLayout(vbox, 1, 1);
-     layout->setRowStretch(1, 1);
-     layout->setColumnStretch(1, 1);
-     
-       
-     setLayout(layout);
-
-}
+ {
+ }
 
 FairDbWtTreeView::~FairDbWtTreeView(){
 
-    if (fPopup) delete fPopup;
-    if (fPopupActionBox) delete fPopupActionBox;
+  if (fPopup) delete fPopup;
+  if (fPopupActionBox) delete fPopupActionBox;
 }
+
+
+void FairDbWtTreeView::createLayout(WContainerWidget *parent) {
+
+  cout << "-------------------- FairDbTreeView  ctor   -------- " << endl;
+  setStyleClass("contents");
+    
+  fMainLayout = new WGridLayout(parent);
+  fMainLayout->addWidget(createTitle("Parameters"), 0, 0);
+  fMainLayout->addWidget(createTitle("Views"), 0, 1);    
+  
+  
+  // <DB> do not put anchor "this" to the Box Layout
+  WVBoxLayout *vbox = new WVBoxLayout();
+  // Top Right Frame
+  WContainerWidget *rFrame_top = new WContainerWidget();  
+  rFrame_top->setOverflow(OverflowAuto);  
+  //rFrame_top->resize(WLength::Auto,WLength::Auto);   
+  rFrame_top->setAttributeValue
+             ("oncontextmenu",
+              "event.cancelBubble = true; event.returnValue = false; return false;"); 
+  fTabWidget_top = new WTabWidget(); 
+  fTabWidget_top->setStyleClass("Wt-tabs");
+  
+  // Some deco definition
+  //fTabWidget_top->decorationStyle().setCursor(PointingHandCursor);
+  //fTabWidget_top->decorationStyle().font().setSize(WFont::XSmall);
+
+  rFrame_top->addWidget(fTabWidget_top);
+  rFrame_top->mouseWentDown().connect(this, &FairDbWtTreeView::showPopup_Rtop);    
+  vbox->addWidget(rFrame_top,1);
+
+ 
+  //Down Right Frame 
+  WContainerWidget *rFrame_down = new WContainerWidget();
+  rFrame_down->setOverflow(OverflowAuto);    
+  rFrame_down->setAttributeValue
+             ("oncontextmenu",
+              "event.cancelBubble = true; event.returnValue = false; return false;"); 
+  fTabWidget_down = new WTabWidget(); 
+  fTabWidget_down->setStyleClass("Wt-tabs");
+     
+  rFrame_down->addWidget(fTabWidget_down);
+  rFrame_down->mouseWentDown().connect(this, &FairDbWtTreeView::showPopup_Rdown);    
+       
+  vbox->addWidget(rFrame_down,1);
+  vbox->setResizable(0);
+
+  // Add RVBox
+  fMainLayout->addLayout(vbox, 1, 1);
+  
+  // Add LVBox
+  WContainerWidget *l_Frame = new WContainerWidget();
+  l_Frame->setAttributeValue
+             ("oncontextmenu",
+              "event.cancelBubble = true; event.returnValue = false; return false;"); 
+  l_Frame->setOverflow(OverflowAuto);  
+  
+
+  WVBoxLayout *l_vbox = new WVBoxLayout;
+  l_Frame->setLayout(l_vbox);
+  
+  WContainerWidget *l_up = new WContainerWidget();
+  WContainerWidget *l_down = new WContainerWidget();
+  l_up->setOverflow(OverflowAuto);
+  l_down->setOverflow(OverflowAuto);
+
+  l_up->mouseWentDown().connect(this, &FairDbWtTreeView::showPopup_Lup);
+
+  l_vbox->addWidget(l_up);
+  l_vbox->addWidget(l_down);
+  l_vbox->setResizable(0); 
+  
+  //setLayoutSizeAware(true);
+  
+  //l_up->decorationStyle().setBackgroundColor(Wt::lightGray);
+  //l_down->decorationStyle().setBackgroundColor(Wt::green);
+  
+  // prevent that firefox interprets drag as drag&drop action
+  //l_up->setStyleClass("unselectable");
+  //l_down->setStyleClass("polished");
+  //l_up->clicked().connect(this, &FairDbWtTreeView::showClicked);
+   
+  // Add Table tree
+   l_up->addWidget(TreeTableView());
+   l_up->resize(300,WLength::Auto); 
+
+
+  // DB Check ME !!! !!!!!!!!!!!!!!!!!!!!!!!
+  // Add example table view
+ /*
+  WContainerWidget *envelop = new WContainerWidget();
+  envelop->decorationStyle().setBackgroundColor(Wt::white);
+  envelop->setPadding(0); 
+  envelop->setOverflow(OverflowAuto); 
+  envelop->addWidget(TableView());  
+  WMenuItem *tab =fTabWidget_down->addTab(envelop, "tableview");
+  WMenuItem *tab0 =fTabWidget_down->addTab(wMouseEvent(), "hanlding events");
+ */
+    
+  ///////////////////////////
+
+  
+  // Add Tab Object Info
+  fTabWidget_info = new WTabWidget(this);
+  fTabWidget_info->setStyleClass("Wt-tabs");
+  
+  fWObject_Info = new WContainerWidget(this);
+  fWObject_Info->setPadding(8); 
+  fWObject_Info->setOverflow(OverflowAuto);
+  fWObject_Info->decorationStyle().font().setSize(WFont::XSmall);
+  //fWObject_Info->setPadding(WLength(100), Left | Right );
+
+  fConnections = new WContainerWidget(this);
+  fConnections->setOverflow(OverflowAuto);
+  fConnections->decorationStyle().font().setSize(WFont::XSmall);
+  //fConnections->setPadding(WLength(100), Left | Right );
+  fConnections->setPadding(8); 
+
+  // Example test
+  WText* title =new WText("connections status"); 
+  title->decorationStyle().font().setSize(WFont::XSmall);
+  
+  WMenuItem *tab1 = fTabWidget_info->addTab(fWObject_Info,"Object Info", WTabWidget::PreLoading);
+  tab1->setCloseable(false);
+  WMenuItem *tab2 = fTabWidget_info->addTab(fConnections,"Connections", WTabWidget::PreLoading);
+  tab2->setCloseable(false);
+
+  //fTabWidget_info->resize(300,WLength::Auto); 
+  l_down->addWidget(fTabWidget_info);
+  //l_down->addWidget(fWObject_Info);
+  l_down->resize(300,500);
+  
+
+  l_Frame->resize(350, WLength::Auto);
+  fMainLayout->addWidget(l_Frame, 1, 0); 
+
+  // Properties 
+  fMainLayout->setColumnResizable(0);
+  fMainLayout->setRowStretch(1, 1);
+  fMainLayout->setColumnStretch(1, 1);
+          
+  setLayout(fMainLayout);
+}
+
+
 
 
 void FairDbWtTreeView::showMeMouse(const WMouseEvent& event) {
@@ -159,7 +252,7 @@ FairDbWtParTreeTableNode* tNode = (FairDbWtParTreeTableNode*) fFileTreeTable->tr
      cout << "-I Server: FairDbWtTreeView::TreeTableChanged() Node:" <<  aNode->label()->text().value() << endl;     
  
      string pName= aNode->label()->text().toUTF8();
-     Wt::WTable* table = tNode->createTable(this,pName); 
+     Wt::WTable* table = tNode->createDataTable(this,pName); 
      if (table){ 
        WMenuItem *tab = fTabWidget_top->addTab(table, pName, WTabWidget::PreLoading);
         int index = fTabWidget_top->indexOf(table);
@@ -170,66 +263,22 @@ FairDbWtParTreeTableNode* tNode = (FairDbWtParTreeTableNode*) fFileTreeTable->tr
 
 }
 
-WTreeView* FairDbWtTreeView::folderView() {
-    WTreeView *treeView = new FolderView();
-    treeView->setRowHeight(25);   
-    treeView->setAttributeValue
-      ("oncontextmenu",
-       "event.cancelBubble = true; event.returnValue = false; return false;");
-     treeView->setModel(fFolderModel);
-     treeView->resize(200, WLength::Auto);
-     treeView->setSelectionMode(SingleSelection);
-     treeView->expandToDepth(1);
-     treeView->selectionChanged()
-       .connect(this, &FairDbWtTreeView::folderChanged);
-
-     //treeView->mouseWentUp().connect(this, &FairDbWtTreeView::showPopup);
-
-    fFolderView = treeView;
-
-    return treeView;
-  }
-
-
-void FairDbWtTreeView::folderChanged() {
-    if (fFolderView->selectedIndexes().empty())
-      return;
-
-    WModelIndex selected = *fFolderView->selectedIndexes().begin();
-    boost::any d = selected.data(UserRole);
-    if (!d.empty()) {
-      std::string folder = boost::any_cast<std::string>(d);
-
-      // For simplicity, we assume here that the folder-id does not
-      // contain special regexp characters, otherwise these need to be
-      // escaped -- or use the \Q \E qutoing escape regular expression
-      // syntax (and escape \E)
-      fFileFilterModel->setFilterRegExp(folder);
-    }
-  }
-
-
-
-
-
-void FairDbWtTreeView::showPopup(const WMouseEvent& event) {
+void FairDbWtTreeView::showPopup_Lup(const WMouseEvent& event) {
     if (event.button() == WMouseEvent::RightButton) {
-      // Select the item, it was not yet selected.
-      //if (!fFolderView->isSelected(item))
-      //fFolderView->select(item);
+
+    // CHECK ME suboptimal
+    if (fPopup) {delete fPopup; fPopup=NULL;} 
 
     if (!fPopup) {
       fPopup = new WPopupMenu();
-      fPopup->addItem("icons/folder.gif", "Close");
-      fPopup->addSeparator();
-      
-      WPopupMenu *subMenu = new WPopupMenu();
-      subMenu->addItem("Draw");
-      subMenu->addItem("History");
-      fPopup->addMenu("Actions", subMenu);
 
-    
-      fPopup->aboutToHide().connect(this, &FairDbWtTreeView::popupAction);
+      fPopup->addItem("View")->triggered().connect(std::bind([=] () {
+            InspectParameter();
+        }));
+      fPopup->addSeparator();
+      fPopup->addItem("History");
+      
+     // fPopup->aboutToHide().connect(this, &FairDbWtTreeView::popupAction_Lup);
     }
 
       if (fPopup->isHidden())
@@ -240,28 +289,127 @@ void FairDbWtTreeView::showPopup(const WMouseEvent& event) {
 }
 
 
-void FairDbWtTreeView::popupAction() {
+void FairDbWtTreeView::popupAction_Lup() {
     if (fPopup->result()) {
-      /*
-       * You could also bind extra data to an item using setData() and
-       * check here for the action asked. For now, we just use the text.
-       */
+ 
       WString text = fPopup->result()->text();
       fPopup->hide();
+        
+      if (text == "Inspect") cout << "-I- Inspect" << endl;
+      if (text == "History") cout << "-I- History" << endl;
          
-      fPopupActionBox = new WMessageBox("Tab selected","Action: " + text, NoIcon, Ok);
-      fPopupActionBox->buttonClicked().connect(this, &FairDbWtTreeView::dialogDone);
-      fPopupActionBox->show();
+      //fPopupActionBox = new WMessageBox("Tab selected","Action: " + text, NoIcon, Ok);
+      //fPopupActionBox->buttonClicked().connect(this, &FairDbWtTreeView::dialogDone);
+      //fPopupActionBox->show();
     } else {
       fPopup->hide();
     }
 }
 
 
-void FairDbWtTreeView::dialogDone() {
-    int index = fTabWidget_top->currentIndex();
-    fTabWidget_top->removeTab(fTabWidget_top->widget(index));
 
+// DB Popups dialogs ( simple version ... try with boost::bind later)
+
+void FairDbWtTreeView::showPopup_Rtop(const WMouseEvent& event) 
+{
+    if (event.button() == WMouseEvent::RightButton) {
+    // CHECK ME suboptimal
+    if (fPopup) {delete fPopup; fPopup=NULL;} 
+    
+    if (!fPopup) {
+      fPopup = new WPopupMenu();
+      fPopup->addItem("icons/folder.gif", "Close");
+      fPopup->addSeparator();
+      
+      WPopupMenu *subMenu = new WPopupMenu();
+      subMenu->addItem("Draw");
+      subMenu->addItem("History");
+      fPopup->addMenu("Actions", subMenu);
+    
+      fPopup->aboutToHide().connect(this, &FairDbWtTreeView::popupAction_Rtop);
+    }
+
+      if (fPopup->isHidden())
+         fPopup->popup(event);
+      else
+         fPopup->hide();
+     }//! if (event) 
+}
+
+void FairDbWtTreeView::popupAction_Rtop() 
+{
+    if (fPopup->result()) {
+      WString text = fPopup->result()->text();
+      fPopup->hide();
+         
+      fPopupActionBox = new WMessageBox("Tab selected","Action: " + text, NoIcon, Ok);
+      fPopupActionBox->buttonClicked().connect(this, &FairDbWtTreeView::dialogDone_Rtop);
+      fPopupActionBox->show();
+    } else {
+      fPopup->hide();
+    }
+}
+
+void FairDbWtTreeView::dialogDone_Rtop() 
+{
+    if (fTabWidget_top->currentIndex()>=0)
+      {
+       int index =  fTabWidget_top->currentIndex();
+       fTabWidget_top->removeTab(fTabWidget_top->widget(index));
+       }
+    if (fPopupActionBox) {
+        delete fPopupActionBox;
+        fPopupActionBox = 0;
+    }
+}
+
+void FairDbWtTreeView::showPopup_Rdown(const WMouseEvent& event) 
+{
+    if (event.button() == WMouseEvent::RightButton) {
+    // CHECK ME suboptimal
+    if (fPopup) {delete fPopup; fPopup=NULL;} 
+    
+    if (!fPopup) {
+      fPopup = new WPopupMenu();
+      fPopup->addItem("icons/folder.gif", "Close");
+      fPopup->addSeparator();
+      
+      WPopupMenu *subMenu = new WPopupMenu();
+      subMenu->addItem("Draw");
+      subMenu->addItem("History");
+      fPopup->addMenu("Actions", subMenu);
+    
+      fPopup->aboutToHide().connect(this, &FairDbWtTreeView::popupAction_Rdown);
+    }
+
+      if (fPopup->isHidden())
+         fPopup->popup(event);
+      else
+         fPopup->hide();
+     }//! if (event) 
+}
+
+void FairDbWtTreeView::popupAction_Rdown() 
+{
+    if (fPopup->result()) {
+      WString text = fPopup->result()->text();
+      fPopup->hide();
+         
+      fPopupActionBox = new WMessageBox("Tab selected","Action: " + text, NoIcon, Ok);
+      fPopupActionBox->buttonClicked().connect(this, &FairDbWtTreeView::dialogDone_Rdown);
+      fPopupActionBox->show();
+    } else {
+      fPopup->hide();
+    }
+}
+
+void FairDbWtTreeView::dialogDone_Rdown() 
+{
+    cout << "-I- called dialogdone Rdown from base" << endl;
+    if (fTabWidget_down->currentIndex()>=0){ 
+       int index =  fTabWidget_down->currentIndex();
+       fTabWidget_down->removeTab(fTabWidget_down->widget(index));
+     }
     if (fPopupActionBox) {
         delete fPopupActionBox;
         fPopupActionBox = 0;
@@ -270,54 +418,10 @@ void FairDbWtTreeView::dialogDone() {
 
 
 
-WStandardItem * FairDbWtTreeView::createFolderItem(const WString& location,
-                  const std::string& folderId = std::string()){
-
-    WStandardItem *result = new WStandardItem(location);
-
-    if (!folderId.empty()) {
-      result->setData(boost::any(folderId));
-      result->setFlags(result->flags() | ItemIsDropEnabled);
-      fFolderNameMap[folderId] = location;
-    } else
-      result->setFlags(result->flags().clear(ItemIsSelectable));
-
-    result->setIcon("icons/folder.gif");
-
-    return result;
-}
 
 
-
-
-
-
-
-void FairDbWtTreeView::populateFolders() {
-    WStandardItem *level1, *level2;
-
-    fFolderModel->appendRow(level1 = createFolderItem("San Fransisco"));
-    level1->appendRow(level2 = createFolderItem("Investors", "sf-investors"));
-    level1->appendRow(level2 = createFolderItem("Fellows", "sf-fellows"));
-
-    fFolderModel->appendRow(level1 = createFolderItem("Sophia Antipolis"));
-    level1->appendRow(level2 = createFolderItem("R&D", "sa-r_d"));
-    level1->appendRow(level2 = createFolderItem("Services", "sa-services"));
-    level1->appendRow(level2 = createFolderItem("Support", "sa-support"));
-    level1->appendRow(level2 = createFolderItem("Billing", "sa-billing"));
-
-    fFolderModel->appendRow(level1 = createFolderItem("New York"));
-    level1->appendRow(level2 = createFolderItem("Marketing", "ny-marketing"));
-    level1->appendRow(level2 = createFolderItem("Sales", "ny-sales"));
-    level1->appendRow(level2 = createFolderItem("Advisors", "ny-advisors"));
-
-    fFolderModel->appendRow(level1 = createFolderItem
-                 (WString::fromUTF8("Frankfürt")));
-    level1->appendRow(level2 = createFolderItem("Sales", "frank-sales"));
-
-    fFolderModel->setHeaderData(0, Horizontal,
-                 boost::any(std::string("SandBox")));
-}
+// ROOT Test function-------------------------------------------------------------
+// <DB>  to be integrated 2015
 
 
 WWidget* FairDbWtTreeView::ghist(){
@@ -456,7 +560,10 @@ WWidget *FairDbWtTreeView::wMouseEvent()
   // prevent that firefox interprets drag as drag&drop action
   l->setStyleClass("unselectable");
   r->setStyleClass("unselectable");
-  l->clicked().connect(this, &FairDbWtTreeView::showClicked);
+  
+  //l->clicked().connect(this, &FairDbWtTreeView::showClicked);
+  l->clicked().connect(boost::bind(&FairDbWtTreeView::showClicked, this, _1));
+
   l->doubleClicked().connect(this, &FairDbWtTreeView::showDoubleClicked);
   l->mouseWentOut().connect(this, &FairDbWtTreeView::showMouseWentOut);
   l->mouseWentOver().connect(this, &FairDbWtTreeView::showMouseWentOver);
@@ -647,6 +754,75 @@ void FairDbWtTreeView::describe(const Wt::WMouseEvent &e)
 }
 
 
+WTableView* FairDbWtTreeView::TableView(){
+
+// Create some Model
+WStandardItemModel *model = new WStandardItemModel(this);
+//headers
+  model->insertColumns(model->columnCount(), 2);
+  model->setHeaderData(0, boost::any(WString("Item")));
+  model->setHeaderData(1, boost::any(WString("Sales")));
+//data
+  model->insertRows(model->rowCount(), 6);
+  int row = 0;
+  model->setData(row, 0, boost::any(WString("Blueberry")));
+  model->setData(row, 1, boost::any(120));
+  row++;
+  model->setData(row, 0, boost::any(WString("Cherry")));
+  model->setData(row, 1, boost::any(30));
+  row++;
+  model->setData(row, 0, boost::any(WString("Apple")));
+  model->setData(row, 1, boost::any(260));
+  row++;
+  model->setData(row, 0, boost::any(WString("Boston Cream")));
+  model->setData(row, 1, boost::any(160));
+  row++;
+  model->setData(row, 0, boost::any(WString("Other")));
+  model->setData(row, 1, boost::any(40));
+  row++;
+  model->setData(row, 0, boost::any(WString("Vanilla Cream")));
+  model->setData(row, 1, boost::any(120));
+  row++;
+//set all items to be editable and selectable
+  for (int irow = 0; irow < model->rowCount(); ++irow)
+    for (int col = 0; col < model->columnCount(); ++col)
+      model->item(irow, col)->setFlags(ItemIsSelectable | ItemIsEditable); 
+
+
+
+
+Wt::WTableView *tableView = new Wt::WTableView(this);
+tableView->setModel(new VirtualModel(100, 10, tableView));
+tableView->setColumnResizeEnabled(false);
+tableView->setColumnAlignment(0, Wt::AlignCenter);
+tableView->setHeaderAlignment(0, Wt::AlignCenter);
+tableView->setRowHeaderCount(1); // treat first column as 'fixed' row headers
+tableView->setSortingEnabled(false);
+tableView->setAlternatingRowColors(true);
+tableView->setRowHeight(28);
+tableView->setHeaderHeight(28);
+tableView->setSelectionMode(Wt::ExtendedSelection);
+//tableView->setEditTriggers(Wt::WAbstractItemView::NoEditTrigger);
+tableView->resize(900, 800);
+//tableView->clicked().connect(this, &FairDbWtTreeView::editFile);
+
+
+return tableView;
+
+}
+
+/*
+void FairDbWtTreeView::editFile(const WModelIndex& item)
+{
+ // Here the Table Row Info
+
+ cout << "-I--------------- item  row# " << item.row() <<  " column = " << item.column() << endl; 
+const WAbstractItemModel* aModel  = item.model();
+boost::any aOut = aModel->data(item);
+ cout << "-I--------------- data : " << Wt::asString(aOut) << endl; 
+
+}
+*/
 
 
 
