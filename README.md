@@ -5,13 +5,13 @@ The **FairDB** Data base interface is on Object Relational Mapping library
 (ORM) which implements a time based version management for parameter handling.
 
 
-* Installation
+##Installation
 
 You need to first install the FairRoot framework and then follow the 
 instructions at the 
 [FairRoot github page.] (https://github.com/FairRootGroup/FairRoot)
 
-* Getting started
+##Getting started
 
 Tutorials how to write/read parameter classes are provided in the
 [FairRoot example] (https://github.com/FairRootGroup/FairRoot/tree/master/example) 
@@ -29,4 +29,4 @@ In both cases, corresponding macro to read and write as well as a script. To set
 * [Tutorial6] (https://github.com/FairRootGroup/FairRoot/tree/master/example/Tutorial6)
   Example showing how to use the *zeroMQ* front end of *FairDB*.
 
-* FairDB Web Interface
+## FairDB Web Interface
