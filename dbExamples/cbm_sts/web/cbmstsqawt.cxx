@@ -27,7 +27,7 @@ WApplication *createApplication(const WEnvironment& env)
 
  if (my_app->appRoot().empty()) {
     std::cerr << "!!!!!!!!!!" << std::endl
-        << "!! -W-,"
+        << "!! -W- CbmStsQaWt:: ,"
         << " the Cbm Sts approot() looks suspect!" << std::endl
         << "!!!!!!!!!!" << std::endl;
   }
@@ -124,9 +124,9 @@ string getWorkEnv(const char*  key){
   if (i != string::npos)
    w_env.erase(i, s.length());
  
-  cout << "------ Working environement is-----> " << w_env <<endl;
- 
- return env == NULL ? string() : w_env;  
+  cout << "-I- CbmStsQaWt::getWorkEnd()  Working environement is -----> " << w_env <<endl;
+
+  return env == NULL ? string() : w_env;  
 }
 
  
@@ -137,8 +137,8 @@ string getWorkEnv(const char*  key){
 int main(int argc, char **argv)
 {
 
-  // Get the FairRoot environment variable
-  string w_env = getWorkEnv( "VMCWORKDIR" );  
+  string w_env = getWorkEnv("VMCWORKDIR" );
+
   if (w_env.empty()){
 	cout << "-E- CbmStsQaWt quitting.... " << endl;
     cout << "    Please set the VMCWORKDIR environment using the config.sh in the fairroot build directory" << endl;
@@ -153,11 +153,9 @@ int main(int argc, char **argv)
     argv[0],
 	"--docroot", str_doc.c_str(),
 	"--approot", str_app.c_str(),
-    //"--docroot", "/Users/denis/fairdb/fairroot/fairbase/dbase/dbWt/docroot",
-    //"--approot", "/Users/denis/fairdb/fairroot/fairbase/dbase/dbWt/approot",
     "--http-port", "5564",
-    //"--http-address", "127.0.0.1"
-    "--http-address", "140.181.65.139"
+    "--http-address", "127.0.0.1"
+    //"--http-address", "140.181.65.139"
   };
 
     try {
@@ -176,7 +174,7 @@ int main(int argc, char **argv)
       std::cerr << e.what() << std::endl;
 
     } catch (std::exception &e) {
-      std::cerr << "-E- exception: " << e.what() << std::endl;
+      std::cerr << "-E- CbmStsQaWt:: exception: " << e.what() << std::endl;
     } 
 
  }

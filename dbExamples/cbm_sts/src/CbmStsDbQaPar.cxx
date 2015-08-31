@@ -26,6 +26,7 @@
 
 
 using namespace std;
+using namespace boost;
 using namespace boost::filesystem;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
@@ -205,48 +206,45 @@ void CbmStsDbQaPar::Print()
 
 void CbmStsDbQaPar::ImportFromCsvFile(const string& fname)
 {
+ std::ifstream file(fname.c_str());
+ vector< vector<string> > csv_values;
+ 
+ typedef boost::tokenizer< boost::char_separator<char> > Tokenizer;
+ boost::char_separator<char> sep(";"); 
 
-std::ifstream file(fname.c_str());
-vector< vector<string> > csv_values;
-
-while(file)
- {
-  typedef boost::tokenizer< boost::char_separator<char> > Tokenizer;
-  boost::char_separator<char> sep(";");
+ while(file)
+  {
+   string line;
   
-  string line;
-  getline(file, line);
-  
-  
-    if (file) 
-        {
-          Tokenizer info(line, sep);   
+  if (!(safeGetline(file,line).eof()) && !(line.empty())) 
+  if (file)
+    {
+	  //cout << " -----> Get a  Line---->  " << line << endl;
+	      Tokenizer info(line, sep);   
           vector<string> values;
-
           for (Tokenizer::iterator it = info.begin(); it != info.end(); ++it)
             {
-                // convert data into string value, and store
-                values.push_back(*it);
-                
+			  // cout <<" tokens <  " << *it <<  " > " <<  endl;
+              // convert data into string value, and store
+	          string it_str ( *it );
+              values.push_back(it_str);
             }
 
-            // store array of values
-          cout << " pushing in csv value vector---> " << csv_values.size() << endl;    
+          // store array of values
+          //cout << " pushing in csv value vector---> " << csv_values.size() << endl;    
           csv_values.push_back(values);
-        } 
-
- }
-
- // display results
-      cout.precision(1);
-      cout.setf(ios::fixed,ios::floatfield);
+     }
+   }
+ 
+    // display results
+    cout.precision(1);
+    cout.setf(ios::fixed,ios::floatfield);
 
     for (vector< vector<string> >::const_iterator it = csv_values.begin()+1; it != csv_values.end(); ++it)
     {
-        const vector<string>& values = *it;
-           
-        CbmStsDbQaSensorPar *par = new CbmStsDbQaSensorPar();
-        if(par->Import(values)) fSensors->AddAtAndExpand(par,par->GetUID());  
+     const vector<string>& values = *it;
+     CbmStsDbQaSensorPar *par = new CbmStsDbQaSensorPar();
+     if(par->Import(values)) fSensors->AddAtAndExpand(par,par->GetUID());  
     }
 
      cout << " FSensors array  entries ----- >" << fSensors->GetEntries() << endl;
@@ -299,6 +297,7 @@ void CbmStsDbQaPar::LoadDataFromIvFile(const string& fname)
    for( ; m_itr != m_end; ++m_itr)
      {
         cout<< m_itr->str() << endl;
+	cout << "-I- lexical_cast call for int conversion: " << m_itr->str() << endl; 
         s_id[ii++] = lexical_cast<int>(m_itr->str());  
      }
       
@@ -344,7 +343,38 @@ void CbmStsDbQaPar::LoadDataFromIvFile(const string& fname)
  return;
 } 
 
+std::istream& CbmStsDbQaPar::safeGetline(std::istream& is, std::string& t)
+{
+    t.clear();
 
+    // The characters in the stream are read one-by-one using a std::streambuf.
+    // That is faster than reading them one-by-one using the std::istream.
+    // Code that uses streambuf this way must be guarded by a sentry object.
+    // The sentry object performs various tasks,
+    // such as thread synchronization and updating the stream state.
+
+    std::istream::sentry se(is, true);
+    std::streambuf* sb = is.rdbuf();
+
+    for(;;) {
+        int c = sb->sbumpc();
+        switch (c) {
+        case '\n':
+            return is;
+        case '\r':
+            if(sb->sgetc() == '\n')
+                sb->sbumpc();
+            return is;
+        case EOF:
+            // Also handle the case when the last line has no line ending
+            if(t.empty())
+                is.setstate(std::ios::eofbit);
+            return is;
+        default:
+            t += (char)c;
+        }
+    }
+}
 
 
 

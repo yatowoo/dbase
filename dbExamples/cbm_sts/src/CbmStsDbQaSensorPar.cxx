@@ -473,21 +473,29 @@ Bool_t CbmStsDbQaSensorPar::Import(const vector<string>& value)
 {
      if (value.size()>0)
       { 
-       SetCompId(fCompId); // No composition 
+       SetCompId(fCompId); // No composition
+       cout << "0" << value[0] << endl; 
        SetUID(lexical_cast<int>(value[0]));
        SetSensorType(value[1]);
        SetBatchId(value[2]);
+       cout << "3" << value[3] << endl; 
        SetWaferId(lexical_cast<int>(value[3]));
        SetSensorName(value[4]);
        SetManufacturer(value[5]);
        SetProductionDate(value[6]);
        SetCurrentOwner(value[7]);
        SetCurrentLocation(value[8]);
+       cout << "9:" << value[9] << endl; 
        SetVfd(lexical_cast<double>(value[9]));
+       cout << "10:" << value[10] << endl; 
        SetI_150V_20C(lexical_cast<double>(value[10]));
+       cout << "11:" << value[11] << endl; 
        SetI_250V_20C(lexical_cast<double>(value[11]));
+       cout << "12:" << value[12] << endl; 
        SetSdefect_pside(lexical_cast<int>(value[12]));
+       cout << "13:" << value[13] << endl; 
        SetSdefect_nside(lexical_cast<int>(value[13]));
+       cout << "14:" << value[14] << endl; 
        SetQuality_grade(lexical_cast<int>(value[14]));
        SetProblem(value[15]);
        SetPassed(value[16]);

@@ -59,11 +59,12 @@ using TObject::Compare;
     TObjArray* GetListOfIvMeas() {return fIvMeas;}
     Int_t GetNumIvMeas() {return fIvMeas->GetEntries();} 
     CbmStsDbQaIvPar* GetIvMeasAt(Int_t idx){return (CbmStsDbQaIvPar*) fIvMeas->At(idx);} 
-   
+    std::istream& safeGetline(std::istream& is, std::string& t);
      
     FairDbReader<CbmStsDbQaSensorPar>* GetReaderSensor(){return fReader_Sensor;}
     FairDbReader<CbmStsDbQaIvPar>*     GetReaderIv() {return fReader_Iv;} 
 
+    
   // Dump Object
     void   Print();
 

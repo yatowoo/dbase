@@ -32,10 +32,10 @@ ${CMAKE_SOURCE_DIR}/example/Tutorial5/src
 
 include_directories(${INCLUDE_DIRECTORIES})
 
-#if (Boost_FOUND)
-#  configure_file( ${CMAKE_SOURCE_DIR}/example/Tutorial6/macros/run_sps_init.sh.in ${CMAKE_BINARY_DIR}/bin/run_sps_init.sh )
-#  file(COPY  ${CMAKE_SOURCE_DIR}/example/Tutorial6/macros/dbconfig.sh DESTINATION ${CMAKE_BINARY_DIR}/bin/ )
-#endIf (Boost_FOUND)
+if (Boost_FOUND)
+  Message("copy file ")
+  file(COPY  ${CMAKE_SOURCE_DIR}/dbase/dbExamples/cbm_sts/macros/dbconfig.sh DESTINATION ${CMAKE_BINARY_DIR}/bin/ )
+endIf (Boost_FOUND)
 
 set(LINK_DIRECTORIES
     ${ROOT_LIBRARY_DIR}
