@@ -46,12 +46,12 @@ But be aware that the install procedure has to be slighlty adapted in order to w
 FairDB.
 
 * The **BOOST** library used in the *FairSoft* should be also used to compile Wt.
-* The **Haru* free PDF library has to be installed and used to compile Wt. You can
+* The [**Haru** free PDF library](http:://libharu.org) has to be installed and used to compile Wt. You can
 find instruction how to install the **Haru** library [here](http:://libharu.org).
 
 
 
-* Install script tested for Ubuntu (14.04LTS and 15.04):
+* Install script tested for Ubuntu (14.04 LTS and 15.04):
 ```bash
 cmake -DHARU_PREFIX=/usr/local/lib -DBOOST_DIR=<where_FairSoft_is_installed> <path_to_Wt_source> 
 ```
@@ -59,8 +59,10 @@ cmake -DHARU_PREFIX=/usr/local/lib -DBOOST_DIR=<where_FairSoft_is_installed> <pa
 * Install script tested for MacOSX (Mavericks, Yosemite):
 ```bash
 cmake -DHARU_PREFIX=/usr/local/lib -DBOOST_DIR=<Where_FairSoft_Is_Installed>
--DCMAKE_CXX_FLAGS='-stdlib=libc++' -DCMAKE_EXE_LINKER_FLAGS='-stdlib=libc++' -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_MODULE_LINKER_FLAGS='-stdlib=libc++' -DWT_CPP_11_MODE='-std=c++11' -DPOSTGRES_PREFIX='/usr/local/pgsql' -DMYSQL_PREFIX='/usr/local/mysql' -DMYSQL_LIBRARY='/usr/local/mysql/lib' ../wt-3.3.4 <path_to_wt_source>
- 
+-DCMAKE_CXX_FLAGS='-stdlib=libc++' -DCMAKE_EXE_LINKER_FLAGS='-stdlib=libc++' 
+-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_MODULE_LINKER_FLAGS='-stdlib=libc++' 
+-DWT_CPP_11_MODE='-std=c++11' -DPOSTGRES_PREFIX='/usr/local/pgsql' 
+-DMYSQL_PREFIX='/usr/local/mysql' -DMYSQL_LIBRARY='/usr/local/mysql/lib' <path_to_wt_source> 
 ```
 
 And just install the library and the Wt examples in your system:
@@ -153,7 +155,8 @@ executables are located.
 > ./cbmstsqawt.wt
 -I- FAIRDbConnectionPool  fGlobalSeqNoDbNo  0
 -I- ~ Creating ~ FairDbParFactory
--I- CbmStsQaWt::getWorkEnd()  Working environement is -----> /Users/denis/fairdb/fairroot/fairbase/
+-I- CbmStsQaWt::getWorkEnd()  
+            Working environement is -----> /Users/denis/fairdb/fairroot/fairbase/
 [2015-Sep-01 13:20:25.914509] 44090 - [info] "config: reading Wt config file: 
            /Users/denis/fairdb/fairroot/fairbase/dbase/dbWt/approot/wt_config.xml 
            (location = './cbmstsqawt.wt')"
