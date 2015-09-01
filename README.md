@@ -112,7 +112,7 @@ drwxr-xr-x  21 denis  staff   714B Aug 31 12:28 dbWt/
 drwxr-xr-x   3 denis  staff   102B Sep  1 11:03 doc/
 ```
 
-The **FairDB-Wt** base classes  can be found in the **dbWt** directory.
+The **FairDB-Wt** base classes  can be found in the **/dbWt** directory.
 The Cbm Sts QA Web interface classes can be found in the **dbExamples/cbm_sts** directory: 
 
 ```bash
@@ -124,9 +124,9 @@ drwxr-xr-x  32 denis  staff   1.1K Sep  1 11:40 web/
 ```
 
 ### Priming the Database
-
-In the ** /src ** directory one can found the macros to prime the database with some example
-qa data-files.
+You need first to prepare the database in order to run the example.
+In the **/src** directory one can found the macros to prime the database with some example
+Sts sensor Qa data-files.
 ```bash
 > cd macros
 ``` 
@@ -171,12 +171,12 @@ your HTTP server as a client.
 The treeview on the left side shows the list of parameter objects stored
 in the SQL database backend. To fetch the data from the database and view the parameter 
 contents, select first the parameter you want to visualize. A mouse right-click shows a dropdown
-menu. Select *View* to visualize :
+menu. Select *"View"* to visualize :
 
 ![Cbm Sts Web Interface](/doc/cbmstsqa_init.png)
 
 To view the Current-Voltage curve for a particular sensor, select it and again mouse right click
-and use the menu *showIV* :
+and use the menu *"showIV"* :
 
 ![Cbm Sts Web Interface](/doc/cbmstsqa_view.png)
 
