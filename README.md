@@ -1,7 +1,7 @@
-dbase
+FairDB
 ========
 
-The **FairDB** Data base interface is on Object Relational Mapping library 
+The **FairDB** Database interface is on Object Relational Mapping library 
 (ORM) which implements a time based version management for parameter handling.
 
 
@@ -27,6 +27,13 @@ complex data members i.e ROOT object [FairDbTutParBin.](https://github.com/FairR
 In both cases, corresponding macro to read and write as well as a script. To setup the database to be used (dbconfig.sh) are available from the macro directory 
 
 * [Tutorial6] (https://github.com/FairRootGroup/FairRoot/tree/master/example/Tutorial6)
-  Example showing how to use the *zeroMQ* front end of *FairDB*.
+  shows how to use the **zeroMQ** front end of **FairDB**.
 
 ## FairDB Web Interface
+FairDB uses the powerful [Wt framework](htpp://www.webtoolkit.eu/wt) to allow the user to
+quickly develop web application.
+ 
+![Cbm Sts Web Interface](/doc/stsqaweb.png)
+Format: ![Alt Text](url) 
+
+
