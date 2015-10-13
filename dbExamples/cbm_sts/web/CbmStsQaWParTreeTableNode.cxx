@@ -26,6 +26,12 @@ CbmStsQaWParTreeTableNode::CbmStsQaWParTreeTableNode(FairDbObjTableMap *aPar,
 }
 
 
+CbmStsQaWParTreeTableNode::~CbmStsQaWParTreeTableNode()
+{
+  cout << "~CbmStsQaWParTreeTableNode" << endl;
+}
+
+
 void CbmStsQaWParTreeTableNode::createTree()
 {
  cout << "-----------------------------  createTree() called " << endl;

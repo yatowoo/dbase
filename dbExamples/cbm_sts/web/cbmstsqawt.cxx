@@ -8,10 +8,9 @@
 #include <WIOService>
 
 
-
 #include "CbmStsQaWApplication.h"
 #include "CbmStsQaWMainWidget.h"
-
+#include "Session.h"
 
 #include <iostream>
 
@@ -23,7 +22,7 @@ WApplication *createApplication(const WEnvironment& env)
 {
   
   CbmStsQaWApplication *my_app = new CbmStsQaWApplication(env); 
-  
+  //Wt::WApplication * my_app = new Wt::WApplication(env);
 
  if (my_app->appRoot().empty()) {
     std::cerr << "!!!!!!!!!!" << std::endl
@@ -52,6 +51,8 @@ WApplication *createApplication(const WEnvironment& env)
     my_app->setTheme(bootstrapTheme);
 
    // <DB> Coment this Now CHECK ME 29/06/2015
+   my_app->messageResourceBundle().use(my_app->appRoot() + "strings");
+   my_app->messageResourceBundle().use(my_app->appRoot() + "templates");
 
    // load the default bootstrap3 (sub-)theme
    my_app->useStyleSheet("resources/themes/bootstrap/3/bootstrap.css");
@@ -66,6 +67,7 @@ WApplication *createApplication(const WEnvironment& env)
    my_app->useStyleSheet("style/combostyle.css");
    my_app->useStyleSheet("style/pygments.css");
    my_app->useStyleSheet("style/layout.css");
+   my_app->useStyleSheet("style/auth.css");
 
 
   } else if (theme == "bootstrap2") {
@@ -86,6 +88,7 @@ WApplication *createApplication(const WEnvironment& env)
   // load Style 
   my_app->useStyleSheet("style/CSSexample.css");
   my_app->useStyleSheet("style/charts.css");
+  
 
   // Create Anchor for the Main Pane
   WHBoxLayout *layout = new WHBoxLayout(my_app->root());
@@ -151,30 +154,34 @@ int main(int argc, char **argv)
    const char * const v[9] =
   {
     argv[0],
-	"--docroot", str_doc.c_str(),
-	"--approot", str_app.c_str(),
+	  "--docroot", str_doc.c_str(),
+	  "--approot", str_app.c_str(),
     "--http-port", "5564",
-    "--http-address", "127.0.0.1"
-    //"--http-address", "140.181.65.139"
+    "--http-address", "140.181.65.139"
   };
+
+    //"--http-address", "127.0.0.1"
 
     try {
       WServer server(9, const_cast<char**>(v), WTHTTP_CONFIGURATION);
 
-      server.addEntryPoint(Application, createApplication);
+      server.addEntryPoint(Wt::Application, createApplication);
 
       // callRepeatedly(boost::bind(&Wt::WServer::expireSessions, &server), 60);
       // Wt::WServer::waitForShutdown();
       // terminating = true;
       // server.stop();
 
+      // Authentication framework configured 
+      Session::configureAuth();
+     
       server.run();
 
     } catch (WServer::Exception& e) {
-      std::cerr << e.what() << std::endl;
+      std::cerr << " -E- Server Exception: " <<  e.what() << std::endl;
 
     } catch (std::exception &e) {
-      std::cerr << "-E- CbmStsQaWt:: exception: " << e.what() << std::endl;
+      std::cerr << " -E- CbmStsQaWt:: exception: " << e.what() << std::endl;
     } 
 
  }

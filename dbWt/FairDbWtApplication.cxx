@@ -20,6 +20,12 @@ FairDbWtApplication::FairDbWtApplication(const WEnvironment& env)
 
 }
 
+FairDbWtApplication::~FairDbWtApplication()
+{
+
+ cout << "-I- ~FairDbWtApplication()" << endl;
+
+}
 
 
 void FairDbWtApplication::initialise()

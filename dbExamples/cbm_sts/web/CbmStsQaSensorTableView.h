@@ -19,6 +19,7 @@ class CbmStsQaSensorTableView : public WContainerWidget
 {
 public:
   CbmStsQaSensorTableView(WContainerWidget *parent, string pName);
+  virtual ~CbmStsQaSensorTableView();
 
 // Event notify
   void editFile(const WModelIndex& item, const WMouseEvent& event); 

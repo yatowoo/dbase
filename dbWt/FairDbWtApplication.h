@@ -18,6 +18,7 @@ class FairDbWtApplication : public WApplication
 
 public:
 FairDbWtApplication(const WEnvironment& env);
+~FairDbWtApplication();
 
 protected:
 virtual void  initialise();

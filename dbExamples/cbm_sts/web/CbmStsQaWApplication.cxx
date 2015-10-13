@@ -9,9 +9,15 @@ using namespace std;
 CbmStsQaWApplication::CbmStsQaWApplication(const WEnvironment& env)
   : FairDbWtApplication(env)
 {
-cout << "-I CbmStsQaWApplication ctor called ...  " << endl; 
+ cout << "-I CbmStsQaWApplication() ctor ...  " << endl; 
+ 
+
 }
 
+CbmStsQaWApplication::~CbmStsQaWApplication()
+{
+cout << "-I ~CbmStsQaWApplication() " << endl; 
+}
 
 void CbmStsQaWApplication::initialise()
 {
@@ -21,4 +27,6 @@ void CbmStsQaWApplication::initialise()
     setTitle("Sts Qa Web Interface");
     setCssTheme("polished");  
     CbmStsQaWMainWidget* w_main = new CbmStsQaWMainWidget(root());
-}
+    
+  
+ }

@@ -46,13 +46,19 @@ using namespace Wt;
 
 FairDbWtTreeView::FairDbWtTreeView(WContainerWidget *parent):
   WContainerWidget(parent)
+  ,fPopup(NULL)
+  ,fPopupActionBox(NULL)
  {
+  // <DB> here is the init of members
+  // important if used in dtor.
  }
 
 FairDbWtTreeView::~FairDbWtTreeView(){
 
+  cout << "~FairDbTreeView 1 " << endl; 
   if (fPopup) delete fPopup;
   if (fPopupActionBox) delete fPopupActionBox;
+  cout << "~FairDbTreeView 2 " << endl; 
 }
 
 
@@ -110,7 +116,9 @@ void FairDbWtTreeView::createLayout(WContainerWidget *parent) {
   l_Frame->setAttributeValue
              ("oncontextmenu",
               "event.cancelBubble = true; event.returnValue = false; return false;"); 
-  l_Frame->setOverflow(OverflowAuto);  
+  
+  //<DB> this overflow creates problems 
+  //l_Frame->setOverflow(OverflowAuto);  
   
 
   WVBoxLayout *l_vbox = new WVBoxLayout;
@@ -264,27 +272,38 @@ FairDbWtParTreeTableNode* tNode = (FairDbWtParTreeTableNode*) fFileTreeTable->tr
 }
 
 void FairDbWtTreeView::showPopup_Lup(const WMouseEvent& event) {
-    if (event.button() == WMouseEvent::RightButton) {
+  
+  //<DB> here is a strange error coming when using
+  // securized sessions .. 
 
+    if (event.button() == WMouseEvent::RightButton) {
+     cout << "FairDbWtTreeView::showPopup_Lup 1  --> fPopup" << fPopup << endl;   
     // CHECK ME suboptimal
     if (fPopup) {delete fPopup; fPopup=NULL;} 
+    cout << "FairDbWtTreeView::showPopup_Lup  2 --> fPopup" << fPopup << endl;   
 
     if (!fPopup) {
+
+      cout << "FairDbWtTreeView::showPopup_Lup 3 --> fPopup" << fPopup << endl;   
       fPopup = new WPopupMenu();
 
       fPopup->addItem("View")->triggered().connect(std::bind([=] () {
             InspectParameter();
         }));
+      cout << "FairDbWtTreeView::showPopup_Lup 4 --> fPopup" << fPopup << endl;   
       fPopup->addSeparator();
       fPopup->addItem("History");
       
      // fPopup->aboutToHide().connect(this, &FairDbWtTreeView::popupAction_Lup);
     }
 
-      if (fPopup->isHidden())
+      if (fPopup->isHidden()){
+        cout << "FairDbWtTreeView::showPopup_Lup  5 --> fPopup" << fPopup << endl;   
          fPopup->popup(event);
-      else
+        }else{
          fPopup->hide();
+       }
+
      }//! if (event) 
 }
 

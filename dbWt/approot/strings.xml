@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<messages>
+  <message id="Wt.Auth.login-form-info">
+   <p><font size="4" color="black"><b> Access to STS QA Web Interface.</b></font></p> 
+   <p><font size="2" color="black"> (For read only access  you can use the
+    <b>guest/guest</b> account.) </font></p>
+  </message>
+
+  <message id="Wt.Auth.confirmmail.subject">Email confirmation</message>
+
+  <message id="Wt.Auth.confirmmail.body">
+Hello {1},
+
+Thank you for using the STS QA Interface!
+
+{3}
+
+Enjoy !
+
+The FairDB team.
+  </message>
+
+  <message id="Wt.Auth.confirmmail.htmlbody">
+    <h3>Hello {1},</h3>
+
+    <p>Thank you for using STS QA Interface!</p>
+
+    <p>Please <a href="{3}">click here to confirm</a> your
+    registration or copy and paste the following URL into your
+    browser: <i>(Note: be sure to copy the entire URL, including any
+    part of it which goes onto a second line.)</i></p>
+    
+    <b>{3}</b>
+
+    <p>Enjoy!</p>
+
+    <p>The FairDB team.</p>
+  </message>
+
+  <message id="Wt.Auth.lostpasswordmail.subject">Lost password instructions</message>
+
+  <message id="Wt.Auth.lostpasswordmail.body">
+Hello {1},
+
+This mail has been sent to you, because someone (presumably you?)
+indicated that he wishes to choose a new password, because the current
+password escapes his mind.
+
+If you requested this, then choose a new password by clicking on the
+following link or copying the URL into your browser. If you didn't
+request this, you can safely ignore and discard this email.
+ 
+Please copy and paste the following URL into your browser: (Note: be
+sure to copy the entire URL, including any part of it which goes onto
+a second line.)
+ 
+{3} 
+
+Your truly,
+
+The FairDB team.
+  </message>
+
+  <message id="Wt.Auth.lostpasswordmail.htmlbody">
+    <h3>Hello {1},</h3>
+
+    <p>This mail has been sent to you, because someone (presumably
+    you?) indicated that he wishes to choose a new password, because
+    the current password escapes his mind.</p>
+
+    <p>If you requested this, then choose a new password by clicking
+    on the following link or copying the URL into your browser. If you
+    didn't request this, you can safely ignore and discard this
+    email.</p>
+ 
+    <p>Please <a href="{3}">click here to choose a new password</a> or
+    copy and paste the following URL into your browser: <i>(Note: be
+    sure to copy the entire URL, including any part of it which goes
+    onto a second line.)</i></p>
+    
+    <b>{3}</b>
+
+    <p>Yours truly,</p>
+
+    <p>The FairDB team.</p>
+  </message>
+
+</messages>

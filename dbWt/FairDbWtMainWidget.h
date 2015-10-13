@@ -30,6 +30,8 @@ public:
                        const WString& name,
                        WContainerWidget *topic);
 
+  void clearall();
+
 protected:
  WNavigationBar *fNavigation;
  WStackedWidget *fContentstack;

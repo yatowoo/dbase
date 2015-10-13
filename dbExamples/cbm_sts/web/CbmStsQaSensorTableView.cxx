@@ -84,6 +84,12 @@ CbmStsQaSensorTableView::CbmStsQaSensorTableView(WContainerWidget *parent, strin
 
 }
 
+CbmStsQaSensorTableView::~CbmStsQaSensorTableView()
+{
+ cout << "~CbmStsQaSensorTableView " << endl;
+}
+
+
 
 void CbmStsQaSensorTableView::editFile(const WModelIndex& item, const WMouseEvent& event)
 {

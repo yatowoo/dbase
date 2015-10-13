@@ -11,6 +11,11 @@ FairDbWtParTreeTable::FairDbWtParTreeTable(WContainerWidget *parent)
  
 }
 
+FairDbWtParTreeTable::~FairDbWtParTreeTable()
+{
+cout << "~FairDbWtParTreeTable " << endl;
+}
+
 
 void FairDbWtParTreeTable::createTableLayout(FairDbWtParTreeTableNode *pNode)
  {

@@ -11,6 +11,7 @@ CbmStsQaWTreeView::CbmStsQaWTreeView(WContainerWidget *parent)
 
 CbmStsQaWTreeView::~CbmStsQaWTreeView(){
  //
+  cout << "~CbmStsQaWTreeView" << endl;
 }
 
 

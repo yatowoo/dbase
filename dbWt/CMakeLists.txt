@@ -60,6 +60,8 @@ treeview/CsvUtil.cxx
 treeview/FolderView.cxx
 graphics/FairDbWtTCanvas.cxx
 graphics/FairDbWtTCanvasWidget.cxx
+auth/model/User.C
+auth/model/Session.C
 )
 
 set(LIBRARY_NAME FairDbWt)

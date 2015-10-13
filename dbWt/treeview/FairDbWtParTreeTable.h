@@ -12,7 +12,10 @@ class FairDbWtParTreeTableNode;
 class FairDbWtParTreeTable : public Wt::WTreeTable
 {
 public:
+    
     FairDbWtParTreeTable( Wt::WContainerWidget *parent = 0);
+    virtual ~FairDbWtParTreeTable();
+
     virtual void createTableLayout(FairDbWtParTreeTableNode *node);
 };
 

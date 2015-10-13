@@ -20,12 +20,15 @@ ${Wt_INCLUDE_DIR}/Wt
 ${CMAKE_SOURCE_DIR}/dbase/dbWt
 ${CMAKE_SOURCE_DIR}/dbase/dbWt/treeview
 ${CMAKE_SOURCE_DIR}/dbase/dbWt/graphics
+${CMAKE_SOURCE_DIR}/dbase/dbWt/auth
+${CMAKE_SOURCE_DIR}/dbase/dbWt/auth/model
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface
 ${CMAKE_SOURCE_DIR}/dbase/dbValidation
 ${CMAKE_SOURCE_DIR}/dbase/dbInput
 ${CMAKE_SOURCE_DIR}/dbase/dbIO
 ${CMAKE_SOURCE_DIR}/dbase/dbUtils
 ${CMAKE_SOURCE_DIR}/dbase/dbExamples/cbm_sts/src
+
 )
 
 include_directories(${INCLUDE_DIRECTORIES})

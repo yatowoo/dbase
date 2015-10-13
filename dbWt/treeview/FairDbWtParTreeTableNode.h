@@ -67,6 +67,8 @@ class FairDbWtParTreeTableNode : public Wt::WTreeTableNode
   FairDbWtParTreeTableNode(FairDbObjTableMap* aPar,
                            WString& pName, bool isDir);
 
+ virtual ~FairDbWtParTreeTableNode();
+
 
  virtual WTable* createDataTable(WContainerWidget* aParent,string pName); 
  //virtual WTableView* createDataTableView(WContainerWidget* aParent,string pName); 

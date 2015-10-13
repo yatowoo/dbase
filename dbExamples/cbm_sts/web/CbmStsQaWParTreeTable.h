@@ -11,6 +11,7 @@ class CbmStsQaWParTreeTable : public FairDbWtParTreeTable
 {
 public:
     CbmStsQaWParTreeTable( Wt::WContainerWidget *parent = 0);
+    virtual ~CbmStsQaWParTreeTable();
     CbmStsQaWParTreeTableNode* getTableNode(){return fTableNode;}   
 
 protected:

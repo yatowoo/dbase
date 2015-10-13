@@ -34,6 +34,13 @@ FairDbWtParTreeTableNode::FairDbWtParTreeTableNode(FairDbObjTableMap *aPar,
 
 }
 
+
+FairDbWtParTreeTableNode::~FairDbWtParTreeTableNode()
+{
+  cout << "~FairDbWtParTreeTableNode" << endl;
+}
+
+
 WIconPair *FairDbWtParTreeTableNode::createIcon(bool isDir)
 {
   if (isDir)

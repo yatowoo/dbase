@@ -10,6 +10,8 @@ class CbmStsQaWApplication : public FairDbWtApplication
 public:
 CbmStsQaWApplication(const WEnvironment& env);  
 
+virtual  ~CbmStsQaWApplication();
+
 virtual void initialise();
 
 

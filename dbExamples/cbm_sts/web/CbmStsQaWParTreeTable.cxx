@@ -18,4 +18,9 @@ CbmStsQaWParTreeTable::CbmStsQaWParTreeTable(WContainerWidget *parent)
  
  }
 
+ CbmStsQaWParTreeTable::~CbmStsQaWParTreeTable()
+ {
+    cout << "~CbmStsQaParTreeTable" << endl;
+ }
+
  

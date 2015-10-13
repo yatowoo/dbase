@@ -10,7 +10,7 @@ public:
   CbmStsQaWParTreeTableNode(FairDbObjTableMap* aPar,
                            WString& pName, bool isDir);
 
- virtual ~CbmStsQaWParTreeTableNode(){}; 
+ virtual ~CbmStsQaWParTreeTableNode();
 
  virtual WTable* createDataTable(WContainerWidget* aParent,string pName); 
 // virtual WTableView* createDataTableView(WContainerWidget* aParent,string pName); 
