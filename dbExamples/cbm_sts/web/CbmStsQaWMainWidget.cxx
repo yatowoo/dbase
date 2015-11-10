@@ -1,6 +1,7 @@
 #include "CbmStsQaWMainWidget.h"
 #include "CbmStsQaWTreeView.h"
 #include "FairDbWtTreeView.h"
+#include "FairDbWtRootBrowser.h"
 
 #include "CbmStsQaIvChartView.h"
 
@@ -126,6 +127,8 @@ void CbmStsQaWMainWidget::showMainWidget()
   
  // Create and Add the menu 
  addToMenu(fMenu, "Sts Qa",  new CbmStsQaWTreeView());
+ // Test for Root Browser class 
+ //addToMenu(fMenu, "Root Browser", new FairDbWtRootBrowser());
  //WMenuItem *item = new WMenuItem("test", new CbmStsQaWTreeView());
  //fMenu->addItem(item);
  fNavigation->addMenu(fMenu);

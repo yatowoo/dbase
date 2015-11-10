@@ -25,6 +25,10 @@ Link_Directories(${LINK_DIRECTORIES})
 set(SRCS
 CbmStsDbQaContFact.cxx
 CbmStsDbQaIvPar.cxx
+CbmStsDbQaChannelMapPar.cxx
+CbmStsDbQaGeometryPar.cxx
+CbmStsDbQaOwnershipPar.cxx
+CbmStsDbQaResultsPar.cxx
 CbmStsDbQaSensorPar.cxx
 CbmStsDbQaPar.cxx
 )
@@ -32,6 +36,10 @@ CbmStsDbQaPar.cxx
 set(HEADERS
 CbmStsDbQaContFact.h
 CbmStsDbQaIvPar.h
+CbmStsDbQaChannelMapPar.h
+CbmStsDbQaGeometryPar.h
+CbmStsDbQaOwnershipPar.h
+CbmStsDbQaResultsPar.h
 CbmStsDbQaSensorPar.h
 CbmStsDbQaPar.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h

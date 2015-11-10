@@ -12,6 +12,10 @@
 
 #pragma link C++ class  CbmStsDbQaContFact+;
 #pragma link C++ class  CbmStsDbQaIvPar+;
+#pragma link C++ class  CbmStsDbQaChannelMapPar+;
+#pragma link C++ class  CbmStsDbQaGeometryPar+;
+#pragma link C++ class  CbmStsDbQaResultsPar+;
+#pragma link C++ class  CbmStsDbQaOwnershipPar+;
 #pragma link C++ class  CbmStsDbQaSensorPar+;
 #pragma link C++ class  CbmStsDbQaPar+;
 

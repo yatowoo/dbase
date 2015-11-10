@@ -60,6 +60,7 @@ treeview/CsvUtil.cxx
 treeview/FolderView.cxx
 graphics/FairDbWtTCanvas.cxx
 graphics/FairDbWtTCanvasWidget.cxx
+graphics/FairDbWtRootBrowser.cxx
 auth/model/User.C
 auth/model/Session.C
 )
