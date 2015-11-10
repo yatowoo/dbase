@@ -85,7 +85,15 @@ For that you need to get **dev** branch of the dbase module from its
 > mkdir dbase 
 > cd dbase
 > git clone https://github.com/denisbertini/dbase
-> git checkout -f dev
+> git fetch
+> git checkout -b dev origin/dev
+```
+
+Check if you are using the FairDB source from the
+development branch
+
+```bash
+> git branch -a
 ```
 
 In order to compile FairRoot with FairDB you should set the cmake flag 
