@@ -80,7 +80,7 @@ namespace {
 	       WString toolTip = asString(model->headerData(col)) + ": "
 	       + asString(model->item(row, col)->data(DisplayRole), "%.f");
 	        model->item(row, col)->setToolTip(toolTip);
-	     */ 
+	     */
 	   }
 
       return model;
@@ -152,7 +152,7 @@ CbmStsQaIvTableChartView::CbmStsQaIvTableChartView(Wt::WContainerWidget *parent)
   table->setColumnWidth(0, 80);
   for (int i = 1; i < model->columnCount(); ++i)
     table->setColumnWidth(i, 90);
- 
+
 
   // ---- Create the scatter plot.
 
@@ -162,12 +162,12 @@ CbmStsQaIvTableChartView::CbmStsQaIvTableChartView(Wt::WContainerWidget *parent)
   chart->setModel(model);        // set the model
   chart->setXSeriesColumn(0);    // set the column that holds the X data
   chart->setLegendEnabled(true); // enable the legend
-
   chart->setType(ScatterPlot);            // set type to ScatterPlot
   chart->axis(XAxis).setScale(DateScale); // set scale of X axis to DateScale
 
   // Automatically layout chart (space for axes, legend, ...)
   chart->setAutoLayoutEnabled();
+
 
   /*
    * Add first two columns as line series
@@ -187,19 +187,19 @@ CbmStsQaIvTableChartView::CbmStsQaIvTableChartView(Wt::WContainerWidget *parent)
 
 
 //
-// ------------------ Chart Only View         
+// ------------------ Chart Only View
 //
 
 CbmStsQaIvChartView::CbmStsQaIvChartView(int sid, WContainerWidget *parent):
   WContainerWidget(parent)
   ,fInit(false)
-  ,fName("") 
+  ,fName("")
   ,fUID(0)
   ,fN(0)
   ,fI(NULL)
   ,fV(NULL)
 {
-  
+
   initIvContainer(sid);
 
   new WText(WString::tr("scatter plot"), this);
@@ -213,12 +213,12 @@ CbmStsQaIvChartView::CbmStsQaIvChartView(int sid, WContainerWidget *parent):
 
   for (unsigned i = 0; i < fN; ++i) {
     double x = (static_cast<double>(fI[i]));
-   //test for missing data 
+   //test for missing data
     if (fV[i] == -1) continue;
     model->setData(i, 0, x);
     model->setData(i, 1, fV[i]); //nA
   }
- 
+
 // Set editing properties
  for (int row = 0; row < model->rowCount(); ++row){
        for (int col = 0; col < model->columnCount(); ++col) {
@@ -261,7 +261,7 @@ CbmStsQaIvChartView::CbmStsQaIvChartView(int sid, WContainerWidget *parent):
   table->setColumnWidth(0, 150);
   for (int i = 1; i < model->columnCount(); ++i)
     table->setColumnWidth(i, 150);
- 
+
 
   // Create the scatter plot.
   WCartesianChart *chart = new WCartesianChart(this);
@@ -289,51 +289,49 @@ CbmStsQaIvChartView::CbmStsQaIvChartView(int sid, WContainerWidget *parent):
   chart->setMargin(10, Top | Bottom);            // add margin vertically
   chart->setMargin(WLength::Auto, Left | Right); // center horizontally
 
-  
+
 
   CbmStsQaIvChartConfig *config = new CbmStsQaIvChartConfig(chart, this);
   config->setValueFill(ZeroValueFill);
 
-  //setContentAlignment(AlignCenter);  
+  //setContentAlignment(AlignCenter);
 }
 
 
 void CbmStsQaIvChartView::initIvContainer( int sid, int rid)
 {
 
- //fill the rows to the model 
-auto pQaSensorIv = 
-      FairDbWtParFactory::Instance().InitContainer<CbmStsDbQaIvPar>();  
+ //fill the rows to the model
+auto pQaSensorIv =
+      FairDbWtParFactory::Instance().InitContainer<CbmStsDbQaIvPar>();
 // if rid = 0 take the last version
 if (!fInit){
-  if (rid == 0) { 
+  if (rid == 0) {
      FairRunIdGenerator runID;
      UInt_t runId =  runID.generateId();
      pQaSensorIv->fill(runId);
    }else{
-    pQaSensorIv->fill(rid); 
+    pQaSensorIv->fill(rid);
   }
- fInit=true;  
+ fInit=true;
 }
 
 FairDbReader<CbmStsDbQaIvPar>* pReader = pQaSensorIv->GetParamReader();
   int numRows = pReader->GetNumRows();
-  for (int i = 0; i < numRows; ++i) 
+  for (int i = 0; i < numRows; ++i)
     {
       CbmStsDbQaIvPar* cgd = (CbmStsDbQaIvPar*) pReader->GetRow(i);
       if (!cgd) { continue; }
       if (!(cgd->GetUID() == sid)) {continue;}
-      
-      fName   = cgd->GetFileName(); 
+
+      fName   = cgd->GetFileName();
       fUID    = cgd->GetUID();
-      fN      = cgd->GetN();         
+      fN      = cgd->GetN();
       fI      = cgd->GetI();
       fV      = cgd->GetV();
 
-      //for (int j=0;j<fN;j++) 
-      //  cout << " IV init with sid:" << fUID << "n" 
+      //for (int j=0;j<fN;j++)
+      //  cout << " IV init with sid:" << fUID << "n"
       //       << fN << " I : " <<fV[j] << " V : " << fI[j] << endl;
      }
 }
- 
-

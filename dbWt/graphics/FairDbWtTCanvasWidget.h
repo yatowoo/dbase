@@ -1,5 +1,5 @@
-#ifndef FAIRDBWTTCANVASWIDGET_H
-#define FAIRDBWTTCANVASWIDGET_H
+#ifndef FAIRDBWTTCANVASWIDGET
+#define FAIRDBWTTCANVASWIDGET
 
 
 
@@ -7,7 +7,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include <Wt/WPaintedWidget>
-#include <Wt/Chart/WCartesianChart>   
+#include <Wt/Chart/WCartesianChart>
 
 #include <Chart/WCartesianChart>
 #include <Wt/WAbstractItemModel>
@@ -38,10 +38,10 @@ class NumericItem : public WStandardItem {
         virtual NumericItem *clone() const {
           return new NumericItem();
         }
-    
+
         virtual void setData(const boost::any &data, int role = UserRole) {
           boost::any dt;
-    
+
           if (role == EditRole) {
            std::string s = Wt::asString(data).toUTF8();
             char *endptr;
@@ -51,9 +51,9 @@ class NumericItem : public WStandardItem {
             else
               dt = data;
           }
-    
+
           WStandardItem::setData(data, role);
-        
+
         }
 };
 
@@ -90,4 +90,4 @@ private:
   void drawEmwebMW(WPainter& p);
 };
 
-#endif // 
+#endif //

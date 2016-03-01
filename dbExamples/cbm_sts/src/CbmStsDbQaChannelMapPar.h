@@ -15,7 +15,7 @@
 #include "FairDbWriter.h"
 #include "FairDbReader.h"
 
-#define MAX_M 50
+#define NCHMAX 1024
 
 using namespace std;
 
@@ -32,7 +32,7 @@ class CbmStsDbQaChannelMapPar : public FairDbParSet
 using TObject::Compare;
 
   public :
-    CbmStsDbQaChannelMapPar (const char* name="CbmStsDbQaChannelMapPar",
+    CbmStsDbQaChannelMapPar (const char* name="StsQaChMapPar",
                   const char* title="Cbm Sts Qa Channel Map Parameter",
                   const char* context="TestDefaultContext",
                   Bool_t own=kTRUE);
@@ -47,22 +47,25 @@ using TObject::Compare;
     Int_t GetCompId()      const {return fCompId;}
     Int_t GetUID()         const {return fUID;}
     
-    Int_t GetAC_Cap_Ok_pside()   const {return fAC_Cap_Ok_pside;}
-    Int_t GetAC_Cap_Ok_nside()   const {return fAC_Cap_Ok_nside;}
-    Double_t GetAC_Cap_Value_pside() const { return fAC_Cap_Value_pside;}
-    Double_t GetAC_Cap_Value_nside() const { return fAC_Cap_Value_nside;}
-    Double_t GetI_Strip_pside() const  {return fI_Strip_pside;}
-    Double_t GetI_Strip_nside() const  {return fI_Strip_nside;}
+    string GetType()           const {return fType;}  
+    Int_t  GetWaferId()        const {return fWaferId;}
+    Int_t  GetAC_Cap_Ok_psideAt(Int_t ch)        const {return fAC_Cap_Ok_pside[ch];}
+    Int_t  GetAC_Cap_Ok_nsideAt(Int_t ch)        const {return fAC_Cap_Ok_nside[ch];}
+    Double_t GetAC_Cap_Value_psideAt(Int_t ch)  const {return fAC_Cap_Value_pside[ch];}
+    Double_t GetAC_Cap_Value_nsideAt(Int_t ch)  const {return fAC_Cap_Value_nside[ch];}
+    Double_t GetI_Strip_psideAt(Int_t ch)       const {return fI_Strip_pside[ch];}
+    Double_t GetI_Strip_nsideAt(Int_t ch)       const {return fI_Strip_nside[ch];}
 
     void SetCompId(Int_t x)  {SetComboNo(x); fCompId=x;}
     void SetUID(Int_t x) {fUID  = x;}
-    
-    void SetAC_Cap_Ok_pside(Int_t flag)     { fAC_Cap_Ok_pside = flag;}
-    void SetAC_Cap_Ok_nside(Int_t flag)     { fAC_Cap_Ok_nside = flag;}
-    void SetAC_Cap_Value_pside(Double_t v)  { fAC_Cap_Value_pside = v;}
-    void SetAC_Cap_Value_nside(Double_t v)  { fAC_Cap_Value_nside = v;}
-    void SetI_Strip_pside(Double_t v)       { fI_Strip_pside = v;}
-    void SetI_Strip_nside(Double_t v)       { fI_Strip_nside = v;}
+    void SetType( string st )        { fType = st; }
+    void SetWaferId( Int_t i )       { fWaferId = i; }  
+    void SetAC_Cap_Ok_psideAt(Int_t ch, Int_t flag)     { fAC_Cap_Ok_pside[ch] = flag;}
+    void SetAC_Cap_Ok_nsideAt(Int_t ch, Int_t flag)     { fAC_Cap_Ok_nside[ch] = flag;}
+    void SetAC_Cap_Value_psideAt(Int_t ch, Double_t v)  { fAC_Cap_Value_pside[ch] = v;}
+    void SetAC_Cap_Value_nsideAt(Int_t ch, Double_t v)  { fAC_Cap_Value_nside[ch] = v;}
+    void SetI_Strip_psideAt(Int_t ch, Double_t v)       { fI_Strip_pside[ch] = v;}
+    void SetI_Strip_nsideAt(Int_t ch, Double_t v)       { fI_Strip_nside[ch] = v;}
 
     
     UInt_t GetIndex(UInt_t /*def*/) const { return fUID; }
@@ -92,6 +95,8 @@ using TObject::Compare;
                           DataType::kData,
                           ValTimeStamp(rid));
     }
+   
+    Bool_t Import( const vector<string>& value );
 
     // SQL-IO Meta-Class Getters
     FairDbReader<CbmStsDbQaChannelMapPar>* GetParamReader();
@@ -101,14 +106,16 @@ using TObject::Compare;
 
   private:
     // Data Parameters
-    Int_t fCompId;
-    Int_t fUID;
-    Int_t  fAC_Cap_Ok_pside;
-    Int_t  fAC_Cap_Ok_nside;
-    Double_t  fAC_Cap_Value_pside;
-    Double_t  fAC_Cap_Value_nside;
-    Double_t  fI_Strip_pside;
-    Double_t  fI_Strip_nside;
+    Int_t  fCompId;
+    Int_t  fUID;
+    string fType;
+    Int_t  fWaferId;
+    Int_t  fAC_Cap_Ok_pside[NCHMAX];
+    Int_t  fAC_Cap_Ok_nside[NCHMAX];
+    Double_t  fAC_Cap_Value_pside[NCHMAX];
+    Double_t  fAC_Cap_Value_nside[NCHMAX];
+    Double_t  fI_Strip_pside[NCHMAX];
+    Double_t  fI_Strip_nside[NCHMAX];
 
     // Parameter Container SQL Writer Meta-Class
     FairDbWriter<CbmStsDbQaChannelMapPar>* fParam_Writer; //!

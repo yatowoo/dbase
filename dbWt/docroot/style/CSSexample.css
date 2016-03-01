@@ -25,6 +25,21 @@
   background-color: #D9EDF7;
 }
 
+.CSS-example .info {
+  background-color: #D9EDF7;
+}
+
+.CSS-example ligray {
+  background-color: #ffffff;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#999999));
+  background-image: -webkit-linear-gradient(top, #ffffff, #999999);
+  background-image:    -moz-linear-gradient(top, #ffffff, #999999);
+  background-image:      -o-linear-gradient(top, #ffffff, #999999);
+  background-image:         linear-gradient(to bottom, #ffffff, #999999);
+}
+
+
+
 .TFtable{
 	width:100%; 
 	border-collapse:collapse; 
@@ -47,3 +62,5 @@
 .form-control {
   padding: 0;
 }
+
+

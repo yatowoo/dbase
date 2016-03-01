@@ -79,8 +79,8 @@ using TObject::Compare;
    TObjArray* fSensors;
    TObjArray* fIvMeas;
 
-   FairDbReader<CbmStsDbQaSensorPar>* fReader_Sensor;
-   FairDbReader<CbmStsDbQaIvPar>*     fReader_Iv;
+   FairDbReader<CbmStsDbQaSensorPar>* fReader_Sensor; //!
+   FairDbReader<CbmStsDbQaIvPar>*     fReader_Iv; //!
     
 
     ClassDef(CbmStsDbQaPar,1); // CbmStsDbQaPar Parameter Container 

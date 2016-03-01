@@ -32,7 +32,7 @@ class CbmStsDbQaGeometryPar : public FairDbParSet
 using TObject::Compare;
 
   public :
-    CbmStsDbQaGeometryPar (const char* name="CbmStsDbQaGeometryPar",
+    CbmStsDbQaGeometryPar (const char* name="StsQaGeomPar",
                   const char* title="Cbm Sts Sensor Geometry Parameter",
                   const char* context="TestDefaultContext",
                   Bool_t own=kTRUE);
@@ -49,12 +49,14 @@ using TObject::Compare;
  
     string GetVendor()       const {return fVendor;}
     string GetType()         const {return fType;}  
+    Int_t  GetWaferId()      const {return fWaferId;}
     string GetReticleName()  const {return fReticleName;}   
     string GetProcessing()   const {return fProcessing;}
     Double_t GetHeight()     const {return fHeight;} 
     Double_t GetWidth()      const {return fWidth;}
     Double_t GetPitch()      const {return fPitch;}
-    string GetStereoAngle()  const {return fStereoAngle;}
+    Double_t GetStereoAngleP()  const {return fStereoAngle_p;}
+    Double_t GetStereoAngleN()  const {return fStereoAngle_n;}
     Int_t GetStripsPerSide() const {return fStripsPerSide;} 
         
     void SetCompId( Int_t x )  {SetComboNo(x); fCompId=x;}
@@ -62,14 +64,16 @@ using TObject::Compare;
     
     void SetVendor( string st )      { fVendor = st; }
     void SetType( string st )        { fType = st; }
+    void SetWaferId( Int_t i )       { fWaferId = i; }
     void SetReticleName( string st ) { fReticleName = st; }  
     void SetProcessing( string st )  { fProcessing = st; }
     void SetHeight( Double_t val )   { fHeight = val; }
     void SetWidth( Double_t val )    { fWidth = val; }
     void SetPitch( Double_t val )    { fPitch = val; }
-    void SetStereoAngle( string st ) { fStereoAngle = st; }
+    void SetStereoAngleP( Double_t val ) { fStereoAngle_p = val; }
+    void SetStereoAngleN( Double_t val ) { fStereoAngle_n = val; }
     void SetStripsPerSide( Int_t i ) { fStripsPerSide = i; }
-    
+      
     UInt_t GetIndex(UInt_t /*def*/) const { return fUID; }
 
     // Logical (=) 
@@ -98,6 +102,9 @@ using TObject::Compare;
                           ValTimeStamp(rid));
     }
 
+    
+    Bool_t Import(const vector<string>& value);
+
     // SQL-IO Meta-Class Getters
     FairDbReader<CbmStsDbQaGeometryPar>* GetParamReader();
     FairDbWriter<CbmStsDbQaGeometryPar>* GetParamWriter();
@@ -109,15 +116,17 @@ using TObject::Compare;
     Int_t fCompId;
     Int_t fUID;
 
-    string   fVendor;
-    string   fType;
-    string   fReticleName; 
-    string   fProcessing;
-    Double_t fHeight;
-    Double_t fWidth;
-    Double_t fPitch;
-    string   fStereoAngle;
-    Int_t    fStripsPerSide;    
+    string    fVendor;
+    string    fType;
+    Int_t     fWaferId;
+    string    fReticleName; 
+    string    fProcessing;
+    Double_t  fHeight;
+    Double_t  fWidth;
+    Double_t  fPitch;
+    Double_t  fStereoAngle_p;
+    Double_t  fStereoAngle_n; 
+    Int_t     fStripsPerSide;    
 
     // Parameter Container SQL Writer Meta-Class
     FairDbWriter<CbmStsDbQaGeometryPar>* fParam_Writer; //!

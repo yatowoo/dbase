@@ -1,12 +1,12 @@
  ################################################################################
  #    Copyright (C) 2014 GSI Helmholtzzentrum fuer Schwerionenforschung GmbH    #
  #                                                                              #
- #              This software is distributed under the terms of the             # 
- #         GNU Lesser General Public Licence version 3 (LGPL) version 3,        #  
+ #              This software is distributed under the terms of the             #
+ #         GNU Lesser General Public Licence version 3 (LGPL) version 3,        #
  #                  copied verbatim in the file "LICENSE"                       #
  ################################################################################
 # Date: 18.02.15 D.Bertini
-# Create a library called "libFairDbWt" 
+# Create a library called "libFairDbWt"
 
 Message("-- Wt is FOUND .... compiling DbWt Project starting ... ")
 
@@ -40,7 +40,7 @@ endIf (Boost_FOUND)
 set(LINK_DIRECTORIES
     ${ROOT_LIBRARY_DIR}
     ${Boost_LIBRARY_DIRS}
-) 
+)
 
 link_directories(${LINK_DIRECTORIES})
 
@@ -61,6 +61,15 @@ treeview/FolderView.cxx
 graphics/FairDbWtTCanvas.cxx
 graphics/FairDbWtTCanvasWidget.cxx
 graphics/FairDbWtRootBrowser.cxx
+graphics/FairDbWtRootCanvas.cxx
+graphics/FairDbWtFileLoader.cxx
+graphics/FairDbWtFileTreeTable.cxx
+graphics/FairDbWtFileTreeTableNode.cxx
+graphics/FairDbWtTFileNode.cxx
+graphics/FairDbWtJsRootProxy.cxx
+graphics/FairDbWtConfigViewDialog.cxx
+graphics/FairDbWtCanvasWidget.cxx
+graphics/FairDbWtRtopFrame.cxx
 auth/model/User.C
 auth/model/Session.C
 )
@@ -69,15 +78,15 @@ set(LIBRARY_NAME FairDbWt)
 
 if (Boost_FOUND)
   set(DEPENDENCIES
-    Base FairDB ParBase 
-    boost_thread boost_system boost_serialization boost_signals 
+    RHTTP Base FairDB ParBase
+    boost_thread boost_system boost_serialization boost_signals
     boost_date_time  boost_regex boost_program_options boost_signals boost_random boost_system
     ${Wt_LIBRARY} ${Wt_HTTP_LIBRARY} ${Wt_LIBRARIES}
 )
 else (Boost_FOUND)
   # will not work anyway without boost !
-  set(DEPENDENCIES Base FairDB ParBase Tutorial5 
-    ${Wt_LIBRARY} ${Wt_HTTP_LIBRARY} 
+  set(DEPENDENCIES Base FairDB ParBase Tutorial5
+    ${Wt_LIBRARY} ${Wt_HTTP_LIBRARY}
 )
 endif (Boost_FOUND)
 
@@ -90,7 +99,7 @@ if (Boost_FOUND)
   )
 
   set(Exe_Source
-    fairdbwt.cxx    
+    fairdbwt.cxx
   )
 
   list(LENGTH Exe_Names _length)
@@ -107,5 +116,3 @@ if (Boost_FOUND)
 endif (Boost_FOUND)
 
 #add_subdirectory(examples)
-
-

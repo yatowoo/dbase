@@ -28,7 +28,14 @@
 	  <for path="/layout/layout-managers">default</for>
 	  <for path="/graphics-charts/*">default</for>
 	</bootstrap-method>
+	
+	<!-- Session timeout (seconds).
+		  When a session remains inactive for this amount of time, it is
+	     cleaned up.
+	  -->
+	<timeout>1</timeout>	
 
+	
 	<!-- <log-config>debug:wthttp/async</log-config> -->
 	<UA-Compatible>IE8=IE7</UA-Compatible>
     </application-settings>

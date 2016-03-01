@@ -19,29 +19,39 @@ Set(LINK_DIRECTORIES
   ${ROOT_LIBRARY_DIR}
   ${Boost_LIBRARY_DIRS}
 )
- 
+
 Link_Directories(${LINK_DIRECTORIES})
 
 set(SRCS
 CbmStsDbQaContFact.cxx
 CbmStsDbQaIvPar.cxx
+CbmStsDbQaIvNewPar.cxx
 CbmStsDbQaChannelMapPar.cxx
 CbmStsDbQaGeometryPar.cxx
 CbmStsDbQaOwnershipPar.cxx
 CbmStsDbQaResultsPar.cxx
 CbmStsDbQaSensorPar.cxx
 CbmStsDbQaPar.cxx
+CbmStsDbQaSensorNewPar.cxx
+CbmStsDbQaNewPar.cxx
+CbmStsDbSNoisyChPar.cxx
+CbmStsDbSInfoPar.cxx
 )
 
 set(HEADERS
 CbmStsDbQaContFact.h
 CbmStsDbQaIvPar.h
+CbmStsDbQaIvNewPar.h
 CbmStsDbQaChannelMapPar.h
 CbmStsDbQaGeometryPar.h
 CbmStsDbQaOwnershipPar.h
 CbmStsDbQaResultsPar.h
 CbmStsDbQaSensorPar.h
 CbmStsDbQaPar.h
+CbmStsDbQaSensorNewPar.h
+CbmStsDbQaNewPar.h
+CbmStsDbSNoisyChPar.h
+CbmStsDbSInfoPar.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbWriter.h
 )
@@ -52,8 +62,3 @@ Set(LIBRARY_NAME CbmStsDbQa)
 Set(DEPENDENCIES Base ParBase FairDB boost_system boost_filesystem boost_regex)
 
 GENERATE_LIBRARY()
-
-
-
-
-

@@ -40,15 +40,15 @@ using TObject::Compare;
     void   putParams(FairParamList* list);
     Bool_t getParams(FairParamList* list);
 
-    
-    
-    Int_t      GetComboNo()          const {return fCompId;}    
+
+
+    Int_t      GetComboNo()          const {return fCompId;}
     Int_t      GetCompId()           const {return fCompId;}
     Int_t      GetUID()              const {return fUID;}
     string     GetSensorType()       const {return fSensor_type;}
     string     GetSensorName()       const {return fSensor_name;}
-    Int_t      GetWaferId()          const {return fWafer_id;} 
-    string     GetBatchId()          const {return fBatch_id;} 
+    Int_t      GetWaferId()          const {return fWafer_id;}
+    string     GetBatchId()          const {return fBatch_id;}
     string     GetManufacturer()     const {return fManufacturer;}
     string     GetProductionDate()   const {return fProduction_date;}
     string     GetOwner()            const {return fCurrent_owner;}
@@ -63,14 +63,14 @@ using TObject::Compare;
     string     GetPassed()           const {return fPassed;}
     string     GetComment()          const {return fComments;}
 
-    
+
 
     void SetCompId(Int_t x)             {SetComboNo(x); fCompId=x;}
     void SetUID(Int_t uid)              {fUID  = uid;}
     void SetSensorType(string type)     {fSensor_type=type;}
     void SetSensorName(string name)     {fSensor_name=name;}
-    void SetBatchId(string bid)         {fBatch_id=bid;}     
-    void SetWaferId(Int_t id)           {fWafer_id=id;}     
+    void SetBatchId(string bid)         {fBatch_id=bid;}
+    void SetWaferId(Int_t id)           {fWafer_id=id;}
     void SetManufacturer(string manuf)  {fManufacturer=manuf;}
     void SetProductionDate(string date) {fProduction_date=date;}
     void SetCurrentOwner(string owner)  {fCurrent_owner=owner;}
@@ -83,16 +83,16 @@ using TObject::Compare;
     void SetQuality_grade(Int_t grad)   {fQuality_grade=grad;}
     void SetProblem(string prob)        {fProblem=prob;}
     void SetPassed(string  pass)        {fPassed=pass;}
-    void SetComments(string com)        {fComments=com;} 
+    void SetComments(string com)        {fComments=com;}
 
 
     void Print();
-    Bool_t Import(const vector<string> & value); 
+    Bool_t Import(const vector<string> & value);
 
 
     UInt_t GetIndex(UInt_t /*def*/) const { return fUID; }
 
-    // Logical (=) 
+    // Logical (=)
     Bool_t Compare(const CbmStsDbQaSensorPar& that ) const;
 
     // Add-ons: SQL descriptors for the parameter class
@@ -144,7 +144,7 @@ using TObject::Compare;
     Int_t    fQuality_grade;
     string   fProblem;
     string   fPassed;
-    string   fComments; 
+    string   fComments;
 
 
     // Database Pool Index

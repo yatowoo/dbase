@@ -15,7 +15,7 @@
 
 #include <Wt/WStandardItem>
 #include <Wt/Chart/WCartesianChart>
-   
+
 #include <Chart/WCartesianChart>
 #include "CsvUtil.h"
 
@@ -24,7 +24,7 @@
 using namespace std;
 using namespace Wt;
 using namespace Wt::Chart;
- 
+
 class FairDbWtParTreeTable;
 
 
@@ -36,7 +36,7 @@ public:
     : Wt::WAbstractTableModel(parent),
       rows_(rows),
       columns_(columns)
-  { 
+  {
     for (int r=0;r<100;r++) irow[r]=r;
   }
 
@@ -91,18 +91,14 @@ private:
 };
 
 
-
-
-
-
 class FairDbWtTreeView : public WContainerWidget
 {
 
 public:
   FairDbWtTreeView(WContainerWidget *parent = 0);
   virtual ~FairDbWtTreeView();
-  
-  // Main Layout 
+
+  // Main Layout
   virtual void createLayout(WContainerWidget *parent = 0);
   WGridLayout* getMainLayout(){ return fMainLayout;}
 
@@ -112,24 +108,24 @@ public:
   // Set The Tree
   void setTreeTable(FairDbWtParTreeTable* aTable){fFileTreeTable=aTable;}
 
-  // Widgets  
-  virtual FairDbWtParTreeTable* TreeTableView();  
+  // Widgets
+  virtual FairDbWtParTreeTable* TreeTableView();
   WTableView * TableView();
 
   virtual void TreeTableChanged();
   virtual void InspectParameter(){;}
-   
-  // Events  
+
+  // Events
   virtual void showPopup_Lup(const WMouseEvent& event);
   virtual void showPopup_Rtop(const WMouseEvent& event);
   virtual void showPopup_Rdown(const WMouseEvent& event);
   virtual void showMeMouse(const WMouseEvent& event);
   virtual void popupAction_Rtop();
   virtual void popupAction_Rdown();
-  virtual void popupAction_Lup(); 
+  virtual void popupAction_Lup();
   virtual void dialogDone_Rtop();
   virtual void dialogDone_Rdown();
- 
+
 
   // Mouse Events Handling
   virtual Wt::WWidget *wMouseEvent();
@@ -143,7 +139,7 @@ public:
   virtual void showMouseWheel(const Wt::WMouseEvent &e);
   virtual void describe(const Wt::WMouseEvent &e);
 
-  
+
   // Getters
   WTabWidget* getTabTop(){return fTabWidget_top;}
   WTabWidget* getTabDown(){return fTabWidget_down;}
@@ -154,16 +150,16 @@ public:
   virtual void show_Down(){;}
 
 
- 
+
    // Test Functions
-   WWidget *hist();  
+   WWidget *hist();
    WWidget *rhist();
    WWidget *ghist();
 
 
 protected:
 
-  WGridLayout           *fMainLayout; 
+  WGridLayout           *fMainLayout;
   WStandardItemModel    *fFolderModel;
   WStandardItemModel    *fFileModel;
   WSortFilterProxyModel *fFileFilterModel;
@@ -180,7 +176,7 @@ protected:
   WTreeView *fFolderView;
   WTableView *fFileView;
   WPopupMenu *fPopup;
-  
+
   WMessageBox *fPopupActionBox;
   typedef std::set<WTreeNode *> WTreeNodeSet;
 

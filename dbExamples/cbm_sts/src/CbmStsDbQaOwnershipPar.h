@@ -32,7 +32,7 @@ class CbmStsDbQaOwnershipPar : public FairDbParSet
 using TObject::Compare;
 
   public :
-    CbmStsDbQaOwnershipPar (const char* name="CbmStsDbQaOwnershipPar",
+    CbmStsDbQaOwnershipPar (const char* name="StsQaOwnerPar",
                   const char* title="Cbm Sts Ownership Parameter",
                   const char* context="TestDefaultContext",
                   Bool_t own=kTRUE);
@@ -44,13 +44,14 @@ using TObject::Compare;
     void Print();
 
 
-    Int_t GetComboNo()     const {return fCompId;}    
-    Int_t GetCompId()      const {return fCompId;}
-    Int_t GetUID()         const {return fUID;}
+    Int_t  GetComboNo()     const {return fCompId;}    
+    Int_t  GetCompId()      const {return fCompId;}
+    Int_t  GetUID()         const {return fUID;}
     string GetVendor()   const {return fVendor;}
     string GetType()   const {return fType;}
+    Int_t  GetWaferId()   const {return fWaferId;}
     string GetReticleName()   const {return fReticleName;}
-    string GetYear()   const {return fYear;}
+    Int_t  GetYear()   const {return fYear;}
     string GetOwner()   const {return fOwner;}
     string GetLocation()   const {return fLocation;}
     
@@ -59,8 +60,9 @@ using TObject::Compare;
     void SetUID(Int_t x) {fUID  = x;}
     void SetVendor( string name)      {fVendor = name;}
     void SetType(string name)         {fType   = name;}
+    void SetWaferId( Int_t i )        {fWaferId = i;}
     void SetReticleName(string name)  {fReticleName = name;}
-    void SetYear(string name)         {fYear = name;}
+    void SetYear(Int_t i)         {fYear = i;}
     void SetOwner(string name)        {fOwner = name;}
     void SetLocation(string name)     {fLocation = name;}
   
@@ -93,6 +95,9 @@ using TObject::Compare;
                           ValTimeStamp(rid));
     }
 
+
+    Bool_t Import(const vector<string>& value);
+
     // SQL-IO Meta-Class Getters
     FairDbReader<CbmStsDbQaOwnershipPar>* GetParamReader();
     FairDbWriter<CbmStsDbQaOwnershipPar>* GetParamWriter();
@@ -101,12 +106,13 @@ using TObject::Compare;
 
   private:
     // Data Parameters
-    Int_t fCompId;
-    Int_t fUID;
+    Int_t  fCompId;
+    Int_t  fUID;
     string fVendor; 
     string fType;         
+    Int_t  fWaferId;
     string fReticleName; 
-    string fYear; 
+    Int_t  fYear; 
     string fOwner;
     string fLocation;  
 

@@ -20,8 +20,8 @@ using namespace std;
 
 WApplication *createApplication(const WEnvironment& env)
 {
-  
-  CbmStsQaWApplication *my_app = new CbmStsQaWApplication(env); 
+
+  CbmStsQaWApplication *my_app = new CbmStsQaWApplication(env);
   //Wt::WApplication * my_app = new Wt::WApplication(env);
 
  if (my_app->appRoot().empty()) {
@@ -33,8 +33,8 @@ WApplication *createApplication(const WEnvironment& env)
 
   // Choice of theme: defaults to bootstrap3 but can be overridden using
   // a theme parameter (for testing)
- 
- 
+
+
   const std::string *themePtr = env.getParameter("theme");
   std::string theme;
   if (!themePtr)
@@ -42,7 +42,7 @@ WApplication *createApplication(const WEnvironment& env)
   else
     theme = *themePtr;
 
- 
+
   if (theme == "bootstrap3") {
     cout << "-I- CbmStsQaWApplication ----> Theme choosen: " << theme << endl;
     WBootstrapTheme *bootstrapTheme = new WBootstrapTheme(my_app);
@@ -78,17 +78,19 @@ WApplication *createApplication(const WEnvironment& env)
   } else
     my_app->setTheme(new WCssTheme(theme));
 
- 
+
   // load text bundles (for the tr() function)
   my_app->messageResourceBundle().use(my_app->appRoot() + "report");
   my_app->messageResourceBundle().use(my_app->appRoot() + "text");
   my_app->messageResourceBundle().use(my_app->appRoot() + "src");
   my_app->messageResourceBundle().use(my_app->appRoot() + "about");
-  my_app->messageResourceBundle().use(my_app->appRoot() + "charts"); 
-  // load Style 
+  my_app->messageResourceBundle().use(my_app->appRoot() + "charts");
+  // load Style
   my_app->useStyleSheet("style/CSSexample.css");
   my_app->useStyleSheet("style/charts.css");
-  
+
+  // Try Javascript
+  my_app->require("scripts/JSRootCore.js");
 
   // Create Anchor for the Main Pane
   WHBoxLayout *layout = new WHBoxLayout(my_app->root());
@@ -98,7 +100,7 @@ WApplication *createApplication(const WEnvironment& env)
   my_app->setTitle("Cbm Sts Qa Web Interface");
 
   my_app->refresh();
-  
+
  return my_app;
 }
 
@@ -117,22 +119,22 @@ callRepeatedly(boost::function<void()> function, int seconds)
 }
 
 
-string getWorkEnv(const char*  key){ 
-  
+string getWorkEnv(const char*  key){
+
   char const* env = getenv( key );
-  std::string w_env( env );  
+  std::string w_env( env );
   std::string s = "example";
 
   string::size_type i = w_env.find(s);
   if (i != string::npos)
    w_env.erase(i, s.length());
- 
+
   cout << "-I- CbmStsQaWt::getWorkEnd()  Working environement is -----> " << w_env <<endl;
 
-  return env == NULL ? string() : w_env;  
+  return env == NULL ? string() : w_env;
 }
 
- 
+
 
 
 
@@ -148,8 +150,8 @@ int main(int argc, char **argv)
 	return -1;
    }
 
-  string str_doc = w_env + "dbase/dbWt/docroot"; 
-  string str_app = w_env + "dbase/dbWt/approot"; 
+  string str_doc = w_env + "dbase/dbWt/docroot";
+  string str_app = w_env + "dbase/dbWt/approot";
 
    const char * const v[9] =
   {
@@ -172,9 +174,9 @@ int main(int argc, char **argv)
       // terminating = true;
       // server.stop();
 
-      // Authentication framework configured 
+      // Authentication framework configured
       Session::configureAuth();
-     
+
       server.run();
 
     } catch (WServer::Exception& e) {
@@ -182,7 +184,6 @@ int main(int argc, char **argv)
 
     } catch (std::exception &e) {
       std::cerr << " -E- CbmStsQaWt:: exception: " << e.what() << std::endl;
-    } 
+    }
 
  }
-

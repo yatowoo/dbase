@@ -1,5 +1,5 @@
-#ifndef FAIRDBWTTCANVAS_H
-#define FAIRDBWTTCANVAS_H
+#ifndef FAIRDBWTTCANVAS
+#define FAIRDBWTTCANVAS
 
 #include <Wt/WContainerWidget>
 #include "TCanvas.h"
@@ -11,14 +11,12 @@ class FairDbWtTCanvasWidget;
 class FairDbWtTCanvas : public WContainerWidget
 {
 public:
-  FairDbWtTCanvas(WContainerWidget *root, TCanvas *gCanvas, bool showTitle=true);
+  FairDbWtTCanvas(WContainerWidget *root, TCanvas *aCanvas=nullptr, bool showTitle=true);
 
 private:
-  FairDbWtTCanvasWidget *shapes_;
-
-  void rotateShape(int v);
-  void scaleShape(int v);
+  void confirmed();
+  void setAmount(std::string amount);
 
 };
 
-#endif // FAIRDBWTTCANVAS_H
+#endif // FAIRDBWTTCANVAS

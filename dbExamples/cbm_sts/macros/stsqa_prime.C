@@ -9,7 +9,7 @@ Int_t  stsqa_prime()
   FairRuntimeDb* db = FairRuntimeDb::instance();
 
   // Create in memory the relevant container
-  CbmStsDbQaPar* stsPar = (CbmStsDbQaPar*)(db->getContainer("CbmStsDbQaPar"));
+  CbmStsDbQaPar* stsPar = (CbmStsDbQaNewPar*)(db->getContainer("CbmStsDbQaPar"));
 
   // Set the SQL based IO as second input
   FairParTSQLIo* input_db = new FairParTSQLIo();  
@@ -29,7 +29,7 @@ Int_t  stsqa_prime()
   // Set the output=input
   db->setOutput(input_db); 
 
-  cout << "-I- STS QA Paremeters Priming:  Opening database + Meta Data done via TSQLIO .. " << endl;
+  cout << "-I- STS QA New Paremeters Priming:  Opening database + Meta Data done via TSQLIO .. " << endl;
  
 
   // First import Csv Model file

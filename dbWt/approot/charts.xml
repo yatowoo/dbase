@@ -3,7 +3,7 @@
   <message id="error-missing-data">
 
     <div>The data file "{1}" could not be found. Check your deployment.</div>
-    
+
   </message>
   <message id="introduction">
 
@@ -85,13 +85,10 @@
   </message>
   <message id="scatter plot 2">
 
-<h2><span>Scatter Plot (sine function)</span></h2>
+<h2><span>Channel Map</span></h2>
 
 <p class="p">
-  Below we plot a single sine curves. We use 'curve' data series,
-  which creates a smooth spline curve that interpolates the data
-  points. As is typical when showing mathematical functions, we let
-  the axes cross each other at the origin (0, 0).
+  Below we plot sensor test response per active channels.
 </p>
 
   </message>

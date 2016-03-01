@@ -22,22 +22,21 @@ public:
   virtual ~CbmStsQaSensorTableView();
 
 // Event notify
-  void editFile(const WModelIndex& item, const WMouseEvent& event); 
-  void editFiled(const WModelIndex& item, WAbstractItemModel* model); 
+  void editFile(const WModelIndex& item, const WMouseEvent& event);
+  void editFiled(const WModelIndex& item, WAbstractItemModel* model);
 
 // Menus
-  void showPopup(const WModelIndex& item, const WMouseEvent& event); 
+  void showPopup(const WModelIndex& item, const WMouseEvent& event);
   void popupAction();
-  void displayIV(const WModelIndexSet& aSet); 
-  void dialogDone(); 
+  void displayIV(const WModelIndexSet& aSet);
+  void dialogDone();
 
- 
+
 private:
 WPopupMenu *fPopup;
 WMessageBox *fPopupActionBox;
 CbmStsQaWTreeView *fView;
 WTableView* fTableView;
-
 };
 
 

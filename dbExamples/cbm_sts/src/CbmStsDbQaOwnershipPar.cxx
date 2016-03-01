@@ -8,21 +8,22 @@
 #include "FairParamList.h"              // for FairParamList
 #include "FairDbParFactory.h"
 
-
 #include "Riosfwd.h"                    // for ostream
 #include "TString.h"                    // for TString
 
 #include <stdlib.h>                     // for exit
 #include <memory>                       // for auto_ptr, etc
 #include <vector>                       // for vector, vector<>::iterator
-
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
+using boost::lexical_cast;
+using boost::bad_lexical_cast;
+
 
 ClassImp(CbmStsDbQaOwnershipPar);
 
-
-static FairDbParRegistry<CbmStsDbQaOwnershipPar> qa_iv("CbmStsDbQaOwnershipPar");
+static FairDbParRegistry<CbmStsDbQaOwnershipPar> qa_iv("StsQaOwnerPar");
 
 #include "FairDbReader.tpl"
 template class  FairDbReader<CbmStsDbQaOwnershipPar>;
@@ -38,8 +39,9 @@ CbmStsDbQaOwnershipPar::CbmStsDbQaOwnershipPar(const char* name, const char* tit
     fUID(0),
     fVendor(""),
     fType(""),
-	  fReticleName(""),
-    fYear(""),
+    fWaferId(0),
+	fReticleName(""),
+    fYear(0),
     fOwner(""),
     fLocation(""), 
     fParam_Writer(NULL), //  Writer Meta-Class for SQL IO
@@ -80,8 +82,9 @@ void CbmStsDbQaOwnershipPar::putParams(FairParamList* list)
   list->add("s_uid",    fUID);
   list->add("vendor",   (Text_t*) fVendor.c_str());
   list->add("type",     (Text_t*) fType.c_str());
+  list->add("wafer_id",    fWaferId);
   list->add("reticle_name",  (Text_t*) fReticleName.c_str());
-  list->add("year",          (Text_t*) fYear.c_str());
+  list->add("year",          fYear);
   list->add("owner",         (Text_t*) fOwner.c_str());
   list->add("location",      (Text_t*) fLocation.c_str());  
 }
@@ -92,18 +95,26 @@ Bool_t CbmStsDbQaOwnershipPar::getParams(FairParamList* list)
   Text_t aName[155]; 
   if (!list->fill("comp_id",     &fCompId)) { return kFALSE; }
   if (!list->fill("s_uid",       &fUID))    { return kFALSE; }
+
   if (!list->fill("vendor",    aName, 155 )) { return kFALSE;}
   fVendor = aName;
+
   if (!list->fill("type",    aName, 155 )) { return kFALSE;}
   fType = aName;
+
+  if (!list->fill("wafer_id",       &fWaferId))    { return kFALSE; }
+
   if (!list->fill("reticle_name",    aName, 155 )) { return kFALSE;}
   fReticleName= aName;
-  if (!list->fill("year",    aName, 155 )) { return kFALSE;}
-  fYear = aName;
+
+  if (!list->fill("year",   &fYear)) { return kFALSE;}
+
   if (!list->fill("owner",    aName, 155 )) { return kFALSE;}
   fOwner = aName;
+
   if (!list->fill("location",    aName, 155 )) { return kFALSE;}
   fLocation = aName;
+
   return kTRUE;
 }
 
@@ -113,8 +124,9 @@ void CbmStsDbQaOwnershipPar::clear()
  
   fVendor="";
   fType="";
+  fWaferId=0;
   fReticleName="";
-  fYear="";
+  fYear=0;
   fOwner="";
   fLocation="";
 
@@ -127,15 +139,16 @@ string CbmStsDbQaOwnershipPar::GetTableDefinition(const char* Name)
 {
   string sql("create table ");
   if ( Name ) { sql += Name; }
-  else { sql += "CBMSTSDBQAOWNERSHIPPAR"; }
+  else { sql += "STSQAOWNERPAR"; }
   sql += "( SEQNO          INT NOT NULL,";
   sql += "  ROW_ID         INT NOT NULL,";
   sql += "  COMP_ID        INT,";
   sql += "  UID            INT,";
   sql += "  VENDOR         TEXT,";
   sql += "  TYPE           TEXT,";
+  sql += "  WAFER_ID       INT,";
   sql += "  RETICLE        TEXT,";
-  sql += "  YEAR           TEXT,";
+  sql += "  YEAR           INT,";
   sql += "  OWNER          TEXT,";
   sql += "  LOCATION       TEXT,";
   sql += "  primary key(SEQNO,ROW_ID))";
@@ -150,6 +163,7 @@ void CbmStsDbQaOwnershipPar::Fill(FairDbResultPool& res_in,
           >> fUID 
           >> fVendor 
           >> fType
+		  >> fWaferId  
           >> fReticleName 
           >> fYear 
           >> fOwner
@@ -163,6 +177,7 @@ void CbmStsDbQaOwnershipPar::Store(FairDbOutTableBuffer& res_out,
           << fUID 
           << fVendor 
           << fType
+          << fWaferId
           << fReticleName 
           << fYear 
           << fOwner
@@ -194,6 +209,7 @@ void CbmStsDbQaOwnershipPar::fill(UInt_t rid)
     fUID          = cgd->GetUID();
     fVendor       = cgd->GetVendor(); 
     fType         = cgd->GetType();         
+    fWaferId      = cgd->GetWaferId();  
     fReticleName  = cgd->GetReticleName(); 
     fYear         = cgd->GetYear(); 
     fOwner        = cgd->GetOwner(); 
@@ -223,8 +239,8 @@ void CbmStsDbQaOwnershipPar::store(UInt_t rid)
   TString atr(GetName());
   atr.ToUpper();
 
-  if (! fMultConn->GetConnection(GetDbEntry())->TableExists("CBMSTSDBQAOWNERSHIPPAR") ) {
-    sql_cmds.push_back(FairDb::GetValDefinition("CBMSTSDBQAOWNERSHIPPAR").Data());
+  if (! fMultConn->GetConnection(GetDbEntry())->TableExists("STSQAOWNERPAR") ) {
+    sql_cmds.push_back(FairDb::GetValDefinition("STSQAOWNERPAR").Data());
     sql_cmds.push_back(CbmStsDbQaOwnershipPar::GetTableDefinition());
   }
 
@@ -277,8 +293,9 @@ void CbmStsDbQaOwnershipPar::Print()
 {
   
   std::cout<<"   STS QA Ownership Paramters <UID> "<< fUID <<  " <comp_Id> " << fCompId << std::endl;
-  std::cout<<"   Vendor        = " << fVendor  << std::endl;
-  std::cout<<"   Type          = " << fType    << std::endl;
+  std::cout<<"   Vendor        = " << fVendor     << std::endl;
+  std::cout<<"   Type          = " << fType       << std::endl;
+  std::cout<<"   WaferId       = " << fWaferId    << std::endl;
   std::cout<<"   ReticleName   = " << fReticleName  << std::endl;
   std::cout<<"   Year          = " << fYear      << std::endl;
   std::cout<<"   Owner         = " << fOwner     << std::endl;
@@ -292,12 +309,13 @@ Bool_t CbmStsDbQaOwnershipPar::Compare(const CbmStsDbQaOwnershipPar& that ) cons
   Bool_t test_h =  
 	      (fUID      == that.fUID)
 	  &&  (fCompId   == that.fCompId)
-    &&  (fVendor.compare(that.fVendor)==0)
-    &&  (fType.compare(that.fType)==0)
-    &&  (fReticleName.compare(that.fReticleName)==0)
-    &&  (fYear.compare(that.fYear)==0)
-    &&  (fOwner.compare(that.fOwner)==0)
-    &&  (fLocation.compare(that.fLocation)==0);
+	  &&  (fWaferId   == that.fWaferId)
+      &&  (fVendor.compare(that.fVendor)==0)
+      &&  (fType.compare(that.fType)==0)
+      &&  (fReticleName.compare(that.fReticleName)==0)
+      &&  (fYear == that.fYear)
+      &&  (fOwner.compare(that.fOwner)==0)
+      &&  (fLocation.compare(that.fLocation)==0);
   
   return (test_h); 
 }
@@ -325,8 +343,8 @@ FairDbWriter<CbmStsDbQaOwnershipPar>* CbmStsDbQaOwnershipPar::ActivateWriter(Int
          TString atr(GetName());
          atr.ToUpper();
         
-         if (! fMultConn->GetConnection(GetDbEntry())->TableExists("CBMSTSDBQAOWNERSHIPPAR") ) {
-           sql_cmds.push_back(FairDb::GetValDefinition("CBMSTSDBQAOWNERSHIPPAR").Data());
+         if (! fMultConn->GetConnection(GetDbEntry())->TableExists("STSQAOWNERPAR") ) {
+           sql_cmds.push_back(FairDb::GetValDefinition("STSQAOWNERPAR").Data());
            sql_cmds.push_back(CbmStsDbQaOwnershipPar::GetTableDefinition());
          }
         
@@ -357,5 +375,28 @@ FairDbWriter<CbmStsDbQaOwnershipPar>* CbmStsDbQaOwnershipPar::ActivateWriter(Int
    return NULL;
 }
 
+
+
+
+Bool_t CbmStsDbQaOwnershipPar::Import(const vector<string>& value)
+{
+     if (value.size()>0)
+      { 
+       SetCompId(fCompId); // No composition
+       cout << "0" << value[0] << endl; 
+       SetUID(lexical_cast<int>(value[0]));
+       SetVendor(value[1]);
+       SetType(value[2]);
+       cout << "3" << value[3] << endl; 
+       SetWaferId(lexical_cast<int>(value[3]));
+       SetReticleName(value[4]);
+       SetYear(lexical_cast<int>(value[5]));
+       SetOwner(value[6]);
+       SetLocation(value[7]);
+       return kTRUE; 
+      }   
+     return kFALSE;    
+     //Print();
+}
 
 

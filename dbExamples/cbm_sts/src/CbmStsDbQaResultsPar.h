@@ -32,7 +32,7 @@ class CbmStsDbQaResultsPar : public FairDbParSet
 using TObject::Compare;
 
   public :
-    CbmStsDbQaResultsPar (const char* name="CbmStsDbQaResultsPar",
+    CbmStsDbQaResultsPar (const char* name="StsQaResultsPar",
                   const char* title="Cbm Sts QA Results Parameter",
                   const char* context="TestDefaultContext",
                   Bool_t own=kTRUE);
@@ -43,11 +43,12 @@ using TObject::Compare;
 
     void Print();
 
-    Int_t GetComboNo()     const {return fCompId;}    
-    Int_t GetCompId()      const {return fCompId;}
-    Int_t GetUID()         const {return fUID;}
-    
-    Double_t     GetV_fd()               const {return fV_fd;}     
+    Int_t        GetComboNo()            const {return fCompId;}
+    Int_t        GetCompId()             const {return fCompId;}
+    Int_t        GetUID()                const {return fUID;}
+	  string       GetType()               const {return fType;}
+    Int_t        GetWaferId()            const {return fWaferId;}
+    Double_t     GetV_fd()               const {return fV_fd;}
     Double_t     GetI_150V_20C()         const {return fI_150V_20C;}
     Double_t     GetI_250V_20C()         const {return fI_250V_20C;}
     Int_t        GetSdefect_pside()      const {return fSdefect_pside;}
@@ -61,23 +62,23 @@ using TObject::Compare;
 
     void SetCompId(Int_t x)  {SetComboNo(x); fCompId=x;}
     void SetUID(Int_t x) {fUID  = x;}
-
-    void SetVfd(Double_t v)            { fV_fd = v; } 
+    void SetType(string name)          { fType   = name;}
+    void SetWaferId( Int_t i )         { fWaferId = i;}
+    void SetVfd(Double_t v)            { fV_fd = v; }
     void SetI_150V_20C(Double_t i)     { fI_150V_20C = i; }
     void SetI_250V_20C(Double_t i)     { fI_250V_20C = i; }
     void SetSdefect_pside(Int_t i)     { fSdefect_pside = i; }
     void SetSdefect_nside(Int_t i)     { fSdefect_nside = i; }
     void SetQuality_grade(Int_t i)     { fQuality_grade = i; }
-
     void SetProblem(Int_t i)           { fProblem = i;}
     void SetQaPassed(Int_t i)          { fQaPassed = i;}
     void SetOpticalCheckPassed(Int_t i){ fOpticalCheckPassed = i;}
     void SetComment(string comment)    { fComments = comment;}
-    
-    
+
+
     UInt_t GetIndex(UInt_t /*def*/) const { return fUID; }
 
-    // Logical (=) 
+    // Logical (=)
     Bool_t Compare(const CbmStsDbQaResultsPar& that ) const;
 
     // Add-ons: SQL descriptors for the parameter class
@@ -103,17 +104,21 @@ using TObject::Compare;
                           ValTimeStamp(rid));
     }
 
+    Bool_t Import( const vector<string>& value);
+
     // SQL-IO Meta-Class Getters
     FairDbReader<CbmStsDbQaResultsPar>* GetParamReader();
     FairDbWriter<CbmStsDbQaResultsPar>* GetParamWriter();
     FairDbWriter<CbmStsDbQaResultsPar>* ActivateWriter(Int_t rid);
-  
+
 
   private:
     // Data Parameters
     Int_t fCompId;
     Int_t fUID;
-    
+
+    string    fType;
+    Int_t     fWaferId;
     Double_t  fV_fd;
     Double_t  fI_150V_20C;
     Double_t  fI_250V_20C;
@@ -124,7 +129,7 @@ using TObject::Compare;
     Int_t     fQaPassed;
     Int_t     fOpticalCheckPassed;
     string    fComments;
-     
+
     // Parameter Container SQL Writer Meta-Class
     FairDbWriter<CbmStsDbQaResultsPar>* fParam_Writer; //!
     // Parameter Container SQL Writer Meta-Class
