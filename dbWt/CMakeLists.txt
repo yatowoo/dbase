@@ -8,7 +8,7 @@
 # Date: 18.02.15 D.Bertini
 # Create a library called "libFairDbWt"
 
-Message("-- Wt is FOUND .... compiling DbWt Project starting ... ")
+Message("-- Wt is FOUND .... compiling FairDbWt Project starting ... ")
 
 set(INCLUDE_DIRECTORIES
 ${BASE_INCLUDE_DIRECTORIES}
@@ -33,7 +33,7 @@ ${CMAKE_SOURCE_DIR}/example/Tutorial5/src
 include_directories(${INCLUDE_DIRECTORIES})
 
 if (Boost_FOUND)
-  Message("copy file ")
+  Message("-- FairDbWt ... copying config file ...")
   file(COPY  ${CMAKE_SOURCE_DIR}/dbase/dbExamples/cbm_sts/macros/dbconfig.sh DESTINATION ${CMAKE_BINARY_DIR}/bin/ )
 endIf (Boost_FOUND)
 
@@ -91,10 +91,11 @@ else (Boost_FOUND)
 )
 endif (Boost_FOUND)
 
-# Add crypt in case of Linux OSes
-if (LINUX)
+# Add libcrypt in case of Linux OSes
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	set(DEPENDENCIES ${DEPENDENCIES} crypt)
-endif(LINUX)	
+    message(STATUS ">>> --FairDbWt-- Found Linux ---> ${DEPENDENCIES}")
+endif()	
 
 
 GENERATE_LIBRARY()
