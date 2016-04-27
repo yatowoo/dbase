@@ -83,12 +83,19 @@ if (Boost_FOUND)
     boost_date_time  boost_regex boost_program_options boost_signals boost_random boost_system
     ${Wt_LIBRARY} ${Wt_HTTP_LIBRARY} ${Wt_LIBRARIES}
 )
+
 else (Boost_FOUND)
   # will not work anyway without boost !
   set(DEPENDENCIES Base FairDB ParBase Tutorial5
     ${Wt_LIBRARY} ${Wt_HTTP_LIBRARY}
 )
 endif (Boost_FOUND)
+
+# Add crypt in case of Linux OSes
+if (LINUX)
+	set(DEPENDENCIES ${DEPENDENCIES} crypt)
+endif(LINUX)	
+
 
 GENERATE_LIBRARY()
 

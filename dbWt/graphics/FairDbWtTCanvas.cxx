@@ -12,7 +12,7 @@
 #include <Wt/WLineEdit>
 #include <Wt/WVBoxLayout>
 #include <Wt/WHBoxLayout>
-#include <Wt/WFileUpLoad>
+#include <Wt/WFileUpload>
 #include <Wt/WProgressBar>
 
 #include "FairDbWtTCanvas.h"

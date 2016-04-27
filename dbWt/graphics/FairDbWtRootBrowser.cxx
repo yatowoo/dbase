@@ -17,7 +17,7 @@
 #include <WGridLayout>
 #include <WVBoxLayout>
 #include <WHBoxLayout>
-#include <WFileUpLoad>
+#include <WFileUpload>
 #include <WProgressBar>
 #include <WMessageBox>
 #include <WIconPair>
@@ -39,7 +39,7 @@
 #include <iostream>
 #include <time.h>
 
-#include "TRoot.h"
+#include "TROOT.h"
 #include "TClass.h"
 #include "TH1F.h"
 #include "TTree.h"

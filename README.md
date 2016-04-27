@@ -82,9 +82,8 @@ For that you need to get **dev** branch of the dbase module from its
 		  
 ```bash
 > cd <path_to_FairRoot>
-> mkdir dbase 
+> git clone https://github.com/denisbertini/dbase dbase
 > cd dbase
-> git clone https://github.com/denisbertini/dbase
 > git fetch
 > git checkout -b dev origin/dev
 ```
