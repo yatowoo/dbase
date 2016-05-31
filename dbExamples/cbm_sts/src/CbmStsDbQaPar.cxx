@@ -305,7 +305,7 @@ void CbmStsDbQaPar::LoadDataFromIvFile(const string& fname)
 
 
   // Load Measurement
-  ifstream infile(fname.c_str());   
+   std::ifstream infile(fname.c_str());   
   if(infile.fail()) // checks to see if file opended 
     { 
        cout << "-E- CbmStsDbQaPar::LoadDataFromIvFile error opening iv file:  " <<  fname << endl; 
