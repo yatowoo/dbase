@@ -63,7 +63,7 @@ class FairDbConfigBuffer
     std::string    fSoftwName;
 
     ClassDef(FairDbConfigBuffer,0)
-
+                                   
 };
 
 ostream& operator<<(ostream& s, const FairDbConfigBuffer& cfStream);

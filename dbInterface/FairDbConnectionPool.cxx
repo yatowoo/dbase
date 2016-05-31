@@ -111,6 +111,7 @@ FairDbConnectionPool::FairDbConnectionPool():
       delete stmt;
       stmt = 0;
     }
+
     cout << "-I- FAIRDbConnectionPool  fGlobalSeqNoDbNo  " <<  fGlobalSeqNoDbNo << endl;
 
     //  Check for presence of a DB_STATE_FLAGS table

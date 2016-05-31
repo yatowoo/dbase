@@ -538,7 +538,7 @@ void  FairDbProxy::CreateMetaData(FairDbTableMetaData& metaData) const
   DBLOG("FairDb",FairDbLog::kInfo) << "Create meta-data for table: " << tableName << endl;
 
   // Checking meta-data
-  for ( UInt_t dbNo = 0; dbNo < fConnectionPool.GetNumDb(); dbNo++ ) {
+  for ( UInt_t dbNo = 0; dbNo < fConnectionPool.GetNumDb(); ++dbNo ) {
     FairDbConnection* connection = fConnectionPool.GetConnection(dbNo);
     if (!connection) {continue;} 
 
@@ -547,11 +547,19 @@ void  FairDbProxy::CreateMetaData(FairDbTableMetaData& metaData) const
 
     connection->Connect();
     TSQLTableInfo* meta = server->GetTableInfo(tableName);
-    if ( ! meta ) {
+    //<DB CHECK ME 4.04.2016> adding check for existing columns
+      
+    if ( !(meta) ) {
+	  DBLOG("FairDb",FairDbLog::kInfo) << "Meta-data TableInfo not existing for table: " << tableName << " on db_id: " << dbNo << endl;
       connection->DisConnect();
       continue;
-    }
-    DBLOG("FairDb",FairDbLog::kInfo) << "Meta-data query succeeded on db_id: " << dbNo << endl;
+    }else if (!(meta->GetColumns())){
+	  DBLOG("FairDb",FairDbLog::kInfo) << "Meta-data TableInfo: No Columns found for table: " << tableName << " on db_id: " << dbNo << endl;
+      connection->DisConnect();
+      continue;
+	}
+
+    DBLOG("FairDb",FairDbLog::kInfo) << "Meta-data query succeeded for table: " << tableName << " on db_id: " << dbNo << endl;
 
     // Clear out possible existing data
     metaData.Clear();

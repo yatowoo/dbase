@@ -31,7 +31,7 @@ FairDbWriter<T>::FairDbWriter() :
   fVersion(0),
   fLogTitle("")
 {
-//cout << "-I ****** FairDbWriter ctor ******* " << endl;
+  DBLOG("FairDb",FairDbLog::kInfo)   << " FairDbWriter ctor 1 with dbNo# " << fDbNo <<  endl;
 }
 
 
@@ -55,8 +55,8 @@ FairDbWriter<T>::FairDbWriter(const ValInterval& vr,
   fVersion(0),
   fLogTitle("")
 {
-  //cout << " -I- FairDbWriter Open() called " << endl;
   Open(vr,aggNo,task,creationDate,dbNo,logComment);
+  DBLOG("FairDb",FairDbLog::kInfo)   << " FairDbWriter ctor 2 with dbNo# " << fDbNo <<  endl;
 }
 
 
@@ -80,9 +80,8 @@ FairDbWriter<T>::FairDbWriter(const ValInterval& vr,
   fVersion(0),
   fLogTitle("")
 {
-
   Open(vr,aggNo,task,creationDate,dbName,logComment);
-
+  DBLOG("FairDb",FairDbLog::kInfo)   << " FairDbWriter ctor 3 with dbNo# " << fDbNo <<  endl;
 }
 
 
@@ -106,6 +105,7 @@ FairDbWriter<T>::FairDbWriter(const FairDbValRecord& vrec,
 
   T pet;
   this->Open(vrec,dbNo,logComment);
+  DBLOG("FairDb",FairDbLog::kInfo)   << " FairDbWriter ctor 4 with dbNo# " << fDbNo <<  endl;
 
 }
 
@@ -130,6 +130,7 @@ FairDbWriter<T>::FairDbWriter(const FairDbValRecord& vrec,
   T pet;
 
   this->Open(vrec,dbName,logComment);
+  DBLOG("FairDb",FairDbLog::kInfo)   << " FairDbWriter ctor 5 with dbNo# " << fDbNo <<  endl;
 
 }
 
@@ -144,7 +145,7 @@ Bool_t FairDbWriter<T>::Activate(const ValInterval& vr,
                                 )
 {
 
-// Use with specific settings only
+ // Use with specific settings only
 
   fLogEntry.SetDetectorMask(vr.GetDetectorMask());
   fLogEntry.SetSimMask(vr.GetSimMask());
@@ -156,8 +157,6 @@ Bool_t FairDbWriter<T>::Activate(const ValInterval& vr,
   fDbNo=dbEntry;
 
   return this->Open(vr,fAggregateNo,fVersion,creationDate,fDbNo,fLogTitle);
-
-
 }
 
 
@@ -425,9 +424,7 @@ Bool_t FairDbWriter<T>::Open (const ValInterval& vr,
   if (fValidRec) { delete fValidRec; }
   fValidRec = new FairDbValRecord(vr,task,aggNo,0,0,kFALSE,creationDate);
 
-
   fTableInterface = &FairDbWriter<T>::GetTableInterface(fTableName);
-
 
   this->CompleteOpen(dbNo,logComment);
   return ok;

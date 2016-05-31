@@ -155,7 +155,6 @@ FairDbConfigBuffer& FairDbConfigBuffer::operator<<(const FairRegistry* reg)
 }
 
 
-
 Bool_t FairDbConfigBuffer::Write(UInt_t dbNo,
                                  const std::string& logComment,
                                  Bool_t localTest )
