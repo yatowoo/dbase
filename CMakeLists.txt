@@ -117,6 +117,7 @@ install(FILES "dbInterface/FairGenericParSet.tpl" DESTINATION include)
 install(FILES "dbInput/db_detector_def.h" DESTINATION include)
 install(FILES "dbInput/prepare_db.sql" DESTINATION share/dbInput)
 
+
 CHANGE_FILE_EXTENSION(*.cxx *.h HEADERS "${SRCS}")
 set(HEADERS ${HEADERS} ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbWriter.h
   ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbGenericParSet.h)
