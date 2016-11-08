@@ -61,25 +61,44 @@ class FairDbParFactory
 template<class T>
 class FairDbParRegistry {
 public:
-    FairDbParRegistry(const char* parName)
+  FairDbParRegistry(const char* parName)
     {
-        // register the class factory function 
-         FairDbParFactory::Instance().RegisterFactoryFunction(parName,
-                 //[parName](void) -> FairDbParSet * { 
-                 [parName](void) -> T* 
-                  { 
-                   string pName(parName);
-                   std::transform(pName.begin(), pName.end(), pName.begin(), ::tolower);
-                   const char * pname = pName.c_str();
-                   cout << "-I- FairDbParRegistry: Lambda functor created parameter -> " << pName << endl;
-                   return (new T(pname,pname,pname,kTRUE)); 
-                   }
-                  );
+      // register the class factory function 
+      FairDbParFactory::Instance().RegisterFactoryFunction(parName,
+                                                           [parName](void) -> T* 
+                                                           { 
+                                                             string pName(parName);
+                                                             std::transform(pName.begin(), pName.end(), pName.begin(), ::tolower);
+                                                             const char * pname = pName.c_str();
+                                                             cout << "-I- FairDbParRegistry: Lambda functor created parameter -> "
+                                                                  << pName << endl;
+                                                               return (new T(pname,pname,pname,kTRUE));
+                                                           }
+                                                           );
     }
 };
 
-
-
+template<class T>
+class FairDbGenericParRegistry {
+public:
+  FairDbGenericParRegistry(const char* parName,
+                           const FairDbDetector::Detector_t detid,
+                           const DataType::DataType_t dataid)
+    {
+      // register the class factory function 
+      FairDbParFactory::Instance().RegisterFactoryFunction(parName,
+                                                           [parName, detid, dataid](void) -> T* 
+                                                           { 
+                                                             string pName(parName);
+                                                             std::transform(pName.begin(), pName.end(), pName.begin(), ::tolower);
+                                                             const char * pname = pName.c_str();
+                                                             cout << "-I- FairDbGenericParRegistry: Lambda functor created parameter -> "
+                                                                  << pName << endl;
+                                                             return (new T(detid,dataid,pname,pname,pname,kTRUE));
+                                                           }
+                                                           );
+    }
+};
 
 
 #endif  // FAIRDBPARFACTORY_H

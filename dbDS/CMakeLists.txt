@@ -10,13 +10,20 @@ set(INCLUDE_DIRECTORIES
 ${BASE_INCLUDE_DIRECTORIES}
 ${ROOT_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}/dbase/
+${CMAKE_SOURCE_DIR}/dbase/dbInterface
+${CMAKE_SOURCE_DIR}/dbase/dbUtils
 ${CMAKE_SOURCE_DIR}/dbase/dbDs
 ${CMAKE_SOURCE_DIR}/dbase/dbDS/core
 ${CMAKE_SOURCE_DIR}/dbase/dbDS/utils
 ${CMAKE_SOURCE_DIR}/dbase/dbDS/procs
 )
 
+Set(SYSTEM_INCLUDE_DIRECTORIES
+  ${Boost_INCLUDE_DIR}
+  )
+
 include_directories(${INCLUDE_DIRECTORIES})
+Include_Directories(SYSTEM ${SYSTEM_INCLUDE_DIRECTORIES})
 
 set(LINK_DIRECTORIES
     ${ROOT_LIBRARY_DIR}
@@ -26,7 +33,21 @@ set(LINK_DIRECTORIES
 link_directories(${LINK_DIRECTORIES})
 
 set(SRCS
+  utils/FairDbArgMacFile.cxx
+  utils/FairDbFloatXtrap.cxx
+  utils/FairDbProc.cxx
+  utils/FairDbProcArgs.cxx
+  utils/FairDbProcCmd.cxx
+  utils/FairDbProcProxy.cxx
+  utils/FairDbProcRegistry.cxx
+  utils/FairDbProcRootArgs.cxx
+  core/FairDbADS.cxx
+  core/FairDbFileSpotter.cxx
+  core/FairDbTableSelector.cxx
+  core/FairDbCmdOpts.cxx
   core/FairDbLogFile.cxx
+  core/FairDbQAssessor.cxx
+  core/FairDbTableSelector.cxx
 )
 
 
@@ -44,29 +65,24 @@ endif (Boost_FOUND)
 
 GENERATE_LIBRARY()
 
-#if (Boost_FOUND)
-#  set(Exe_Names
-#    db_dispatcher
-#    db_client 
-#    db_worker
-# )
+if (Boost_FOUND)
+  set(Exe_Names
+    dbadmin
+    )
 
+  set(Exe_Source
+    procs/dbadmin.cxx		
+    )
 
-#  set(Exe_Source
-#    procs/db_dispatcher.cxx		
-#    procs/db_client.cxx
-#    procs/db_worker.cxx
-#    )
+  list(LENGTH Exe_Names _length)
+  math(EXPR _length ${_length}-1)
 
- # list(LENGTH Exe_Names _length)
- # math(EXPR _length ${_length}-1)
-
-  #foreach(_file RANGE 0 ${_length})
-  #  list(GET Exe_Names ${_file} _name)
-  #  list(GET Exe_Source ${_file} _src)
-  #  set(EXE_NAME ${_name})
-  #  set(SRCS ${_src})
-  #  set(DEPENDENCIES FairDB ParBase FairDbMQ)
-  #  GENERATE_EXECUTABLE()
-  #endforeach(_file RANGE 0 ${_length})
-#endif (Boost_FOUND)
+  foreach(_file RANGE 0 ${_length})
+    list(GET Exe_Names ${_file} _name)
+    list(GET Exe_Source ${_file} _src)
+    set(EXE_NAME ${_name})
+    set(SRCS ${_src})
+    set(DEPENDENCIES FairDB FairDbDS ParBase FairDbMQ ${ZMQ_LIBRARY_SHARED} boost_thread boost_system boost_serialization)
+    GENERATE_EXECUTABLE()
+  endforeach(_file RANGE 0 ${_length})
+endif (Boost_FOUND)

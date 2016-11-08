@@ -32,6 +32,7 @@
 #pragma link C++ function operator<<(ostream&, const ValTimeStamp&);
 #pragma link C++ function operator==(const ValTimeStamp&, const ValTimeStamp&);
 #pragma link C++ function operator!=(const ValTimeStamp&, const ValTimeStamp&);
+
 #pragma link C++ function operator< (const ValTimeStamp&, const ValTimeStamp&);
 #pragma link C++ function operator<=(const ValTimeStamp&, const ValTimeStamp&);
 #pragma link C++ function operator> (const ValTimeStamp&, const ValTimeStamp&);
@@ -107,6 +108,9 @@
 #pragma link C++ class FairDetParTSQLIo+;
 #pragma link C++ class FairGenericParTSQLIo+;
 
+// Utils Log
+#pragma link C++ namespace FairDbLogUtil;
+#pragma link C++ function FairDbLogUtil::LogLevel;
 
 // #### SQL object
 //#pragma link off class FairDbParRegistry;

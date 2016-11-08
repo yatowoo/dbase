@@ -238,11 +238,11 @@ FairDbTableInterface& FairDbReader<T>::GetTableInterface(const string& tableName
 // CHECK ME <DB> here is an issue with memory management of heap
 // base instanciated container ... to be further studied.
 
-//  cout <<"-I- FairDbReader:: BEGIN GET TABLE PROXY **************** " << endl;
-//  cout << "-I- FairDbReader:: GetTableInterface tablename: " <<  tableName << endl;
+// cout <<"-I- FairDbReader:: BEGIN GET TABLE PROXY **************** " << endl;
+// cout << "-I- FairDbReader:: GetTableInterface tablename: " <<  tableName << endl;
 
 // CHECK ME !
-//cout << "-I- FairDbReader (-) object ************* " << endl;
+// cout << "-I- FairDbReader (-) object ************* " << endl;
 //  fListOfT.clear();
 
 // Check for request for default table.
@@ -361,7 +361,7 @@ UInt_t FairDbReader<T>::NewQuery(ValCondition vc,
   fResult = fTableInterface.Query(vc,task,findFullTimeWindow);
   fResult->Connect();
   FairDbStopWatchManager::gStopWatchManager.RecEnd(fResult->GetNumRows());
-
+  
   if ( this->ApplyAbortTest() ) {
     DBLOG("FairDb",FairDbLog::kFatal) << "while applying validity context query for "
                                       << vc.AsString() << " with data_id: " << task << endl;

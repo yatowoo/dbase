@@ -1,61 +1,33 @@
-#ifndef FAIRDBMEMIOSTATUSID_H
-#define FAIRDBMEMIOSTATUSID_H
+#ifndef FAIRDBTABLESELECTOR_H
+#define FAIRDBTABLESELECTOR_H
 
+#include <map>
 #include <string>
 
-namespace db_memio {
+#include "Rtypes.h"
 
-class statusId {
+class FairDbTableSelector {
 
  public:
-  statusId() { fCode = kSUCCESS; fMessage = ""; }
-  ~statusId() {}
-
-  statusId(int code) {
-    fCode = code;
-  }
-
-  statusId(int code, std::string message)
-  {
-    fCode_ = code;
-    fMessage = message;
-  }
-
-  static statusId Success() { return statusCode(); }
-
-  static statusId NotFound(const std::string& message) {
-    return statusCode(kNOTFOUND, message);
-  }
-
-  static statusId Invalid(const std::string& message) {
-    return statusCode(kINVALID, message);
-  }
-
-  static statusId IOError(const std::string& message) {
-    return statusCode(kIOERROR, message);
-  }
-
-  bool IsSuccess()  const  { return  (GetCode() == kSUCCESS ); }
-  bool IsNotFound() const  { return  (GetCode() == kNOTFOUND); }
-  bool IsInvalid()  const  { return  (GetCode() == kINVALID ); }
-  bool IsIOError()  const  { return  (GetCode() == kIOERROR ); }
+  FairDbTableSelector(const std::string& nameList = "");
+  virtual ~FairDbTableSelector();
   
-  std::string ToString() const;
-
+  // State testing member functions
+  Bool_t IsEmpty() const { return fNameList.size() > 0; }
+  Bool_t Test(const std::string& name) const;
+  
  private:
-  int fCode;
-  std::string fMessage;
- 
-  int code() const { return fCode; };
-
-  enum errCode {
-     kSUCCESS  = 0, 
-     kNOTFOUND = 1,
-     kINVALID  = 2,
-     kIOERROR  = 3,
-  };
+  Int_t BestMatch(const std::string& name,
+                  Bool_t type) const;
+  // Map of names -> types
+  // <DB> try using const string as key won't work with XCode
+  // on Mavericks so i keep it non const as dirty work arround
+  // for now
+  
+  typedef std::map<std::string, Bool_t> NameType;
+  NameType fNameList;
+  
+  ClassDef(FairDbTableSelector,0)   // Table Name Selector
 };
 
-}; // end namespace db_memio
-
-#endif // !(FAIRDBMEMIOSTATUSID)
+#endif // !(FAIRDBTABLESELECTOR)

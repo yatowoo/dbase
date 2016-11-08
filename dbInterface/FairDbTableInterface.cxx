@@ -248,7 +248,7 @@ const FairDbResult* FairDbTableInterface::Query(const FairDbValRecord& vrec,
   }
 
   else {
-    DBLOG("FairDb",FairDbLog::kInfo) << "Query(vc)  SEQNO" <<  seqNo << endl;
+    DBLOG("FairDb",FairDbLog::kInfo) << "Query(vc)  SEQNO: " <<  seqNo << endl;
     FairDbResultPool* rs = fDBProxy.QuerySeqNo(seqNo,vrec.GetDbNo());
     result = new FairDbResultNonCombo(rs,fObjTableMap,&vrec);
     delete rs;

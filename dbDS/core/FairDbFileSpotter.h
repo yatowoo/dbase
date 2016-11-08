@@ -1,25 +1,23 @@
-#ifndef FAIRDBMEMIOBASE_H
-#define FAIRDBMEMIOBASE_H
+#ifndef FAIRDBFILESPOTTER_H
+#define FAIRDBFILESPOTTER_H
 
-#include "FairDbMemIoStatusCode.h"
 
-namespace db_mio {
+#include <list>
+#include <string>
 
-class FairDbMemIoBase {
+#include "RTypes.h"
+
+ 
+
+class FairDbFileSpotter {
  public:
-  FairDbMemIoBase() {};
-  virtual ~FairDbMemIoBase() {};
-  virtual statusCode Get(FairDbIoHandle* key, FairDbIoHandle** value) = 0;
-  virtual statusCode Put(FairDbIoHandle *key, FairDbIoHandle *data) = 0;
-  virtual statusCode Remove(FairDbIoHandle *key) = 0;
-  virtual statusCode PutData(FairDbIoHandle *key, FairDbIoHandle *data, 
-
-  uint64_t offset, uint64_t size) = 0;
-
-  virtual statusCode Open() = 0;
-  virtual void Close() = 0;
+  FairDbFileSpotter();
+  virtual ~FairDbFileSpotter();
+  
+  std::string Find( const std::string& fname) const;
+  std::list<std::string> fDirs;
+  
+  ClassDef(FairDbFileSpotter,0) 
 };
 
-} // namespace db_mio
-
-#endif // !(FAIRDBMEMIOBASE)
+#endif // !(FAIRDBFILESPOTTER)

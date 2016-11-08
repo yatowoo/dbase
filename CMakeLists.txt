@@ -102,6 +102,7 @@ dbUtils/FairDbLogOSStream.cxx
 dbUtils/FairDbLogService.cxx
 dbUtils/FairDbLogStat.cxx
 dbUtils/FairDbLogStream.cxx
+dbUtils/FairDbLogUtil.cxx
 ### FairDb IO 
 dbIO/FairParTSQLIo.cxx
 dbIO/FairDetParTSQLIo.cxx
@@ -112,11 +113,13 @@ dbIO/FairGenericParTSQLIo.cxx
 install(FILES "dbUtils/FairDbLogBFormat.h" DESTINATION include)
 install(FILES "dbInterface/FairDbReader.tpl" DESTINATION include)
 install(FILES "dbInterface/FairDbWriter.tpl" DESTINATION include)
+install(FILES "dbInterface/FairGenericParSet.tpl" DESTINATION include)
 install(FILES "dbInput/db_detector_def.h" DESTINATION include)
 install(FILES "dbInput/prepare_db.sql" DESTINATION share/dbInput)
 
 CHANGE_FILE_EXTENSION(*.cxx *.h HEADERS "${SRCS}")
-set(HEADERS ${HEADERS} ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbWriter.h)
+set(HEADERS ${HEADERS} ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbWriter.h
+  ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbGenericParSet.h)
 set(LINKDEF FairDBLinkDef.h)
 set(LIBRARY_NAME FairDB)
 
