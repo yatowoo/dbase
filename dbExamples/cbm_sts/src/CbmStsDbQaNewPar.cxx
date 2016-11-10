@@ -424,132 +424,132 @@ void CbmStsDbQaNewPar::Print()
 
 void CbmStsDbQaNewPar::ImportFromCsvFile(const string& fname)
 {
- std::ifstream file(fname.c_str());
- vector< vector<string> > csv_values;
- 
- typedef boost::tokenizer< boost::char_separator<char> > Tokenizer;
- boost::char_separator<char> sep(";"); 
-
- while(file)
-  {
-   string line;
+  std::ifstream file(fname.c_str());
+  vector< vector<string> > csv_values;
   
-  if (!(safeGetline(file,line).eof()) && !(line.empty())) 
-  if (file)
+  typedef boost::tokenizer< boost::char_separator<char> > Tokenizer;
+  boost::char_separator<char> sep(";"); 
+  
+  while(file)
     {
-	  //cout << " -----> Get a  Line---->  " << line << endl;
-	      Tokenizer info(line, sep);   
-          vector<string> values;
-          for (Tokenizer::iterator it = info.begin(); it != info.end(); ++it)
-            {
-			  cout <<" tokens <  " << *it <<  " > " <<  endl;
-              // convert data into string value, and store
-	          string it_str ( *it );
-              values.push_back(it_str);
-            }
-
-          // store array of values
-          cout << " pushing in csv value vector---> " << csv_values.size() << endl;    
-          csv_values.push_back(values);
-     }
-   }
- 
-    // display results
-    cout.precision(1);
-    cout.setf(ios::fixed,ios::floatfield);
-
-	int suid = -1;
-    Bool_t same_uid=kFALSE;
-    vector<CbmStsDbQaChannelMapPar*> schannelmap;
-	vector<CbmStsDbQaChannelMapPar*>::iterator ch_itr = schannelmap.begin();     
-
-    for (vector< vector<string> >::const_iterator it = csv_values.begin()+1; it != csv_values.end(); ++it)
-    {
-	  const vector<string>& values = *it;
-	  
-	  // Get the Sensor UID    
-	  int current_uid = lexical_cast<int>(values[0]); 
-
-	  // Check if UID change
-	  if (suid != current_uid ) same_uid=kFALSE;
-	  else same_uid = kTRUE;
-	  suid=current_uid;
+      string line;
       
-      // Set the index
-	  int index = suid-1;
-	  
-	  if (fname.find("summary") != std::string::npos){ 
-		CbmStsDbQaSensorNewPar *par = new CbmStsDbQaSensorNewPar();
-		Bool_t adding = par->Import(values); 
-		Bool_t e_end = std::next(it) == csv_values.end();
-		if(adding || e_end ) {
-		  std::cout << "-I- CbmStsDbQaNewPar:: adding new object QaSensorNewPar UID# " << par->GetUID() << endl;  
-		  fSensors->AddAtAndExpand(par,par->GetUID());
-		}  
-	  }else if (fname.find("geometry") != std::string::npos){
-		// for geometry
-		std::cout << "-I- CbmStsDbQaNewPar:: reading geometry ... " << endl;
-		CbmStsDbQaGeometryPar *par = new CbmStsDbQaGeometryPar();
-		Bool_t adding = par->Import(values); 
-		Bool_t e_end = std::next(it) == csv_values.end();
-		if(adding || e_end ) {
-		  std::cout << "-I- CbmStsDbQaNewPar:: adding new object Qa Geometry UID# " << par->GetUID() << endl;  
-		  fGeometry->AddAtAndExpand(par,par->GetUID());
-		}  
-		
-	  }else if (fname.find("ownership") != std::string::npos){
-		// for ownership
-		std::cout << "-I- CbmStsDbQaNewPar:: reading ownership ... " << endl;
-		CbmStsDbQaOwnershipPar *par = new CbmStsDbQaOwnershipPar();
-		Bool_t adding = par->Import(values); 
-		Bool_t e_end = std::next(it) == csv_values.end();
-		if(adding || e_end ) {
-		  std::cout << "-I- CbmStsDbQaNewPar:: adding new object Qa Ownership UID# " << par->GetUID() << endl;  
-		  fOwnership->AddAtAndExpand(par,par->GetUID());
-		}  		
+      if (!(safeGetline(file,line).eof()) && !(line.empty())) 
+        if (file)
+          {
+	  //cout << " -----> Get a  Line---->  " << line << endl;
+            Tokenizer info(line, sep);   
+            vector<string> values;
+            for (Tokenizer::iterator it = info.begin(); it != info.end(); ++it)
+              {
+                cout <<" tokens <  " << *it <<  " > " <<  endl;
+                // convert data into string value, and store
+                string it_str ( *it );
+                values.push_back(it_str);
+              }
 
-	  }else if (fname.find("results") != std::string::npos){
-		// for results
-		std::cout << "-I- CbmStsDbQaNewPar:: reading results ... " << endl;
-		CbmStsDbQaResultsPar *par = new CbmStsDbQaResultsPar();
-		Bool_t adding = par->Import(values); 
-		Bool_t e_end = std::next(it) == csv_values.end();
-		if(adding || e_end ) {
-		  std::cout << "-I- CbmStsDbQaNewPar:: adding new object Qa Results UID# " << par->GetUID() << endl;  
-		  fResults->AddAtAndExpand(par,par->GetUID());
-		}  		
-
-	  }else if (fname.find("channel") != std::string::npos){
-		// for channel 
-		//std::cout << "-I- CbmStsDbQaNewPar:: getting ptr suid " << suid << " index " << index << " same: " << same_uid << endl;
-
-		CbmStsDbQaChannelMapPar *cpar=nullptr;
- 		CbmStsDbQaChannelMapPar *pre_par=nullptr;
-		if (index<schannelmap.size()) cpar = schannelmap[index];
-		//std::cout << "-I- CbmStsDbQaNewPar:: ptr---> " << cpar <<  endl;
-		
-		if (!cpar) { 
-          // if (previous)  save previous object 
-		  if (index>0){ 
-			pre_par=schannelmap[index-1];  
-			if (pre_par) fChannelMap->AddAtAndExpand(pre_par,pre_par->GetUID());
-		  }
-          // Or  add new object 
-          cpar = new CbmStsDbQaChannelMapPar();  
-		  //std::cout << "-I- CbmStsDbQaNewPar:: insert ptr---> 1 " << index <<  endl;
-		  schannelmap.insert(schannelmap.begin()+index, cpar );
-		  //std::cout << "-I- CbmStsDbQaNewPar:: insert ptr---> 2" << index <<  endl;
-		}
-		
-		Bool_t adding = cpar->Import(values); 
-		Bool_t e_end = std::next(it) == csv_values.end();
-		if( adding || e_end ) {
-		  std::cout << "-I- CbmStsDbQaNewPar:: adding new object QaChannelMapPar UID# " << cpar->GetUID() << endl;  
-		  fChannelMap->AddAtAndExpand(cpar,cpar->GetUID());
-		}        
-		
-	  }
-	}//!for
+            // store array of values
+            cout << " pushing in csv value vector---> " << csv_values.size() << endl;    
+            csv_values.push_back(values);
+          }
+    }
+  
+  // display results
+  cout.precision(1);
+  cout.setf(ios::fixed,ios::floatfield);
+  
+  int suid = -1;
+  Bool_t same_uid=kFALSE;
+  vector<CbmStsDbQaChannelMapPar*> schannelmap;
+	vector<CbmStsDbQaChannelMapPar*>::iterator ch_itr = schannelmap.begin();     
+        
+        for (vector< vector<string> >::const_iterator it = csv_values.begin()+1; it != csv_values.end(); ++it)
+          {
+            const vector<string>& values = *it;
+            
+            // Get the Sensor UID    
+            int current_uid = lexical_cast<int>(values[0]); 
+            
+            // Check if UID change
+            if (suid != current_uid ) same_uid=kFALSE;
+            else same_uid = kTRUE;
+            suid=current_uid;
+            
+            // Set the index
+            int index = suid-1;
+            
+            if (fname.find("summary") != std::string::npos){ 
+              CbmStsDbQaSensorNewPar *par = new CbmStsDbQaSensorNewPar();
+              Bool_t adding = par->Import(values); 
+              Bool_t e_end = std::next(it) == csv_values.end();
+              if(adding || e_end ) {
+                std::cout << "-I- CbmStsDbQaNewPar:: adding new object QaSensorNewPar UID# " << par->GetUID() << endl;  
+                fSensors->AddAtAndExpand(par,par->GetUID());
+              }  
+            }else if (fname.find("geometry") != std::string::npos){
+              // for geometry
+              std::cout << "-I- CbmStsDbQaNewPar:: reading geometry ... " << endl;
+              CbmStsDbQaGeometryPar *par = new CbmStsDbQaGeometryPar();
+              Bool_t adding = par->Import(values); 
+              Bool_t e_end = std::next(it) == csv_values.end();
+              if(adding || e_end ) {
+                std::cout << "-I- CbmStsDbQaNewPar:: adding new object Qa Geometry UID# " << par->GetUID() << endl;  
+                fGeometry->AddAtAndExpand(par,par->GetUID());
+              }  
+              
+            }else if (fname.find("ownership") != std::string::npos){
+              // for ownership
+              std::cout << "-I- CbmStsDbQaNewPar:: reading ownership ... " << endl;
+              CbmStsDbQaOwnershipPar *par = new CbmStsDbQaOwnershipPar();
+              Bool_t adding = par->Import(values); 
+              Bool_t e_end = std::next(it) == csv_values.end();
+              if(adding || e_end ) {
+                std::cout << "-I- CbmStsDbQaNewPar:: adding new object Qa Ownership UID# " << par->GetUID() << endl;  
+                fOwnership->AddAtAndExpand(par,par->GetUID());
+              }  		
+              
+            }else if (fname.find("results") != std::string::npos){
+              // for results
+              std::cout << "-I- CbmStsDbQaNewPar:: reading results ... " << endl;
+              CbmStsDbQaResultsPar *par = new CbmStsDbQaResultsPar();
+              Bool_t adding = par->Import(values); 
+              Bool_t e_end = std::next(it) == csv_values.end();
+              if(adding || e_end ) {
+                std::cout << "-I- CbmStsDbQaNewPar:: adding new object Qa Results UID# " << par->GetUID() << endl;  
+                fResults->AddAtAndExpand(par,par->GetUID());
+              }  		
+              
+            }else if (fname.find("channel") != std::string::npos){
+              // for channel 
+              //std::cout << "-I- CbmStsDbQaNewPar:: getting ptr suid " << suid << " index " << index << " same: " << same_uid << endl;
+              
+              CbmStsDbQaChannelMapPar *cpar=nullptr;
+              CbmStsDbQaChannelMapPar *pre_par=nullptr;
+              if (index<schannelmap.size()) cpar = schannelmap[index];
+              //std::cout << "-I- CbmStsDbQaNewPar:: ptr---> " << cpar <<  endl;
+              
+              if (!cpar) { 
+                // if (previous)  save previous object 
+                if (index>0){ 
+                  pre_par=schannelmap[index-1];  
+                  if (pre_par) fChannelMap->AddAtAndExpand(pre_par,pre_par->GetUID());
+                }
+                // Or  add new object 
+                cpar = new CbmStsDbQaChannelMapPar();  
+                //std::cout << "-I- CbmStsDbQaNewPar:: insert ptr---> 1 " << index <<  endl;
+                schannelmap.insert(schannelmap.begin()+index, cpar );
+                //std::cout << "-I- CbmStsDbQaNewPar:: insert ptr---> 2" << index <<  endl;
+              }
+              
+              Bool_t adding = cpar->Import(values); 
+              Bool_t e_end = std::next(it) == csv_values.end();
+              if( adding || e_end ) {
+                std::cout << "-I- CbmStsDbQaNewPar:: adding new object QaChannelMapPar UID# " << cpar->GetUID() << endl;  
+                fChannelMap->AddAtAndExpand(cpar,cpar->GetUID());
+              }        
+              
+            }
+          }//!for
 	
 	cout << " FSensors array  entries ----- >" << fSensors->GetEntries() << endl;	
 	return;

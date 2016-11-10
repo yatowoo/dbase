@@ -65,7 +65,7 @@ class FairDbLogFileOStream : public FairDbLogOStream
   public:
 #if __GNUC__ == 3 && __GNUC_MINOR__ >= 4
     typedef ios_base::openmode openmode;
-#elif __GNUC__ == 4
+#elif __GNUC__ >= 4
     typedef ios_base::openmode openmode;
 #else
 #ifdef _CPP_BITS_IOSBASE_H

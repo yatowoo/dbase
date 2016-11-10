@@ -12,7 +12,7 @@ ${ROOT_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}/dbase/
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface
 ${CMAKE_SOURCE_DIR}/dbase/dbUtils
-${CMAKE_SOURCE_DIR}/dbase/dbDs
+${CMAKE_SOURCE_DIR}/dbase/dbDS
 ${CMAKE_SOURCE_DIR}/dbase/dbDS/core
 ${CMAKE_SOURCE_DIR}/dbase/dbDS/utils
 ${CMAKE_SOURCE_DIR}/dbase/dbDS/procs

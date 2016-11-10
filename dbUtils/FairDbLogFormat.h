@@ -26,7 +26,7 @@ class FairDbLogFormat
 
 #if __GNUC__ == 3 && __GNUC_MINOR__ >= 4
     typedef ios_base::fmtflags fmtflags;
-#elif __GNUC__ == 4
+#elif __GNUC__ >= 4
     typedef ios_base::fmtflags fmtflags;
 #else
 #ifdef _CPP_BITS_IOSBASE_H
