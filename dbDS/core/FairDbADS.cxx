@@ -546,23 +546,23 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
 
   //  --Batch
    Bool_t batch = opts.TestOpt("--Batch");
-   if ( batch ) DBLOG("FairDbDS",FairDbLog::kInfo) 
-       << " Batch mode: Errors will force exit at end of command." <<  endl;
-
+   if ( batch ) {
+     DBLOG("FairDbDS",FairDbLog::kInfo) << " Batch mode: Errors will force exit at end of command." <<  endl;
+   }
   //  --DiscardConflicts
    Bool_t discardConflicts = opts.TestOpt("--DiscardConflicts");
-   if ( discardConflicts ) DBLOG("FairDbDS",FairDbLog::kInfo) 
-       << " Conflicts will be discarded." <<  endl;
-   else DBLOG("FairDbDS",FairDbLog::kInfo) 
-       << " Conflicts will be imported." <<  endl;
-
+   if ( discardConflicts ){
+     DBLOG("FairDbDS",FairDbLog::kInfo) << " Conflicts will be discarded." <<  endl;
+   }else{
+     DBLOG("FairDbDS",FairDbLog::kInfo) << " Conflicts will be imported." <<  endl;
+   }
   //  --EnableSQL
    Bool_t enableSQL = opts.TestOpt("--EnableSQL");
-   if ( enableSQL ) DBLOG("FairDbDS",FairDbLog::kInfo) 
-       << " SQL fixups are enabled." <<  endl;
-   else DBLOG("FairDbDS",FairDbLog::kInfo) 
-       << " SQL fixups are disabled." <<  endl;
-
+   if ( enableSQL ){
+     DBLOG("FairDbDS",FairDbLog::kInfo) << " SQL fixups are enabled." <<  endl;
+   }else{
+     DBLOG("FairDbDS",FairDbLog::kInfo) << " SQL fixups are disabled." <<  endl;
+   }
   //   --File
   if ( ! opts.TestOpt("--File" ) ) {
     DBLOG("FairDbDS",FairDbLog::kWarning) << "File name  not specified." << endl;
@@ -588,9 +588,10 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
 
   //  --Test
   Bool_t test = opts.TestOpt("--Test");
-  if ( test ) DBLOG("FairDbDS",FairDbLog::kInfo) << " Testing only, database will "
-                                     << " not be updated." <<  endl;  
-
+  if ( test ){
+    DBLOG("FairDbDS",FairDbLog::kInfo) << " Testing only, database will "
+                                       << " not be updated." <<  endl;  
+  }
   //  Open import file.
   ifstream import(fileName.c_str());
   if ( ! import ) {
@@ -599,8 +600,7 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
     return kFALSE; 
   }
 
-  DBLOG("FairDbDS", FairDbLog::kInfo) << "\n\nProcessing file " << fileName 
-                         << " ..." << endl;
+  DBLOG("FairDbDS", FairDbLog::kInfo) << "\n\nProcessing file " << fileName << " ..." << endl;
 
   Int_t numNewTables = 0;
   Int_t numImported  = 0;
@@ -638,13 +638,17 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
       // Skip table if not in name filter.
       skipTable =  ! nameFilter.Test(currentTableName);
       if ( skipTable ) {
-        if ( ! batch ) DBLOG("FairDbDS", FairDbLog::kInfo) << "\nSkipping table " 
-			     << currentTableName << "...\n" << endl;
+        
+        if ( ! batch ) {
+          DBLOG("FairDbDS", FairDbLog::kInfo) << "\nSkipping table " 
+                                              << currentTableName << "...\n" << endl;
+        }
         continue;
       }
-      if ( ! batch ) DBLOG("FairDbDS", FairDbLog::kInfo) << "\nUpdating table " 
-			     << currentTableName << "...\n" << endl;
-
+      if ( ! batch ) {
+        DBLOG("FairDbDS", FairDbLog::kInfo) << "\nUpdating table " 
+                                            << currentTableName << "...\n" << endl;
+      }
       // If it doesn't exist, try to create it.
       auto_ptr<FairDbStatement> stmtDb(fConnections.CreateStatement(dbNo));
       string sql = "select * from  ";
@@ -653,13 +657,11 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
 
       if ( ! res ) {
         if ( packetFile.CreateTable(dbNo) ) {
-          DBLOG("FairDbDS", FairDbLog::kInfo) << "   Created table: "
-				 << currentTableName << endl;
+          DBLOG("FairDbDS", FairDbLog::kInfo) << " Created table: " << currentTableName << endl;
 	  ++numNewTables;
 	}
 	else {
-          DBLOG("FairDbDS", FairDbLog::kError) << "   failed to create table: "
-				 << currentTableName << endl;
+          DBLOG("FairDbDS", FairDbLog::kError) << " failed to create table: "<< currentTableName << endl;
 	}
       }
     }
@@ -688,9 +690,10 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
       switch ( comp ) {
 
       case FairDbSqlValidityData::kIdentical :
-	if ( ! batch ) DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo 
-                                      << " skipped (duplicate)" << endl;
-	++numDuplicate;
+	if ( ! batch ){
+          DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo << " skipped (duplicate)" << endl;
+        }
+          ++numDuplicate;
 	break;
 
       case FairDbSqlValidityData::kUpdate :
@@ -700,21 +703,20 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
 	break;
 
       case FairDbSqlValidityData::kOutOfDate :
-	if ( ! batch ) DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo 
-                                    << " skipped (out of date)" << endl;
-	++numOutOfDate;
+	if ( ! batch ){
+          DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo  << " skipped (out of date)" << endl;
+        }
+          ++numOutOfDate;
 	break;
 
       // Everything else is marked as conflict!
       default :
 	if ( discardConflicts ) {
-	  DBLOG("FairDbDS", FairDbLog::kError) << "   " << seqNo 
-                                      << " skipped (conflict!)" << endl;
+	  DBLOG("FairDbDS", FairDbLog::kError) << "   " << seqNo << " skipped (conflict!)" << endl;
 	  ++numConflict;
 	}
 	else {
-	  DBLOG("FairDbDS", FairDbLog::kError) << "   " << seqNo 
-                                      << " accepting conflict!" << endl;
+	  DBLOG("FairDbDS", FairDbLog::kError) << "   " << seqNo << " accepting conflict!" << endl;
 	  ++numImpConfl;
 	  tryImport = true;
 	  replace   = true;
@@ -724,8 +726,9 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
     else {
       if ( FairDb::NotGlobalSeqNo(seqNo) )  {
         ++numLocal;
-        if ( ! batch ) DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo 
-                                   << " skipped (local sSeqNo)" << endl;
+        if ( ! batch ){
+          DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo << " skipped (local sSeqNo)" << endl;
+        }
       }
 
       else {
@@ -740,21 +743,18 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
       // 
       if ( test ) {
         ++numTest;
-        if ( ! batch ) DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo 
-                                              << " tested" << endl;
+        if ( ! batch ) {DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo << " tested" << endl;}
       }
       else {
 
         if ( packetFile.Store(dbNo,replace) )  {
           ++numImported;
-          if ( ! batch ) DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo 
-                                                << " imported" << endl;
+          if ( ! batch ) {DBLOG("FairDbDS", FairDbLog::kInfo) << "   " << seqNo << " imported" << endl;}
           logFile.LogRec(currentTableName,seqNo);
         }
         else {
   	++numFailed;
-  	 DBLOG("FairDbDS", FairDbLog::kError) << "   " << seqNo
-                                          << " failed" << endl;
+  	 DBLOG("FairDbDS", FairDbLog::kError) << "   " << seqNo << " failed" << endl;
 	 // 
 	 FairDbConfigData pet;
 	 FairDbTableInterfaceStore::Instance()
@@ -787,9 +787,9 @@ Bool_t FairDbADS::Import(FairDbProcCmd *cmd) {
     << "  Packets imported :             " << numImported  << endl
     << "    including conflicts :        " << numImpConfl  << endl
     << "              updates :          " << numImpUpdate << endl;
-  if ( numNewTables ) DBLOG("FairDbDS", FairDbLog::kInfo) << endl
-    << "  Tables Created :               " << numNewTables << endl;
-
+  if ( numNewTables ) {
+    DBLOG("FairDbDS", FairDbLog::kInfo) << endl << "  Tables Created :               " << numNewTables << endl;
+  }  
   
   ofstream* log = logFile.GetStream();
   if ( log ) { 
@@ -931,8 +931,9 @@ Bool_t FairDbADS::LogEntry(FairDbProcCmd *cmd) {
 
   if ( ans == 'y' ) {
     bool ioResult = logEntry.Write(dbNo);
-    if ( ioResult ) DBLOG("FairDb",FairDbLog::kInfo) << "Successfully wrote entry"
-					  << endl;
+    if ( ioResult ) {
+      DBLOG("FairDb",FairDbLog::kInfo) << "Successfully wrote entry"<< endl;
+    }
     return ioResult;
   }
   DBLOG("FairDb",FairDbLog::kInfo) << "Entry not written" << endl;
@@ -975,8 +976,9 @@ void FairDbADS::ListTables(const FairDbTableSelector& nameFilter,
   }
   delete stmt;
 
-  if(tableNames.size()==0)
+  if(tableNames.size()==0){
 	DBLOG("FairDbDS", FairDbLog::kInfo) << "error no tables found! " << endl;
+  }
 }
 
 

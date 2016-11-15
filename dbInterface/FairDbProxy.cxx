@@ -533,8 +533,8 @@ Bool_t FairDbProxy::ReplaceSeqNoOracle(UInt_t oldSeqNo,
 
 void  FairDbProxy::CreateMetaData(FairDbTableMetaData& metaData) const
 {
-
-  const char* tableName = metaData.TableName().c_str();
+  // DB 15.11 : chenges dued to GCC 5.x series
+  const char* tableName = metaData.GetTableName();
   DBLOG("FairDb",FairDbLog::kInfo) << "Create meta-data for table: " << tableName << endl;
 
   // Checking meta-data

@@ -18,7 +18,7 @@ Int_t  stsqan_read()
   // Create a dummy runID using date in UTC from which
   // corresponding  parameters will be initialised
 
-  ValTimeStamp tStamp(2015,12,01,18,00,00);
+  ValTimeStamp tStamp;
   UInt_t runId = tStamp.GetSec();
   cout << "-I- looking for parameters at runID# " << runId << endl;
   cout << "-I- corresponding  time in runID (UTC) " << tStamp.Format("iso") << endl;

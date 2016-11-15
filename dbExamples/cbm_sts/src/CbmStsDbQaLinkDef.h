@@ -40,6 +40,7 @@
 #pragma link C++ class  CbmStsDbQaNewPar+;
 #pragma link C++ class  CbmStsDbSNoisyChPar+;
 #pragma link C++ class  CbmStsDbSInfoPar+;
+#pragma link C++ class  CbmStsDbSUID+;
 
 
 #endif
