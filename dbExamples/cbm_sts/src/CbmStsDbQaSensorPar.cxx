@@ -63,11 +63,11 @@ CbmStsDbQaSensorPar::CbmStsDbQaSensorPar(const char* name, const char* title, co
     fMultConn(FairDbTableInterfaceStore::Instance().fConnectionPool)
 {
   // Set the default Db Entry to the first slot
-   SetDbEntry(0);  
-   // Set no aggregation
-   SetCompId(fCompId);
-   // Set Version 0 
-   SetVersion(0);
+  SetDbEntry(0);  
+  // Set no aggregation
+  SetCompId(fCompId);
+  // Set Version 0 
+  SetVersion(0);
 }
 
 
@@ -361,9 +361,9 @@ void CbmStsDbQaSensorPar::store(UInt_t rid)
 
 void CbmStsDbQaSensorPar::Print()
 {
-  std::cout<<"   STS QA SENSOR  <UID> "<< fUID <<  " <comp_Id> " << fCompId << std::endl;
+  std::cout<<"   STS QA SENSOR  <UID> " << fUID <<  " <comp_Id> " << fCompId << std::endl;
   std::cout<<"   Name               = " << fSensor_name  << std::endl;
-  std::cout<<"   Type               = "    << fSensor_type  << std::endl;
+  std::cout<<"   Type               = " << fSensor_type  << std::endl;
   std::cout<<"   Batch_id           = " << fBatch_id  << std::endl;
   std::cout<<"   Wafer_id           = " << fWafer_id  << std::endl;
   std::cout<<"   Manufacturer       = "  << fManufacturer  << std::endl;

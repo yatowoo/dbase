@@ -13,12 +13,12 @@ FairDbParFactory* FairDbParFactory::fgInstance  = 0;
 FairDbParFactory::FairDbParFactory():
 fConnectionPool(FairDbTableInterfaceStore::Instance().fConnectionPool)
 {
-  cout  << " -I- ~ Creating ~ FairDbParFactory" << endl;
+  cout  << "-I- FairDbParFactory created " << endl;
 }
 
 FairDbParFactory::~FairDbParFactory()
 { 
-  cout  << " -I- ~ Destroying ~ FairDbParFactory" << endl;
+  cout  << "-I- ~ Destroying ~ FairDbParFactory" << endl;
 
  if (fConnectionPool) {
      delete fConnectionPool;

@@ -420,10 +420,12 @@ Bool_t FairDbWriter<T>::Open (const ValInterval& vr,
 
   fUseOverlayCreationDate = creationDate == ValTimeStamp(0,0);
 
-
-  if (fValidRec) { delete fValidRec; }
-  fValidRec = new FairDbValRecord(vr,task,aggNo,0,0,kFALSE,creationDate);
-
+  //if (fValidRec) { delete fValidRec; }
+  if (fValidRec){
+    fValidRec = new(fValidRec) FairDbValRecord(vr,task,aggNo,0,0,kFALSE,creationDate);
+  }else
+    fValidRec = new  FairDbValRecord(vr,task,aggNo,0,0,kFALSE,creationDate);
+  
   fTableInterface = &FairDbWriter<T>::GetTableInterface(fTableName);
 
   this->CompleteOpen(dbNo,logComment);

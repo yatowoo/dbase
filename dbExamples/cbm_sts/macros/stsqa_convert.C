@@ -13,12 +13,12 @@ Int_t  stsqa_convert()
   db->setFirstInput(inp);
 
   // Create in memory the relevant container
-  CbmStsDbQaPar* stsPar = (CbmStsDbQaPar*)(db->getContainer("CbmStsDbQaPar"));
+  CbmStsDbQa* stsPar = (CbmStsDbQa*)(db->getContainer("StsDbQa"));
 
   // Create a dummy runID using date in UTC from which
   // corresponding  parameters will be initialised
 
-  ValTimeStamp tStamp(2015,04,17,18,00,00);
+  ValTimeStamp tStamp;
   UInt_t runId = tStamp.GetSec();
   cout << "-I- looking for parameters at runID# " << runId << endl;
   cout << "-I- corresponding  time in runID (UTC) " << tStamp.Format("iso") << endl;
@@ -28,7 +28,7 @@ Int_t  stsqa_convert()
   db->initContainers(runId);
 
   // Get back the container after initialisation
-  CbmStsDbQaPar* stsPar = (CbmStsDbQaPar*)(db->getContainer("CbmStsDbQaPar"));
+  CbmStsDbQa* stsPar = (CbmStsDbQa*)(db->getContainer("StsDbQa"));
 
   // Dump the Parameters
   cout << endl;
@@ -42,7 +42,7 @@ Int_t  stsqa_convert()
   stsPar->setChanged();
   Bool_t kParameterMerged = kTRUE;
   FairParRootFileIo* parOut = new FairParRootFileIo(kParameterMerged);
-  parOut->open("sts_qa_par.root");
+  parOut->open("stsqa.root");
   db->setOutput(parOut);
   db->saveOutput();
   db->print();

@@ -36,7 +36,10 @@ CbmStsDbQaSensorNewPar.cxx
 CbmStsDbQaNewPar.cxx
 CbmStsDbSNoisyChPar.cxx
 CbmStsDbSInfoPar.cxx
-CbmStsDbSUID.cxx
+CbmStsDbQa.cxx
+CbmStsDbQaSUID.cxx
+CbmStsDbQaSensor.cxx
+CbmStsDbQaIv.cxx
 )
 
 set(HEADERS
@@ -53,7 +56,10 @@ CbmStsDbQaSensorNewPar.h
 CbmStsDbQaNewPar.h
 CbmStsDbSNoisyChPar.h
 CbmStsDbSInfoPar.h
-CbmStsDbSUID.h
+CbmStsDbQa.h
+CbmStsDbQaSUID.h
+CbmStsDbQaSensor.h
+CbmStsDbQaIv.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbWriter.h
 )

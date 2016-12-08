@@ -4,7 +4,6 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-
 #pragma link C++ class FairDbReader<CbmStsDbQaIvPar>+;
 #pragma link C++ class FairDbWriter<CbmStsDbQaIvPar>+;
 #pragma link C++ class FairDbReader<CbmStsDbQaIvNewPar>+;
@@ -27,6 +26,14 @@
 #pragma link C++ class FairDbReader<CbmStsDbSNoisyChPar>+;
 #pragma link C++ class FairDbWriter<CbmStsDbSNoisyChPar>+;
 
+
+#pragma link C++ class FairDbReader<CbmStsDbQaSUID>+;
+#pragma link C++ class FairDbWriter<CbmStsDbQaSUID>+;
+#pragma link C++ class FairDbReader<CbmStsDbQaSensor>+;
+#pragma link C++ class FairDbWriter<CbmStsDbQaSensor>+;
+#pragma link C++ class FairDbReader<CbmStsDbQaIv>+;
+#pragma link C++ class FairDbWriter<CbmStsDbQaIv>+;
+
 #pragma link C++ class  CbmStsDbQaContFact+;
 #pragma link C++ class  CbmStsDbQaIvPar+;
 #pragma link C++ class  CbmStsDbQaIvNewPar+;
@@ -40,7 +47,11 @@
 #pragma link C++ class  CbmStsDbQaNewPar+;
 #pragma link C++ class  CbmStsDbSNoisyChPar+;
 #pragma link C++ class  CbmStsDbSInfoPar+;
-#pragma link C++ class  CbmStsDbSUID+;
 
+
+#pragma link C++ class  CbmStsDbQaSUID+;
+#pragma link C++ class  CbmStsDbQa+;
+#pragma link C++ class  CbmStsDbQaSensor+;
+#pragma link C++ class  CbmStsDbQaIv+;
 
 #endif

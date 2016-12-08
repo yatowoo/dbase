@@ -1,0 +1,26 @@
+#type;batch #;wafer #;reticle name;vendor;processing;"height; mm";"width; mm";strips per side;Production year;owner;location;"V_fd; V";"I_150V_20C; uA";I_350V_20C;P-strips defect;N-strip defect;quality grade (0..10);"problem; Y/N";"QA passed; Y/N";"opt. check. passed; Y/N";comment
+CBM06C4;351142;1;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;0;0;0;0;0;0;1;0;0;before dicing
+CBM06C4;351142;2;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;107;3.585;6.13;2;2;0;0;0;0;before dicing
+CBM06C4;351142;3;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;99;3.36;4.78;3;1;0;0;0;0;before dicing
+CBM06C4;351142;4;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;116;3.462;4.13;1;0;0;0;0;0;before dicing
+CBM06C4;351142;5;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;117;3.678;8.67;0;0;0;0;0;0;before dicing
+CBM06C4;351142;6;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;116;3.241;5.69;1;0;0;0;0;0;before dicing
+CBM06C4;351142;7;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;102;2.734;3.33;0;1;0;0;0;0;before dicing
+CBM06C4;351142;8;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;117;2.086;4.85;2;1;0;0;0;0;before dicing
+CBM06C4;351142;9;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;105;20.534;80;9;0;0;1;0;0;before dicing
+CBM06C4;351142;10;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;0;0;0;0;0;0;1;0;0;before dicing
+CBM06C4;351142;11;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;111;2.057;2.53;8;3;0;0;0;0;before dicing
+CBM06C4;351142;12;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;115;4.57;5.41;2;6;0;0;0;0;before dicing
+CBM06C4;351142;13;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;120;8.814;9.73;0;0;0;0;0;0;before dicing
+CBM06C4;351142;14;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;117;5.7199;6.38;5;1;0;0;0;0;before dicing
+CBM06C4;351142;15;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;108;1.298;1.706;0;0;0;0;0;0;before dicing
+CBM06C4;351142;16;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;102;1.403;1.87;1;1;0;0;0;0;before dicing
+CBM06C4;351142;17;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;118;1.514;2.87;1;1;0;0;0;0;before dicing
+CBM06C4;351142;18;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;106;1.519;2;0;0;0;0;0;0;before dicing
+CBM06C4;351142;19;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;113;1.875;2.63;0;0;0;0;0;0;before dicing
+CBM06C4;351142;20;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;95;1.835;2.558;0;0;0;0;0;0;before dicing
+CBM06C4;351142;21;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;106;7.123;10.18;132;0;0;1;0;0;before dicing
+CBM06C4;351142;22;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;106;1.759;2.49;7;0;0;0;0;0;before dicing
+CBM06C4;351142;23;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;106;1.487;1.998;1;0;0;0;0;0;before dicing
+CBM06C4;351142;24;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;109;1.707;2.36;1;1;0;0;0;0;before dicing
+CBM06C4;351142;25;0;CiS;DSDM;42;62;1024;2016;J. Heuser;GSI;108;3.416;11.83;3;0;0;0;0;0;before dicing

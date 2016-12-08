@@ -1,13 +1,14 @@
 #include "CbmStsDbQaContFact.h"
 
-#include "CbmStsDbQaSensorPar.h"         //
-#include "CbmStsDbQaSensorNewPar.h"         //
-#include "CbmStsDbQaIvPar.h"             //
-#include "CbmStsDbQaPar.h"             //
-#include "CbmStsDbQaNewPar.h"             //
+#include "CbmStsDbQaSensorPar.h"      
+#include "CbmStsDbQaSensorNewPar.h"   
+#include "CbmStsDbQaIvPar.h"          
+#include "CbmStsDbQaPar.h"            
+#include "CbmStsDbQaNewPar.h"         
+#include "CbmStsDbSNoisyChPar.h"      
+#include "CbmStsDbSInfoPar.h"         
 
-#include "CbmStsDbSNoisyChPar.h"             //
-#include "CbmStsDbSInfoPar.h"             //
+#include "CbmStsDbQa.h"            
 
 #include "FairDbParSet.h"                // for FairParSet
 #include "FairRuntimeDb.h"              // for FairRuntimeDb
@@ -63,7 +64,7 @@ void CbmStsDbQaContFact::setAllContainers()
   containers->Add(p11);
 
   FairContainer* p22 = new FairContainer("StsQaPar", "Cbm Qa New Parameters",
-                                        "TestDefaultContext");
+                                         "TestDefaultContext");
   p22->addContext("TestDefaultContext");
   containers->Add(p22);
 
@@ -104,6 +105,12 @@ void CbmStsDbQaContFact::setAllContainers()
   containers->Add(p99);
 
 
+  FairContainer* p100 = new FairContainer("StsDbQa", "Cbm Qa Parameters",
+                                         "TestDefaultContext");
+  p100->addContext("TestDefaultContext");
+  containers->Add(p100);
+
+  
 }
 
 FairParSet* CbmStsDbQaContFact::createContainer(FairContainer* c)
@@ -142,6 +149,12 @@ FairParSet* CbmStsDbQaContFact::createContainer(FairContainer* c)
     p->SetLogTitle(name);
   } else if (strcmp(name,"StsQaPar")==0) {
     p=new CbmStsDbQaNewPar(c->getConcatName().Data(),c->GetTitle(),c->getContext());
+    // Set Arguments needed for SQL versioning managment
+    p->SetVersion(0);
+    p->SetDbEntry(0);
+    p->SetLogTitle(name);
+  } else if (strcmp(name,"StsDbQa")==0) {
+    p=new CbmStsDbQa(c->getConcatName().Data(),c->GetTitle(),c->getContext());
     // Set Arguments needed for SQL versioning managment
     p->SetVersion(0);
     p->SetDbEntry(0);
@@ -188,8 +201,14 @@ FairParSet* CbmStsDbQaContFact::createContainer(FairContainer* c)
     // Set Arguments needed for SQL versioning managment
     p->SetVersion(0);
     p->SetDbEntry(0);
+    p->SetLogTitle(name); 
+  } else if (strcmp(name,"StsDbQa")==0) {
+    p=new CbmStsDbQa(c->getConcatName().Data(),c->GetTitle(),c->getContext());
+    // Set Arguments needed for SQL versioning managment
+    p->SetVersion(0);
+    p->SetDbEntry(0);
     p->SetLogTitle(name);
-}
+  }
 
   return p;
 }

@@ -1,7 +1,25 @@
-Int_t  stsqa_prime()
-{
+Int_t stsqa_prime(){
 
-  // Generate a unique RunID
+  // Benchmark priming to DB
+  TStopwatch t; 
+  t.Start(); 
+
+  
+  TString InputDir = gSystem->Getenv("PWD");
+  InputDir+= "/../batch_data/c4-before-dicing/";
+  TString InputFiles[] =    
+   {
+     "batch-overview-331140.csv",
+     "batch-overview-351135.csv",
+     "batch-overview-351139.csv",
+     "batch-overview-351141.csv",
+     "batch-overview-351142.csv",
+     "batch-overview-351152.csv",
+   }
+
+
+  
+  // Generate a unique RunID (corresponding to execute time)
   FairRunIdGenerator runID;
   UInt_t runId =  runID.generateId();
 
@@ -9,18 +27,17 @@ Int_t  stsqa_prime()
   FairRuntimeDb* db = FairRuntimeDb::instance();
 
   // Create in memory the relevant container
-  CbmStsDbQaPar* stsPar = (CbmStsDbQaNewPar*)(db->getContainer("CbmStsDbQaPar"));
+  CbmStsDbQa* stsQa = (CbmStsDbQa*)(db->getContainer("StsDbQa"));
 
   // Set the SQL based IO as second input
   FairParTSQLIo* input_db = new FairParTSQLIo();  
-  input_db->SetVerbosity(1);
+  input_db->SetVerbosity(0);
 
   // Set Global SeqNo ( Replication Global Index Base )
   //inp2->SetGlobalSeqNoIn();
 
   // Shutdown Mode ( True, False )
   input_db->SetShutdown(kTRUE);
-
 
   // Open first input
   input_db->open();
@@ -29,27 +46,36 @@ Int_t  stsqa_prime()
   // Set the output=input
   db->setOutput(input_db); 
 
-  cout << "-I- STS QA New Paremeters Priming:  Opening database + Meta Data done via TSQLIO .. " << endl;
- 
 
-  // First import Csv Model file
-  stsPar->ImportFromCsvFile("../data/sensor-table.csv");
+  // Sensor - Overview 
+  for (Int_t i=0; i<6; i++ ){
+    TString InputFile = InputDir + InputFiles[i];
+    cout << "-I- processing file: " << InputFile << endl;
 
-  // Read the I:V tables in data dir.
-  stsPar->ImportIvFilesFromDir();
-  
-  // Tell RuntimeDb Container has changed
-  stsPar->setChanged(kTRUE); 
+    // Import and Generate UID for Qa components 
+    stsQa->GenerateSUIDFromCsvFile(InputFile.Data());
 
-  cout << "  Sensor  # " <<  stsPar->GetNumSensors() 
-       << "  IvMeasu # " <<  stsPar->GetNumIvMeas() << endl; 
+    // Import Sensors data
+    stsQa->ImportFromCsvFile(InputFile.Data());
 
-  
+  }
+
+  // Sensor - iv
+  stsQa->ImportIvFilesFromDir(InputDir.Data());
+
+  // Trigger change 
+  stsQa->setChanged(kTRUE);
+
   // Write just added container
   db->addRun(runId,-1);
-  db->writeContainer(stsPar, db->getCurrentRun());
+  db->writeContainer(stsQa, db->getCurrentRun());
   
   // FairRuntimeDB deletion
   if (db) delete db;
+
+  t.Stop();
+  t.Print();
+  
   return 0;
 }
+ 

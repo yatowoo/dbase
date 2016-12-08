@@ -1,5 +1,6 @@
-#include "CbmStsDbQaSensorNewPar.h"
+#include "CbmStsDbQaSensor.h"
 
+#include "FairRunIdGenerator.h"
 #include "FairDbLogFormat.h"
 #include "FairDbLogService.h"
 #include "FairDbOutTableBuffer.h"         // for FairDbOutRowStream
@@ -23,21 +24,21 @@ using boost::bad_lexical_cast;
 
 
 
-ClassImp(CbmStsDbQaSensorNewPar);
+ClassImp(CbmStsDbQaSensor);
 
 
-static FairDbParRegistry<CbmStsDbQaSensorNewPar> qa_sensor("StsQaSensorPar");
+static FairDbParRegistry<CbmStsDbQaSensor> qa_sensor("StsQaSensorPar");
 
 
 #include "FairDbReader.tpl"
-template class  FairDbReader<CbmStsDbQaSensorNewPar>;
+template class  FairDbReader<CbmStsDbQaSensor>;
 
 #include "FairDbWriter.tpl"
-template class  FairDbWriter<CbmStsDbQaSensorNewPar>;
+template class  FairDbWriter<CbmStsDbQaSensor>;
 
 
 
-CbmStsDbQaSensorNewPar::CbmStsDbQaSensorNewPar(const char* name, const char* title, const char* context, Bool_t own)
+CbmStsDbQaSensor::CbmStsDbQaSensor(const char* name, const char* title, const char* context, Bool_t own)
   : FairDbParSet(name,title,context, own),
     fCompId(-1),
     fUID(0),
@@ -69,17 +70,15 @@ CbmStsDbQaSensorNewPar::CbmStsDbQaSensorNewPar(const char* name, const char* tit
 {
   // Set the default Db Entry to the first slot
    SetDbEntry(0);
-   // Set no aggregation
+   // Set aggregation
    SetCompId(fCompId);
    // Set Version 0
    SetVersion(0);
 }
 
 
-CbmStsDbQaSensorNewPar::~CbmStsDbQaSensorNewPar()
+CbmStsDbQaSensor::~CbmStsDbQaSensor()
 {
-
-
   if (fParam_Writer) {
     delete fParam_Writer;
     fParam_Writer=NULL;
@@ -93,9 +92,9 @@ CbmStsDbQaSensorNewPar::~CbmStsDbQaSensorNewPar()
 }
 
 
-void CbmStsDbQaSensorNewPar::putParams(FairParamList* list)
+void CbmStsDbQaSensor::putParams(FairParamList* list)
 {
-  std::cout<<"-I- CbmStsDbQaSensorNewPar::putParams() called"<<std::endl;
+  std::cout<<"-I- CbmStsDbQaSensor::putParams() called"<<std::endl;
   if(!list) { return; }
   list->add("comp_id",  fCompId);
   list->add("s_uid",    fUID);
@@ -123,7 +122,7 @@ void CbmStsDbQaSensorNewPar::putParams(FairParamList* list)
   list->add("comments",  (Text_t*) fComments.c_str());
 }
 
-Bool_t CbmStsDbQaSensorNewPar::getParams(FairParamList* list)
+Bool_t CbmStsDbQaSensor::getParams(FairParamList* list)
 {
   if (!list) { return kFALSE; }
 
@@ -181,7 +180,7 @@ Bool_t CbmStsDbQaSensorNewPar::getParams(FairParamList* list)
   return kTRUE;
 }
 
-void CbmStsDbQaSensorNewPar::clear()
+void CbmStsDbQaSensor::clear()
 {
   fVendor_name = fSensor_type = fBatch_id = fReticle_name = fProcessing = fComments = "";
   fCurrent_location = fCurrent_owner = "";
@@ -195,7 +194,7 @@ void CbmStsDbQaSensorNewPar::clear()
 }
 
 
-string CbmStsDbQaSensorNewPar::GetTableDefinition(const char* Name)
+string CbmStsDbQaSensor::GetTableDefinition(const char* Name)
 {
 
   string sql("create table ");
@@ -233,7 +232,7 @@ string CbmStsDbQaSensorNewPar::GetTableDefinition(const char* Name)
 
 
 
-void CbmStsDbQaSensorNewPar::Fill(FairDbResultPool& res_in,
+void CbmStsDbQaSensor::Fill(FairDbResultPool& res_in,
                         const FairDbValRecord* valrec)
 {
 
@@ -245,7 +244,7 @@ void CbmStsDbQaSensorNewPar::Fill(FairDbResultPool& res_in,
          >> fQuality_grade >> fProblem >> fPassed >> fOptPassed >> fComments;
 }
 
-void CbmStsDbQaSensorNewPar::Store(FairDbOutTableBuffer& res_out,
+void CbmStsDbQaSensor::Store(FairDbOutTableBuffer& res_out,
                          const FairDbValRecord* valrec) const
 {
 
@@ -259,7 +258,7 @@ void CbmStsDbQaSensorNewPar::Store(FairDbOutTableBuffer& res_out,
 }
 
 
-void CbmStsDbQaSensorNewPar::fill(UInt_t rid)
+void CbmStsDbQaSensor::fill(UInt_t rid)
 {
   // Get Reader Meta Class
   fParam_Reader=GetParamReader();
@@ -278,7 +277,7 @@ void CbmStsDbQaSensorNewPar::fill(UInt_t rid)
 
   for (int i = 0; i < numRows; ++i)
   {
-    CbmStsDbQaSensorNewPar* cgd = (CbmStsDbQaSensorNewPar*) fParam_Reader->GetRow(i);
+    CbmStsDbQaSensor* cgd = (CbmStsDbQaSensor*) fParam_Reader->GetRow(i);
 
     if (!cgd) { continue; }
 
@@ -310,7 +309,7 @@ void CbmStsDbQaSensorNewPar::fill(UInt_t rid)
 }
 
 
-void CbmStsDbQaSensorNewPar::store(UInt_t rid)
+void CbmStsDbQaSensor::store(UInt_t rid)
 {
 
   // Boolean IO test variable
@@ -319,7 +318,7 @@ void CbmStsDbQaSensorNewPar::store(UInt_t rid)
   // Create a unique statement on choosen DB entry
   auto_ptr<FairDbStatement> stmtDbn(fMultConn->CreateStatement(GetDbEntry()));
   if ( ! stmtDbn.get() ) {
-    cout << "-E-  CbmStsDbQaSensorNewPar::Store()  Cannot create statement for Database_id: " << GetDbEntry()
+    cout << "-E-  CbmStsDbQaSensor::Store()  Cannot create statement for Database_id: " << GetDbEntry()
          << "\n    Please check the FAIRDB_TSQL_* environment.  Quitting ... " << endl;
     exit(1);
   }
@@ -332,7 +331,7 @@ void CbmStsDbQaSensorNewPar::store(UInt_t rid)
 
   if (! fMultConn->GetConnection(GetDbEntry())->TableExists("STSQASENSORPAR") ) {
     sql_cmds.push_back(FairDb::GetValDefinition("STSQASENSORPAR").Data());
-    sql_cmds.push_back(CbmStsDbQaSensorNewPar::GetTableDefinition());
+    sql_cmds.push_back(CbmStsDbQaSensor::GetTableDefinition());
   }
 
   // Packed SQL commands executed internally via SQL processor
@@ -342,7 +341,7 @@ void CbmStsDbQaSensorNewPar::store(UInt_t rid)
     stmtDbn->Commit(sql_cmd.c_str());
     if ( stmtDbn->PrintExceptions() ) {
       fail = true;
-      cout << "-E- CbmStsDbQaSensorNewPar::Store() ******* Error Executing SQL commands ***********  " << endl;
+      cout << "-E- CbmStsDbQaSensor::Store() ******* Error Executing SQL commands ***********  " << endl;
     }
 
   }
@@ -375,12 +374,12 @@ void CbmStsDbQaSensorNewPar::store(UInt_t rid)
   // Check for eventual IO problems
   if ( !fParam_Writer->Close() ) {
     fail = true;
-    cout << "-E- CbmStsDbQaSensorNewPar::Store() ******** Cannot do IO on class: " << GetName() <<  endl;
+    cout << "-E- CbmStsDbQaSensor::Store() ******** Cannot do IO on class: " << GetName() <<  endl;
   }
 
 }
 
-void CbmStsDbQaSensorNewPar::Print()
+void CbmStsDbQaSensor::Print()
 {
   std::cout<<"   STS QA SENSOR  <UID> "<< fUID <<  " <comp_Id> " << fCompId << std::endl;
   std::cout<<"   Type               = " << fSensor_type  << std::endl;
@@ -408,7 +407,7 @@ void CbmStsDbQaSensorNewPar::Print()
 
 }
 
-Bool_t CbmStsDbQaSensorNewPar::Compare(const CbmStsDbQaSensorNewPar& that ) const {
+Bool_t CbmStsDbQaSensor::Compare(const CbmStsDbQaSensor& that ) const {
 
   Bool_t test_s =
         (fSensor_type.compare(that.fSensor_type)==0)
@@ -442,108 +441,158 @@ Bool_t CbmStsDbQaSensorNewPar::Compare(const CbmStsDbQaSensorNewPar& that ) cons
   return (test_s && test_d);
 }
 
-FairDbWriter<CbmStsDbQaSensorNewPar>* CbmStsDbQaSensorNewPar::ActivateWriter(Int_t rid)
+FairDbWriter<CbmStsDbQaSensor>* CbmStsDbQaSensor::ActivateWriter(Int_t rid)
 {
-   // delete if already existing
-   if (fParam_Writer) { delete fParam_Writer; fParam_Writer=NULL; }
 
-   else {
-         // Create according to IoV
-         Bool_t fail= kFALSE;
+  if (rid == 0 ) {
+    FairRunIdGenerator runID;
+    rid =  runID.generateId();
+  }
+  
+  // delete if already existing
+  if (fParam_Writer) {
+    cout << "-E- CbmStsDbQaSensor::ActivateWriter() already in use ---> reset Writer Template." << endl;
+    delete fParam_Writer; fParam_Writer=NULL;
+  }else {
+    // Create according to IoV
+    Bool_t fail= kFALSE;
+    
+    // Create a unique statement on choosen DB entry
+    auto_ptr<FairDbStatement> stmtDbn(fMultConn->CreateStatement(GetDbEntry()));
+    if ( ! stmtDbn.get() ) {
+      cout << "-E-  CbmStsDbQaSensor::Store()  Cannot create statement for Database_id: " << GetDbEntry()
+           << "\n    Please check the FAIRDB_TSQL_* environment.  Quitting ... " << endl;
+      exit(1);
+    }
+    
+    // Check if for this DB entry the table already exists.
+    // If not call the corresponding Table Definition Function
+    std::vector<std::string> sql_cmds;
+    TString atr(GetName());
+    atr.ToUpper();
+    
+    if (! fMultConn->GetConnection(GetDbEntry())->TableExists("STSQASENSORPAR") ) {
+      sql_cmds.push_back(FairDb::GetValDefinition("STSQASENSORPAR").Data());
+      sql_cmds.push_back(CbmStsDbQaSensor::GetTableDefinition());
+    }
+    
+    // Packed SQL commands executed internally via SQL processor
+    std::vector<std::string>::iterator itr(sql_cmds.begin()), itrEnd(sql_cmds.end());
+    while( itr != itrEnd ) {
+      std::string& sql_cmd(*itr++);
+      stmtDbn->Commit(sql_cmd.c_str());
+      if ( stmtDbn->PrintExceptions() ) {
+        fail = true;
+        cout << "-E- CbmStsDbQaSensor::ActivateWriter() ******* Error Executing SQL commands ***********  " << endl;
+      }
+      
+    }
+    
+    // Refresh list of tables in connected database
+    // for the choosen DB entry
+    fMultConn->GetConnection(GetDbEntry())->SetTableExists();
+    
+    // Writer Meta-Class Instance
+    fParam_Writer = GetParamWriter();
+    fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(),"STS QA Sensor Parameter");
+    return fParam_Writer;
+    
+  }
+  
+  return NULL;
+}
 
-         // Create a unique statement on choosen DB entry
-         auto_ptr<FairDbStatement> stmtDbn(fMultConn->CreateStatement(GetDbEntry()));
-         if ( ! stmtDbn.get() ) {
-           cout << "-E-  CbmStsDbQaSensorNewPar::Store()  Cannot create statement for Database_id: " << GetDbEntry()
-                    << "\n    Please check the FAIRDB_TSQL_* environment.  Quitting ... " << endl;
-           exit(1);
-         }
-
-         // Check if for this DB entry the table already exists.
-         // If not call the corresponding Table Definition Function
-         std::vector<std::string> sql_cmds;
-         TString atr(GetName());
-         atr.ToUpper();
-
-         if (! fMultConn->GetConnection(GetDbEntry())->TableExists("STSQASENSORPAR") ) {
-           sql_cmds.push_back(FairDb::GetValDefinition("STSQASENSORPAR").Data());
-           sql_cmds.push_back(CbmStsDbQaSensorNewPar::GetTableDefinition());
-         }
-
-         // Packed SQL commands executed internally via SQL processor
-         std::vector<std::string>::iterator itr(sql_cmds.begin()), itrEnd(sql_cmds.end());
-         while( itr != itrEnd ) {
-           std::string& sql_cmd(*itr++);
-           stmtDbn->Commit(sql_cmd.c_str());
-           if ( stmtDbn->PrintExceptions() ) {
-                 fail = true;
-                 cout << "-E- CbmStsDbQaSensorNewPar::ActivateWriter() ******* Error Executing SQL commands ***********  " << endl;
-           }
-
-         }
-
-         // Refresh list of tables in connected database
-         // for the choosen DB entry
-         fMultConn->GetConnection(GetDbEntry())->SetTableExists();
-
-         // Writer Meta-Class Instance
-         fParam_Writer = GetParamWriter();
-
-         fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(),"STS QA Sensor Parameter");
-         return fParam_Writer;
-
-   }
-
-   return NULL;
+Bool_t CbmStsDbQaSensor::Import(Int_t compid, const vector<string>& value)
+{
+  if (value.size()>0)
+    {
+      SetCompId(compid); 
+      SetUID(compid);
+      
+      SetSensorType(value[0]);
+      SetBatchId(value[1]);
+      
+      //cout << "2" << value[2] << endl;
+      SetWaferId(lexical_cast<int>(value[2]));
+      
+      SetReticleName(value[3]);
+      SetVendorName(value[4]);
+      SetProcessing(value[5]);
+      
+      SetHeight(lexical_cast<double>(value[6]));
+      SetWidth(lexical_cast<double>(value[7]));
+      SetStripsPerSide(lexical_cast<int>(value[8]));
+      SetYear(lexical_cast<int>(value[9]));
+      
+      SetCurrentOwner(value[10]);
+      SetCurrentLocation(value[11]);
+      
+      //cout << "12:" << value[12] << endl;
+      SetVfd(lexical_cast<double>(value[12]));
+      //cout << "13:" << value[13] << endl;
+      SetI_150V_20C(lexical_cast<double>(value[13]));
+      //cout << "14:" << value[14] << endl;
+      SetI_250V_20C(lexical_cast<double>(value[14]));
+      //cout << "15:" << value[15] << endl;
+      SetSdefect_pside(lexical_cast<int>(value[15]));
+      //cout << "16:" << value[16] << endl;
+      SetSdefect_nside(lexical_cast<int>(value[16]));
+      //cout << "17:" << value[17] << endl;
+      SetQuality_grade(lexical_cast<int>(value[17]));
+      
+      SetProblem(lexical_cast<int>(value[18]));
+      SetPassed(lexical_cast<int>(value[19]));
+      SetOpticalCheck(lexical_cast<int>(value[20]));
+      SetComments(value[21]);
+      return kTRUE;
+    }
+  return kFALSE;
 }
 
 
-Bool_t CbmStsDbQaSensorNewPar::Import(const vector<string>& value)
+void CbmStsDbQaSensor::CreateDbTable(Int_t db_entry)
 {
-     if (value.size()>0)
-      {
-       SetCompId(fCompId); // No composition
+  // Set new DB Entry
+  SetDbEntry(db_entry);
+  
+  // Boolean IO test variable
+  Bool_t fail= kFALSE;
 
-       cout << "0" << value[0] << endl;
-       SetUID(lexical_cast<int>(value[0]));
-       SetSensorType(value[1]);
-       SetBatchId(value[2]);
-
-       cout << "3" << value[3] << endl;
-       SetWaferId(lexical_cast<int>(value[3]));
-
-       SetReticleName(value[4]);
-       SetVendorName(value[5]);
-       SetProcessing(value[6]);
-
-       SetHeight(lexical_cast<double>(value[7]));
-       SetWidth(lexical_cast<double>(value[8]));
-       SetStripsPerSide(lexical_cast<int>(value[9]));
-       SetYear(lexical_cast<int>(value[10]));
+  // Create a unique statement on choosen DB entry
+  auto_ptr<FairDbStatement> stmtDbn(fMultConn->CreateStatement(GetDbEntry()));
+   if ( ! stmtDbn.get() ) {
+    cout << "-E-  FairDbDemoPar1::CreateDbTable()  Cannot create statement for Database_id: " << GetDbEntry()
+         << "\n    Please check the FAIRDB_TSQL_* environment.  Quitting ... " << endl;
+    exit(1);
+  }
 
 
-       SetCurrentOwner(value[11]);
-       SetCurrentLocation(value[12]);
+  // Check if for this DB entry the table already exists.
+  // If not call the corresponding Table Definition Function
+  std::vector<std::string> sql_cmds;
+  TString atr(GetName());
+  atr.ToUpper();
 
-       cout << "13:" << value[13] << endl;
-       SetVfd(lexical_cast<double>(value[13]));
-       cout << "14:" << value[14] << endl;
-       SetI_150V_20C(lexical_cast<double>(value[14]));
-       cout << "15:" << value[15] << endl;
-       SetI_250V_20C(lexical_cast<double>(value[15]));
-       cout << "16:" << value[16] << endl;
-       SetSdefect_pside(lexical_cast<int>(value[16]));
-       cout << "17:" << value[17] << endl;
-       SetSdefect_nside(lexical_cast<int>(value[17]));
-       cout << "18:" << value[18] << endl;
-       SetQuality_grade(lexical_cast<int>(value[18]));
+  if (! fMultConn->GetConnection(GetDbEntry())->TableExists("STSQASENSORPAR") ) {
+    sql_cmds.push_back(FairDb::GetValDefinition("STSQASENSORPAR").Data());
+    sql_cmds.push_back(CbmStsDbQaSensor::GetTableDefinition());
+  }
+  
 
-       SetProblem(lexical_cast<int>(value[19]));
-       SetPassed(lexical_cast<int>(value[20]));
-       SetOpticalCheck(lexical_cast<int>(value[21]));
-       SetComments(value[22]);
-       return kTRUE;
-      }
-     return kFALSE;
-     //Print();
+  // Packed SQL commands executed internally via SQL processor
+  std::vector<std::string>::iterator itr(sql_cmds.begin()), itrEnd(sql_cmds.end());
+  while( itr != itrEnd ) {
+    std::string& sql_cmd(*itr++);
+    stmtDbn->Commit(sql_cmd.c_str());
+    if ( stmtDbn->PrintExceptions() ) {
+      fail = true;
+      cout << "-E- CbmStsDbQaSUID::CreateDbTable() * Error Executing SQL commands **  " << endl;
+    }
+
+  }
+
+  // Refresh list of tables in connected database
+  // for the choosen DB entry
+  fMultConn->GetConnection(GetDbEntry())->SetTableExists();
+  
 }

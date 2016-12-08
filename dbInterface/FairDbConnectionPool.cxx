@@ -112,7 +112,7 @@ FairDbConnectionPool::FairDbConnectionPool():
       stmt = 0;
     }
 
-    cout << "-I- FAIRDbConnectionPool  fGlobalSeqNoDbNo  " <<  fGlobalSeqNoDbNo << endl;
+    cout << "-I- FairDbConnectionPool created with seq_no:  " <<  fGlobalSeqNoDbNo << endl;
 
     //  Check for presence of a DB_STATE_FLAGS table
     if ( this->GetTableDbNo("FAIRDB_STATE_FLAGS",entry) != -1 ) {

@@ -1,5 +1,5 @@
-#ifndef CBMSTSDBQASENSORNEWPAR_H
-#define CBMSTSDBQASENSORNEWPAR_H
+#ifndef CBMSTSDBQASENSOR_H
+#define CBMSTSDBQASENSOR_H
 
 #include "FairDbParSet.h"          // for FairParGenericSet
 #include "DataType.h"                    // for EDataType::kData
@@ -25,17 +25,17 @@ class FairDbValRecord;
 class FairParamList;
 
 
-class CbmStsDbQaSensorNewPar : public FairDbParSet
+class CbmStsDbQaSensor : public FairDbParSet
 {
 
 using TObject::Compare;
 
   public :
-    CbmStsDbQaSensorNewPar (const char* name="StsQaSensorPar",
+    CbmStsDbQaSensor (const char* name="StsQaSensorPar",
                   const char* title="Cbm Sensor Parameter",
                   const char* context="TestDefaultContext",
                   Bool_t own=kTRUE);
-    virtual ~CbmStsDbQaSensorNewPar(void);
+    virtual ~CbmStsDbQaSensor(void);
     void clear(void);
     void   putParams(FairParamList* list);
     Bool_t getParams(FairParamList* list);
@@ -96,19 +96,19 @@ using TObject::Compare;
 
 
     void Print();
-    Bool_t Import(const vector<string> & value); 
 
+    Bool_t Import(Int_t compid, const vector<string> & value);
 
-    UInt_t GetIndex(UInt_t /*def*/) const { return fUID; }
+    UInt_t GetIndex(UInt_t /*def*/) const { return fCompId; }
 
     // Logical (=) 
-    Bool_t Compare(const CbmStsDbQaSensorNewPar& that ) const;
+    Bool_t Compare(const CbmStsDbQaSensor& that ) const;
 
     // Add-ons: SQL descriptors for the parameter class
     virtual std::string GetTableDefinition(const char* Name = 0);
 
     virtual FairDbObjTableMap* CreateObjTableMap() const {
-      return new CbmStsDbQaSensorNewPar();
+      return new CbmStsDbQaSensor();
     }
 
     // Atomic IO (intrinsic)
@@ -126,11 +126,14 @@ using TObject::Compare;
                           DataType::kData,
                           ValTimeStamp(rid));
     }
-
+    
+    // Create Db Table
+    void  CreateDbTable(Int_t db_entry=0);
+    
     // SQL-IO Meta-Class Getters
-    FairDbReader<CbmStsDbQaSensorNewPar>* GetParamReader();
-    FairDbWriter<CbmStsDbQaSensorNewPar>* GetParamWriter();
-    FairDbWriter<CbmStsDbQaSensorNewPar>* ActivateWriter(Int_t rid);
+    FairDbReader<CbmStsDbQaSensor>* GetParamReader();
+    FairDbWriter<CbmStsDbQaSensor>* GetParamWriter();
+    FairDbWriter<CbmStsDbQaSensor>* ActivateWriter(Int_t rid=0);
 
   private:
 
@@ -160,38 +163,36 @@ using TObject::Compare;
     Int_t    fOptPassed;
     string   fComments; 
     
-
-
     // Database Pool Index
     //Int_t fDbEntry; //!
     // Parameter Container SQL Writer Meta-Class
-    FairDbWriter<CbmStsDbQaSensorNewPar>* fParam_Writer; //!
+    FairDbWriter<CbmStsDbQaSensor>* fParam_Writer; //!
     // Parameter Container SQL Writer Meta-Class
-    FairDbReader<CbmStsDbQaSensorNewPar>* fParam_Reader; //!
+    FairDbReader<CbmStsDbQaSensor>* fParam_Reader; //!
     // Connection Pool
     FairDbConnectionPool* fMultConn;  //!
 
-    ClassDef(CbmStsDbQaSensorNewPar,1); // CbmStsDbQaSensorNewPar Parameter Container example
+    ClassDef(CbmStsDbQaSensor,1); // CbmStsDbQaSensor Parameter Container example
 };
 
 
 
-inline  FairDbReader<CbmStsDbQaSensorNewPar>* CbmStsDbQaSensorNewPar::GetParamReader()
+inline  FairDbReader<CbmStsDbQaSensor>* CbmStsDbQaSensor::GetParamReader()
 {
   if (fParam_Reader) { return fParam_Reader; }
   else {
-    fParam_Reader = new  FairDbReader<CbmStsDbQaSensorNewPar>();
+    fParam_Reader = new  FairDbReader<CbmStsDbQaSensor>();
     return fParam_Reader;
   }
 }
 
-inline FairDbWriter<CbmStsDbQaSensorNewPar>* CbmStsDbQaSensorNewPar::GetParamWriter()
+inline FairDbWriter<CbmStsDbQaSensor>* CbmStsDbQaSensor::GetParamWriter()
 {
   if (fParam_Writer) { return fParam_Writer; }
   else {
-    fParam_Writer = new  FairDbWriter<CbmStsDbQaSensorNewPar>();
+    fParam_Writer = new  FairDbWriter<CbmStsDbQaSensor>();
     return fParam_Writer;
   }
 }
 
-#endif /* !CBMSTSDBQASENSORNEWPAR_H*/
+#endif /* !STSDBQASENSOR_H*/

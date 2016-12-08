@@ -1,5 +1,10 @@
 Int_t  stsqa_read()
 {
+
+  // Benchmark priming to DB
+  TStopwatch t; 
+  t.Start(); 
+  
   // Create a Runtime Database singleton.
   FairRuntimeDb* db = FairRuntimeDb::instance();
 
@@ -7,18 +12,18 @@ Int_t  stsqa_read()
   FairParTSQLIo* inp = new FairParTSQLIo();
   
   // Verbosity level
-  inp->SetVerbosity(1);
+  inp->SetVerbosity(0);
 
   inp->open();
   db->setFirstInput(inp);
 
   // Create in memory the relevant container
-  CbmStsDbQaPar* stsPar = (CbmStsDbQaPar*)(db->getContainer("CbmStsDbQaPar"));
+  CbmStsDbQa* stsQa = (CbmStsDbQa*)(db->getContainer("StsDbQa"));
 
   // Create a dummy runID using date in UTC from which
   // corresponding  parameters will be initialised
 
-  ValTimeStamp tStamp(2015,04,20,18,00,00);
+  ValTimeStamp tStamp;
   UInt_t runId = tStamp.GetSec();
   cout << "-I- looking for parameters at runID# " << runId << endl;
   cout << "-I- corresponding  time in runID (UTC) " << tStamp.Format("iso") << endl;
@@ -27,17 +32,21 @@ Int_t  stsqa_read()
   // using the SQL-based IO input
   db->initContainers(runId);
 
-  // Get back the container after initialisation
-  CbmStsDbQaPar* stsPar = (CbmStsDbQaPar*)(db->getContainer("CbmStsDbQaPar"));
+  // Get the container after initialisation
+  CbmStsDbQa* stsQa = (CbmStsDbQa*)(db->getContainer("StsDbQa"));
 
   cout << endl;
   cout << "-I- Reading STS Qa data from SQL Database: \n" << endl;
   cout << endl;
 
-  stsPar->Print();
+  stsQa->Print();
 
   cout << endl;
- 
+
+  t.Stop();
+  t.Print();
+  
   if (db) delete db;
+  exit(0);
   return 0;
 }
