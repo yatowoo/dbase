@@ -35,7 +35,7 @@ class FairDbParSet : public FairDbObjTableMap
   void store(UInt_t rid=0){;}
   
   
-  ClassDef(FairDbParSet,0)   // FairDbObjTableMap for a specific database table.
+  ClassDef(FairDbParSet,0)   // FairDbParSet for a specific database table.
     
 };
 

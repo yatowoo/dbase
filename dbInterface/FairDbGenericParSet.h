@@ -8,12 +8,16 @@
 #ifndef FAIRDBGENERICPARSET_H
 #define FAIRDBGENERICPARSET_H
 
-
+#include "FairDbLogService.h"
+#include "FairDbExceptionLog.h"       
 #include "FairDbConnectionPool.h"
 #include "FairDbStatement.h"
 #include "FairDbParSet.h"
 #include "FairDbReader.h"
 #include "FairDbWriter.h"
+
+#include "FairDbUtilType.h"
+
 
 
 template <typename T>
@@ -23,7 +27,7 @@ class FairDbGenericParSet : public FairDbParSet
   
     FairDbGenericParSet();
     FairDbGenericParSet(FairDbDetector::Detector_t detid, DataType::DataType_t dataid, 
-                        const char* name,const char* title,const char* context, Bool_t ownership=kFALSE);
+                        const char* name, const char* title, const char* context, Bool_t ownership=kFALSE);
     FairDbGenericParSet(const FairDbGenericParSet& from);
     FairDbGenericParSet& operator=(const FairDbGenericParSet&);
     virtual ~FairDbGenericParSet();
@@ -35,7 +39,6 @@ class FairDbGenericParSet : public FairDbParSet
     virtual FairDbObjTableMap* CreateObjTableMap() const {
       return new T();
     }
-
     
     // Create the FairDb tables (data + metatdata) in DB
     void CreateDbTable(Int_t db_entry);
@@ -45,16 +48,34 @@ class FairDbGenericParSet : public FairDbParSet
     void fill(UInt_t rid=0);
     void store(UInt_t rid=0);
 
-
     // Validity frame definition
     virtual ValCondition GetContext(UInt_t rid) {
       return ValCondition(fDet_id,
                           fData_id,
                           ValTimeStamp(rid));
     }
-
     
-      
+    void SetTableName(string name ) {
+      fTableName = name ;
+    }
+    
+    // Generate a table name 
+    string GetTableName() {
+      if (fTableName.empty()){
+        T a;
+        string table_name = FairDbUtilType::GetTypeAsString(a) ;
+        if (table_name.empty()) {
+          DBLOG("FairDbLog",FairDbLog::kFatal)
+            << "Cannot create Table Name type_id (class) ="
+            << typeid(T).name() << endl;
+          exit(1);
+        }
+        return table_name;
+      } else {    
+        return fTableName;
+      }
+    }
+    
     // SQL-IO Meta-Class Getters
     FairDbReader<T>* GetParamReader();
     FairDbWriter<T>* GetParamWriter();
@@ -64,6 +85,8 @@ class FairDbGenericParSet : public FairDbParSet
     // Meta Data added in ctor
     FairDbDetector::Detector_t fDet_id; //!
     DataType::DataType_t fData_id; //!
+    //
+    string fTableName;
     // Data aggregation id
     Int_t fCompId;
     // Parameter Container SQL Writer Meta-Class
@@ -72,8 +95,7 @@ class FairDbGenericParSet : public FairDbParSet
     FairDbReader<T>* fParam_Reader; //!
     // Connection Pool
     FairDbConnectionPool* fMultConn;  //!
-
-
+    
     ClassDefT(FairDbGenericParSet<T>,0)   // FairDbGenericParSet.
 };
 ClassDefT2(FairDbGenericParSet,T)

@@ -47,7 +47,7 @@ namespace {
 
   int seriesIndexOf(WCartesianChart* chart, int modelColumn) {
     for (unsigned i = 0; i < chart->series().size(); ++i)
-      if (chart->series()[i].modelColumn() == modelColumn)
+      if (chart->series()[i]->modelColumn() == modelColumn)
 	return i;
     
     return -1;

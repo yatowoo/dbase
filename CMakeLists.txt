@@ -96,6 +96,7 @@ dbInterface/FairDbDataTypeUnion.cxx
 dbInterface/FairDbStreamer.cxx
 dbInterface/FairDbParSet.cxx
 dbInterface/FairDbParFactory.cxx
+dbInterface/FairDbUtilType.cxx
 dbUtils/FairDbLog.cxx
 dbUtils/FairDbLogFormat.cxx
 dbUtils/FairDbLogOSStream.cxx
@@ -113,7 +114,7 @@ dbIO/FairGenericParTSQLIo.cxx
 install(FILES "dbUtils/FairDbLogBFormat.h" DESTINATION include)
 install(FILES "dbInterface/FairDbReader.tpl" DESTINATION include)
 install(FILES "dbInterface/FairDbWriter.tpl" DESTINATION include)
-install(FILES "dbInterface/FairGenericParSet.tpl" DESTINATION include)
+install(FILES "dbInterface/FairDbGenericParSet.tpl" DESTINATION include)
 install(FILES "dbInput/db_detector_def.h" DESTINATION include)
 install(FILES "dbInput/prepare_db.sql" DESTINATION share/dbInput)
 

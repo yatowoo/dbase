@@ -10,6 +10,7 @@ ClassImpT(FairDbGenericParSet,T)
 template<typename T>
 FairDbGenericParSet<T>::FairDbGenericParSet()
 : FairDbParSet("","","",kFALSE)
+  ,fTableName("")
   ,fCompId(-1)
   ,fParam_Writer(NULL) //  Writer Meta-Class for SQL IO
   ,fParam_Reader(NULL) //  Reader Meta-Class for SQL IO
@@ -24,12 +25,14 @@ FairDbGenericParSet<T>::FairDbGenericParSet()
   // Default for det_id and data_id.
   fDet_id = FairDbDetector::kUnknown;
   fData_id = DataType::kUnknown;
+ 
 }
 
 template<typename T>
 FairDbGenericParSet<T>::FairDbGenericParSet(const FairDbDetector::Detector_t detid, const DataType::DataType_t dataid,
                                             const char* name,const char* title,const char* context, Bool_t ownership)
   : FairDbParSet(name,title,context,ownership)
+  ,fTableName("")
   ,fCompId(-1)
   ,fParam_Writer(NULL) //  Writer Meta-Class for SQL IO
   ,fParam_Reader(NULL) //  Reader Meta-Class for SQL IO
@@ -97,14 +100,14 @@ void FairDbGenericParSet<T>::CreateDbTable(Int_t db_entry)
   // Create a unique statement on choosen DB entry
   auto_ptr<FairDbStatement> stmtDbn(fMultConn->CreateStatement(GetDbEntry()));
   if ( ! stmtDbn.get() ) {
-    cout << "-E-  FairDbGenericParSet::CreateDbTable()  Cannot create statement for Database_id: " << GetDbEntry()
+    DBLOG("FairDb",FairDbLog::kFatal) << "FairDbGenericParSet::CreateDbTable()  Cannot create statement for Database_id: " << GetDbEntry()
          << "\n    Please check the FAIRDB_TSQL_* environment.  Quitting ... " << endl;
     exit(1);
   }
   // Check if for this DB entry the table already exists.
   // If not call the corresponding Table Definition Function
   std::vector<std::string> sql_cmds;
-  TString atr(GetName());
+  TString atr(GetTableName());
   atr.ToUpper();
   
   if (! fMultConn->GetConnection(GetDbEntry())->TableExists(atr.Data()) ) {
@@ -118,7 +121,8 @@ void FairDbGenericParSet<T>::CreateDbTable(Int_t db_entry)
     stmtDbn->Commit(sql_cmd.c_str());
     if ( stmtDbn->PrintExceptions() ) {
       fail = true;
-      cout << "-E- FairDbGenericParSet::CreateDbTable() * Error Executing SQL commands **  " << endl;
+      DBLOG("FairDb",FairDbLog::kFatal) << "FairDbGenericParSet::CreateDbTable() * Error Executing SQL commands **  " << endl;
+      exit(1);
     }
   }
   // Refresh list of tables in connected database
@@ -131,8 +135,10 @@ void FairDbGenericParSet<T>::fill(UInt_t rid)
 {
   // Get Reader Meta Class
   fParam_Reader=GetParamReader();
+  
   // Get Context associated to par. T
   ValCondition context = GetContext(rid);
+  
   // Activate reading for this Context
   fParam_Reader->Activate(context, GetVersion());
   
@@ -140,20 +146,22 @@ void FairDbGenericParSet<T>::fill(UInt_t rid)
   // (Other rows would correspond to outdated versions)
   Int_t numRows = fParam_Reader->GetNumRows();
   if ( numRows > 1 ) { numRows = 1; }
-
+  
   for (int i = 0; i < numRows; ++i) {
-  T* cgd = (T*) fParam_Reader->GetRow(i);
-  if (!cgd) { continue; }
-
-  // !! <DB> date: 2 nov 2016
-  // if ptr(cgd) exist the do cast and
-  // self assign the object (close to std::swap)
-
-  T par = (*cgd);
-  T* copy = (T*) this;
-  *copy = par;
-
+    T* cgd = (T*) fParam_Reader->GetRow(i);
+    if (!cgd) { continue; }
+    
+    // !! <DB> date: 2 nov 2016
+    // if ptr(cgd) exist the do cast and
+    // self assign the object (close to std::swap)    
+    // This assume that = operator and copy ctor
+    // are defined in the parameter class.
+    
+    T par = (*cgd);
+    T* copy = (T*) this;
+    *copy = par;    
   }
+  
 }
 
 template<typename T>
@@ -164,15 +172,15 @@ void FairDbGenericParSet<T>::store(UInt_t rid)
   // Create a unique statement on choosen DB entry
   auto_ptr<FairDbStatement> stmtDbn(fMultConn->CreateStatement(GetDbEntry()));
   if ( ! stmtDbn.get() ) {
-    cout << "-E-  FairDbGenericParSet::Store()  Cannot create statement for Database_id: " << GetDbEntry()
+    DBLOG("FairDb",FairDbLog::kFatal) << "FairDbGenericParSet::Store()  Cannot create statement for Database_id: " << GetDbEntry()
          << "\n    Please check the FAIRDB_TSQL_* environment.  Quitting ... " << endl;
     exit(1);
   }
   // Check if for this DB entry the table already exists.
   // If not call the corresponding Table Definition Function
   std::vector<std::string> sql_cmds;
-  TString atr(GetName());
-  atr.ToUpper();
+  TString atr(GetTableName());
+
   if (! fMultConn->GetConnection(GetDbEntry())->TableExists(atr.Data()) ) {
     sql_cmds.push_back(FairDb::GetValDefinition(atr.Data()).Data());
     sql_cmds.push_back(GetTableDefinition(atr.Data()));
@@ -184,7 +192,8 @@ void FairDbGenericParSet<T>::store(UInt_t rid)
     stmtDbn->Commit(sql_cmd.c_str());
     if ( stmtDbn->PrintExceptions() ) {
       fail = true;
-      cout << "-E- FairDbGenericParSet::Store() ******* Error Executing SQL commands ***********  " << endl;
+      DBLOG("FairDb",FairDbLog::kFatal) << "FairDbGenericParSet::Store() ******* Error Executing SQL commands ***********  " << endl;
+      exit(1);
     }
   }
   // Refresh list of tables in connected database
@@ -211,7 +220,8 @@ void FairDbGenericParSet<T>::store(UInt_t rid)
   // Check for eventual IO problems
   if ( !fParam_Writer->Close() ) {
     fail = true;
-    cout << "-E- FairDbGenericParSet::Store() ******** Cannot do IO on class: " << GetName() <<  endl;
+    DBLOG("FairDb",FairDbLog::kFatal) << "FairDbGenericParSet::Store() ******** Cannot do IO on Table: " << GetTableName() <<  endl;
+    exit(1);
   }
 }
 
@@ -227,19 +237,20 @@ FairDbWriter<T>* FairDbGenericParSet<T>::ActivateWriter(Int_t rid)
     // Create a unique statement on choosen DB entry
     auto_ptr<FairDbStatement> stmtDbn(fMultConn->CreateStatement(GetDbEntry()));
     if ( ! stmtDbn.get() ) {
-      cout << "-E-  FairDbGenericParSet::ActivateWriter()  Cannot create statement for Database_id: " << GetDbEntry()
+      DBLOG("FairDb",FairDbLog::kFatal) << "FairDbGenericParSet::ActivateWriter()  Cannot create statement for Database_id: " << GetDbEntry()
            << "\n    Please check the FAIRDB_TSQL_* environment.  Quitting ... " << endl;
       exit(1);
     }
     // Check if for this DB entry the table already exists.
     // If not call the corresponding Table Definition Function
     std::vector<std::string> sql_cmds;
-    TString atr(GetName());
-    atr.ToUpper();
+    TString atr(GetTableName());
+
     if (! fMultConn->GetConnection(GetDbEntry())->TableExists(atr.Data()) ) {
       sql_cmds.push_back(FairDb::GetValDefinition(atr.Data()).Data());
       sql_cmds.push_back(GetTableDefinition(atr.Data()));
     }
+
     // Packed SQL commands executed internally via SQL processor
     std::vector<std::string>::iterator itr(sql_cmds.begin()), itrEnd(sql_cmds.end());
     while( itr != itrEnd ) {
@@ -248,12 +259,15 @@ FairDbWriter<T>* FairDbGenericParSet<T>::ActivateWriter(Int_t rid)
       if ( stmtDbn->PrintExceptions() ) {
         fail = true;
         TString cl(ClassName());
-        cout << "-E- FairDbGenericParSet::ActivateWriter() ******* Error Executing SQL commands ***********  " << endl;
+        DBLOG("FairDb",FairDbLog::kFatal) << "FairDbGenericParSet::ActivateWriter() ******* Error Executing SQL commands ***********  " << endl;
+        exit(1);
       }
     }
+
     // Refresh list of tables in connected database
     // for the choosen DB entry
     fMultConn->GetConnection(GetDbEntry())->SetTableExists();
+
     // Writer Meta-Class Instance
     fParam_Writer = GetParamWriter();
     fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(),atr.Data()); 

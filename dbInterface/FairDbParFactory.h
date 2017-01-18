@@ -5,6 +5,7 @@
 #include "FairDbConnectionPool.h"
 #include "FairDbTableInterface.h"
 #include "FairDbTableInterfaceStore.h"
+#include "FairDbLogService.h"
 
 
 #include <memory>
@@ -70,8 +71,8 @@ public:
                                                              string pName(parName);
                                                              std::transform(pName.begin(), pName.end(), pName.begin(), ::tolower);
                                                              const char * pname = pName.c_str();
-                                                             cout << "-I- FairDbParRegistry: Lambda functor created parameter -> "
-                                                                  << pName << endl;
+                                                             DBLOG("FairDb",FairDbLog::kInfo) << "FairDbParRegistry: Lambda functor created parameter -> "
+                                                                                              << pName << endl;
                                                                return (new T(pname,pname,pname,kTRUE));
                                                            }
                                                            );
@@ -92,7 +93,7 @@ public:
                                                              string pName(parName);
                                                              std::transform(pName.begin(), pName.end(), pName.begin(), ::tolower);
                                                              const char * pname = pName.c_str();
-                                                             cout << "-I- FairDbGenericParRegistry: Lambda functor created parameter -> "
+                                                             DBLOG("FairDb",FairDbLog::kInfo) << "FairDbGenericParRegistry: Lambda functor created parameter -> "
                                                                   << pName << endl;
                                                              return (new T(detid,dataid,pname,pname,pname,kTRUE));
                                                            }
