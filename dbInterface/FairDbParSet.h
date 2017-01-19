@@ -30,9 +30,10 @@ class FairDbParSet : public FairDbObjTableMap
   FairDbParSet& operator=(const FairDbParSet&);
   
   virtual ~FairDbParSet();
-  
-  void fill(UInt_t rid=0){;}
-  void store(UInt_t rid=0){;}
+
+  virtual void clear(){;}
+  virtual void fill(UInt_t rid=0){;}
+  virtual void store(UInt_t rid=0){;}
   
   
   ClassDef(FairDbParSet,0)   // FairDbParSet for a specific database table.

@@ -9,6 +9,8 @@
 #define FAIRDBUTILTYPE
 
 #include <string>
+#include <algorithm>
+#include <memory>
 
 #ifndef __CINT__
 #include <cstdlib>

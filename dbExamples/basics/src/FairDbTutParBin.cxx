@@ -111,12 +111,15 @@ Bool_t FairDbTutParBin::getParams(FairParamList* list)
 
 void FairDbTutParBin::clear()
 {
+
   fTopPitch=fTopAnchor=0.0;
   fTopNrFE=0;
   fFeType="";
   for(Int_t i=0; i<1024; i++) { fMyIArray[i]=-1; }
   for(Int_t i=0; i<1024; i++) { fMyDArray[i]=-1.0; }
   if(fMyHisto) { (fMyHisto)->Reset(); }
+  
+  FairDbGenericParSet<FairDbTutParBin>::clear();
 }
 
 

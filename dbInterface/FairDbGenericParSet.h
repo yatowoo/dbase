@@ -44,22 +44,22 @@ class FairDbGenericParSet : public FairDbParSet
     void CreateDbTable(Int_t db_entry);
      
     // RuntimeDb IO 
-    void clear();
-    void fill(UInt_t rid=0);
-    void store(UInt_t rid=0);
+    virtual void clear();
+    virtual void fill(UInt_t rid=0);
+    virtual void store(UInt_t rid=0);
 
-    // Validity frame definition
+    // Standard Validity frame definition
     virtual ValCondition GetContext(UInt_t rid) {
       return ValCondition(fDet_id,
                           fData_id,
                           ValTimeStamp(rid));
     }
-    
+    // Custom Table Name 
     void SetTableName(string name ) {
       fTableName = name ;
     }
     
-    // Generate a table name 
+    // Standard Table Name (Generated) 
     string GetTableName() {
       if (fTableName.empty()){
         T a;
@@ -82,12 +82,12 @@ class FairDbGenericParSet : public FairDbParSet
     FairDbWriter<T>* ActivateWriter(Int_t rid);
     
   protected:
-    // Meta Data added in ctor
+    // Meta Data (added in ctor)
     FairDbDetector::Detector_t fDet_id; //!
     DataType::DataType_t fData_id; //!
-    //
+    // Associated Table Name
     string fTableName;
-    // Data aggregation id
+    // Data Aggregation Id
     Int_t fCompId;
     // Parameter Container SQL Writer Meta-Class
     FairDbWriter<T>* fParam_Writer; //!

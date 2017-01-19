@@ -120,8 +120,9 @@ class FairDbObjTableMap : public FairParGenericSet
   virtual Bool_t getParams(FairParamList*){return kTRUE;}
 
   // DB add on
-  void fill(UInt_t rid=0) {;}
-  void store(UInt_t rid=0) {;}
+  virtual void clear(){;} 
+  virtual void fill(UInt_t rid=0) {;}
+  virtual void store(UInt_t rid=0) {;}
 
 
   protected:

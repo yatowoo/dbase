@@ -85,11 +85,12 @@ Bool_t FairDbTutPar::getParams(FairParamList* list)
 
 void FairDbTutPar::clear()
 {
+
   fTopPitch=fTopAnchor=0.0;
   fTopNrFE=0;
   fFeType="";
-  if (fParam_Writer) { fParam_Writer->Reset(); }
-  if (fParam_Reader) { fParam_Reader->Reset(); }
+  
+  FairDbGenericParSet<FairDbTutPar>::clear();
 }
 
 string FairDbTutPar::GetTableDefinition(const char* Name)
