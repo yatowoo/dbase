@@ -7,7 +7,3 @@
  ################################################################################
 add_subdirectory(src)
 
-#Install(DIRECTORY macros
-#        DESTINATION share/fairbase/example/Tutorial5
-#        PATTERN ".svn" EXCLUDE
-#       )

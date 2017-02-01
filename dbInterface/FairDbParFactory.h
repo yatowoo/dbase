@@ -71,7 +71,7 @@ public:
                                                              string pName(parName);
                                                              std::transform(pName.begin(), pName.end(), pName.begin(), ::tolower);
                                                              const char * pname = pName.c_str();
-                                                             DBLOG("FairDb",FairDbLog::kInfo) << "FairDbParRegistry: Lambda functor created parameter -> "
+                                                             cout  << "-I- FairDbParRegistry: Lambda functor created parameter -> "
                                                                                               << pName << endl;
                                                                return (new T(pname,pname,pname,kTRUE));
                                                            }
@@ -93,8 +93,8 @@ public:
                                                              string pName(parName);
                                                              std::transform(pName.begin(), pName.end(), pName.begin(), ::tolower);
                                                              const char * pname = pName.c_str();
-                                                             DBLOG("FairDb",FairDbLog::kInfo) << "FairDbGenericParRegistry: Lambda functor created parameter -> "
-                                                                  << pName << endl;
+                                                             cout  << "-I- FairDbGenericParRegistry: Lambda functor created parameter -> "
+                                                                   << pName <<  " : " << T::Class()->GetName() <<  endl;
                                                              return (new T(detid,dataid,pname,pname,pname,kTRUE));
                                                            }
                                                            );

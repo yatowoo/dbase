@@ -28,6 +28,8 @@ template <class T> class FairDbWriter
 
     FairDbWriter();
 
+    FairDbWriter(const string& tablename);
+    
     FairDbWriter(const ValInterval& vr,
                  Int_t aggNo,
                  FairDb::Version task,

@@ -53,11 +53,9 @@ FairDbTutParBin::FairDbTutParBin( const FairDbDetector::Detector_t detid, const 
     fTopNrFE(0),
     fFeType("")
 {
-  // Constructor
-  // Create heap based TH1 object and fill with dummy
-  // value
-
+  // Create heap based TH1 object and fill with dummy value
   fMyHisto = new TH1F("test_histo","test_histo",10,0,10);
+
   // Reset all parameters
   clear();
 }
@@ -139,6 +137,7 @@ void FairDbTutParBin::Fill(FairDbResultPool& res_in,
   dbIArray.Fill(fMyIArray);
   dbDArray.Fill(fMyDArray);
   dbHisto.Fill(fMyHisto);
+  if (fMyHisto) fMyHisto->Print();
 }
 
 void FairDbTutParBin::Store(FairDbOutTableBuffer& res_out,
@@ -177,7 +176,7 @@ void FairDbTutParBin::Print()
 
   std::cout<<"    Array of <Double>               : "<<std::endl;
   for(Int_t i=0; i<1024; i++) {
-    std::cout<<"                   arr[ "<< i <<  " ] = " << fMyDArray[i]<< std::endl;
+      std::cout<<"                   arr[ "<< i <<  " ] = " << fMyDArray[i]<< std::endl;
   }
 
   cout << "      TH1F  histogram ptr# : "  << fMyHisto << endl;
@@ -195,7 +194,7 @@ FairDbTutParBin::FairDbTutParBin(const FairDbTutParBin& from){
     fMyIArray[i] = from.fMyIArray[i];
     fMyDArray[i] = from.fMyDArray[i]; 
   }
-  fMyHisto = from.fMyHisto;
+  fMyHisto = (TH1F*) (from.fMyHisto)->Clone();
 }
 
 FairDbTutParBin& FairDbTutParBin::operator=(const FairDbTutParBin& from){
@@ -209,6 +208,6 @@ FairDbTutParBin& FairDbTutParBin::operator=(const FairDbTutParBin& from){
     fMyDArray[i] = from.fMyDArray[i]; 
   }
   
-  fMyHisto = from.fMyHisto;
+  fMyHisto = (TH1F*) (from.fMyHisto)->Clone();
   return *this;
 }

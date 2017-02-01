@@ -19,7 +19,7 @@ ClassImpT(FairDbWriter,T)
 
 template<class T>
 FairDbWriter<T>::FairDbWriter() :
-  fAggregateNo(-2),
+fAggregateNo(-2),
   fDbNo(0),
   fPacket(new FairDbSqlValidityData),
   fRequireGlobalSeqno(0),
@@ -33,6 +33,25 @@ FairDbWriter<T>::FairDbWriter() :
 {
   DBLOG("FairDb",FairDbLog::kInfo)   << " FairDbWriter ctor 1 with dbNo# " << fDbNo <<  endl;
 }
+
+template<class T>
+FairDbWriter<T>::FairDbWriter(const string& tablename) :
+  fAggregateNo(-2),
+  fDbNo(0),
+  fPacket(new FairDbSqlValidityData),
+  fRequireGlobalSeqno(0),
+  fTableInterface(&FairDbWriter<T>::GetTableInterface(tablename)),
+  fTableName(fTableInterface->GetTableName()),
+  fUseOverlayCreationDate(kTRUE), // kFALSE->origin
+  fValidRec(0),
+  fLogEntry(fTableName),
+  fVersion(0),
+  fLogTitle("")
+{
+  DBLOG("FairDb",FairDbLog::kInfo)   << " FairDbWriter ctor 1 with dbNo# " << fDbNo <<  endl;
+}
+
+
 
 
 template<class T>

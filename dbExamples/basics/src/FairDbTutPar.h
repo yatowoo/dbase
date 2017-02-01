@@ -42,8 +42,8 @@ class FairDbTutPar : public FairDbGenericParSet<FairDbTutPar>
 {
  public :
   FairDbTutPar (const FairDbDetector::Detector_t detid=FairDbDetector::kGfi,
-                const DataType::DataType_t dataid=DataType::kData,                  
-                const char* name="FairDbTutPar",
+                const DataType::DataType_t dataid=DataType::kData,
+                const char* name="ExTutPar",
                 const char* title="Tutorial  parameter",
                 const char* context="TestDefaultContext",
                 Bool_t own=kTRUE
@@ -78,7 +78,8 @@ class FairDbTutPar : public FairDbGenericParSet<FairDbTutPar>
                     const FairDbValRecord* valrec);
   virtual void Store(FairDbOutTableBuffer& res_out,
                      const FairDbValRecord* valrec) const;
-  
+
+   
  private:
   // Strip Data Parameters
   Double_t fTopPitch;         // Strip pitch on top wafer side

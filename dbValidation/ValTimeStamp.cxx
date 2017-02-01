@@ -254,9 +254,22 @@ Int_t ValTimeStamp::GetZoneOffset()
 #if !defined(R__MACOSX) && !defined(R__FBSD)
   return  timezone;   /* unix specs long int */
 #else
-  time_t* tp = 0;
-  time(tp);
-  return localtime(tp)->tm_gmtoff;
+  // <DB> notice:
+  //  code crashed (24-1-2017)
+  //  changed to std ABI
+
+  // Former code
+  //time_t* tp = 0;
+  //time(tp);
+  //return localtime(tp)->tm_gmtoff;
+
+  // New ABI (24-1-2017) 
+  time_t t = time(NULL);
+  struct tm lt = {0}; 
+  localtime_r(&t,&lt);
+  //printf("Offset to GMT is %lds.\n", lt.tm_gmtoff);
+  //printf("The time zone is '%s'.\n", lt.tm_zone);
+  return lt.tm_gmtoff;;  
 #endif
 #else
   _tzset();

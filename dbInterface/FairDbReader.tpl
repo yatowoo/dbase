@@ -25,14 +25,22 @@ map<string,FairDbTableInterface*>  FairDbReader<T>::fgNameToProxy;
 template<class T>
 FairDbTableInterface* FairDbReader<T>::fgTableInterface = 0;
 
-// CHECK ME (NEMORY)
-//template<class T>
-//std::vector<T*>  FairDbReader<T>::fListOfT;
 
 template<class T>
 FairDbReader<T>::FairDbReader() :
   fAbortTest(FairDb::kDisabled),
   fTableInterface(FairDbReader<T>::GetTableInterface()),
+  fResult(0),
+  fDetType(FairDbDetector::kUnknown),
+  fSimType(DataType::kUnknown )
+{
+  T pet;
+}
+
+template<class T>
+FairDbReader<T>::FairDbReader(const string& tablename) :
+  fAbortTest(FairDb::kDisabled),
+  fTableInterface(FairDbReader<T>::GetTableInterface(tablename)),
   fResult(0),
   fDetType(FairDbDetector::kUnknown),
   fSimType(DataType::kUnknown )
@@ -224,8 +232,21 @@ FairDbTableInterface& FairDbReader<T>::GetTableInterface()
 
   if ( ! fgTableInterface ) {
     T pet;
-    fgTableInterface = &FairDbTableInterfaceStore::Instance()
-                       .GetTableInterface(pet.GetName(),&pet);
+    TClass *cl = T::Class();
+    TList *arr = cl->GetListOfBases();
+    TString basename = arr->At(0)->GetName(); 
+    // !! Experimental !!
+    // <DB> date 25.01.207 ++ Change to ClassName
+    // in the FairDbGenericPar case
+    
+    // if (basename.Contains("FairDbGenericParSet")){
+    //  fgTableInterface = &FairDbTableInterfaceStore::Instance()
+    //    .GetTableInterface(pet.ClassName(),&pet);
+      
+    // }else{
+      fgTableInterface = &FairDbTableInterfaceStore::Instance()
+        .GetTableInterface(pet.GetName(),&pet);
+     // }
   }
   return *fgTableInterface;
 }

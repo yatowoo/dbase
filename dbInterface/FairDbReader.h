@@ -12,6 +12,9 @@
 #include <vector>
 #include <string>
 
+#include "TClass.h"
+#include "TList.h"
+
 #include "FairDb.h"
 #include "FairDbResult.h"
 #include "FairDbValRecord.h"
@@ -29,6 +32,9 @@ template <class T> class FairDbReader
 {
   public:
     FairDbReader();
+
+    FairDbReader(const string& tablename);
+    
     FairDbReader(const FairDbReader& that);
     FairDbReader(const ValCondition& vc,
                  FairDb::Version task = FairDb::kDefaultVersion,

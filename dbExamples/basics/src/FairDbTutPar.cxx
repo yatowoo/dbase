@@ -19,7 +19,6 @@
 #include "FairDbLogService.h"
 #include "FairDbOutTableBuffer.h"         // for FairDbOutRowStream
 #include "FairDbStatement.h"            // for FairDbStatement
-#include "FairDbParFactory.h"
 #include "FairParamList.h"              // for FairParamList
 #include "Riosfwd.h"                    // for ostream
 #include "TString.h"                    // for TString
@@ -128,7 +127,6 @@ void FairDbTutPar::Print()
   std::cout<<"   Nr of Frontends (Top Side)   = "<<fTopNrFE<<std::endl;
   std::cout<<"   Frontend type name is        = "<<fFeType<<std::endl;
 }
-
 
 
 FairDbTutPar::FairDbTutPar(const FairDbTutPar& from){

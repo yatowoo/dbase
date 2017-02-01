@@ -27,7 +27,6 @@ ${CMAKE_SOURCE_DIR}/dbase/dbValidation
 ${CMAKE_SOURCE_DIR}/dbase/dbInput
 ${CMAKE_SOURCE_DIR}/dbase/dbIO
 ${CMAKE_SOURCE_DIR}/dbase/dbUtils
-${CMAKE_SOURCE_DIR}/example/Tutorial5/src
 )
 
 include_directories(${INCLUDE_DIRECTORIES})
@@ -86,7 +85,7 @@ if (Boost_FOUND)
 
 else (Boost_FOUND)
   # will not work anyway without boost !
-  set(DEPENDENCIES Base FairDB ParBase Tutorial5
+  set(DEPENDENCIES Base FairDB ParBase 
     ${Wt_LIBRARY} ${Wt_HTTP_LIBRARY}
 )
 endif (Boost_FOUND)
@@ -118,7 +117,7 @@ if (Boost_FOUND)
     list(GET Exe_Source ${_file} _src)
     set(EXE_NAME ${_name})
     set(SRCS ${_src})
-    set(DEPENDENCIES FairDbWt Tutorial5)
+    set(DEPENDENCIES FairDbWt)
     GENERATE_EXECUTABLE()
   endforeach(_file RANGE 0 ${_length})
 endif (Boost_FOUND)

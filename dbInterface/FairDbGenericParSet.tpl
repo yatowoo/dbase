@@ -10,7 +10,9 @@ ClassImpT(FairDbGenericParSet,T)
 template<typename T>
 FairDbGenericParSet<T>::FairDbGenericParSet()
 : FairDbParSet("","","",kFALSE)
-  ,fTableName("")
+  ,fDet_id(FairDbDetector::kUnknown)
+  ,fData_id(DataType::kUnknown)
+  ,fTableName("")  
   ,fCompId(-1)
   ,fParam_Writer(NULL) //  Writer Meta-Class for SQL IO
   ,fParam_Reader(NULL) //  Reader Meta-Class for SQL IO
@@ -22,17 +24,15 @@ FairDbGenericParSet<T>::FairDbGenericParSet()
   SetCompId(fCompId);
   // Init Version 
   SetVersion(0);
-  // Default for det_id and data_id.
-  fDet_id = FairDbDetector::kUnknown;
-  fData_id = DataType::kUnknown;
- 
 }
 
 template<typename T>
 FairDbGenericParSet<T>::FairDbGenericParSet(const FairDbDetector::Detector_t detid, const DataType::DataType_t dataid,
                                             const char* name,const char* title,const char* context, Bool_t ownership)
   : FairDbParSet(name,title,context,ownership)
-  ,fTableName("")
+  ,fDet_id(detid)
+  ,fData_id(dataid)
+  ,fTableName(name)  
   ,fCompId(-1)
   ,fParam_Writer(NULL) //  Writer Meta-Class for SQL IO
   ,fParam_Reader(NULL) //  Reader Meta-Class for SQL IO
@@ -44,10 +44,8 @@ FairDbGenericParSet<T>::FairDbGenericParSet(const FairDbDetector::Detector_t det
   SetCompId(fCompId);
   // Init Version 
   SetVersion(0);
- 
-  // Add defintion for Detid and Dataid 
-  fDet_id = detid;
-  fData_id = dataid;
+  // Log Comment
+  SetLogTitle(T::Class()->GetName());
 }
 
 
@@ -85,8 +83,8 @@ FairDbGenericParSet<T>::~FairDbGenericParSet()
 template<typename T>
 void FairDbGenericParSet<T>::clear()
 {
-  if (fParam_Writer) { fParam_Writer->Reset(); }
-  if (fParam_Reader) { fParam_Reader->Reset(); }  
+  if (fParam_Writer) { fParam_Writer->Reset(); fParam_Writer=nullptr; }
+  if (fParam_Reader) { fParam_Reader->Reset(); fParam_Reader=nullptr; }  
 }
 
 
@@ -199,6 +197,7 @@ void FairDbGenericParSet<T>::store(UInt_t rid)
   // Refresh list of tables in connected database
   // for the choosen DB entry
   fMultConn->GetConnection(GetDbEntry())->SetTableExists();
+
   // Writer Meta-Class Instance
   fParam_Writer = GetParamWriter();
   // Activate Writer Meta-Class with the proper

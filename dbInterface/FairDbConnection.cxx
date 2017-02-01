@@ -336,7 +336,7 @@ void  FairDbConnection::SetTableExists(const string& tableName)
         while (stmt->NextResultRow()) {
           string tn(stmt->GetString(0));
           std::transform(tn.begin(), tn.end(), tn.begin(), ::toupper);
-          //cout << " -I FairDbConnection::SetTableExists table name: " << tn << endl;
+          //cout << " -I----> FairDbConnection::SetTableExists table name: " << tn << endl;
           this->SetTableExists(tn);
         }
       }
@@ -348,7 +348,7 @@ void  FairDbConnection::SetTableExists(const string& tableName)
       fExistingTableList += ",'";
       fExistingTableList += tableName;
       fExistingTableList += "'";
-      //cout << "-I- FairDbConnection::Table Registered  ... " <<  tableName << endl;
+      //cout << "-I------> FairDbConnection::Table Registered  ... " <<  tableName << endl;
     }
   }
   //  cout << "-I- FairDbConnection:: End of table exists ... " << endl;
@@ -364,7 +364,13 @@ Bool_t  FairDbConnection::TableExists(const string& tableName) const
   test += tableName;
   test += "'";
   Bool_t btest =  fExistingTableList.find(test) != std::string::npos;
-  //cout << "-I- FairDbConnection: Table exists " << fExistingTableList << endl;
+  // still try the upper_case case ...
+  if (!btest){
+    string str(test);
+    std::transform(str.begin(), str.end(),str.begin(), ::toupper);
+    btest =  fExistingTableList.find(str) != std::string::npos;
+  }
+  //cout << "-I- FairDbConnection: Table exists  BTEST-> " <<  btest << " tablename: " << tableName << " list->" <<  fExistingTableList << endl;
   return btest;
 }
 

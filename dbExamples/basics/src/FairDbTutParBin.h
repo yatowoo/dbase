@@ -50,7 +50,7 @@ class FairDbTutParBin : public FairDbGenericParSet<FairDbTutParBin>
  public :
   FairDbTutParBin (  const FairDbDetector::Detector_t detid=FairDbDetector::kGfi,
                      const DataType::DataType_t dataid=DataType::kData,                     
-                     const char* name="FairDbTutParBin",
+                     const char* name="ExTutParBin",
                      const char* title="Tutorial  parameter",
                      const char* context="TestDefaultContext",
                      Bool_t own=kTRUE);
