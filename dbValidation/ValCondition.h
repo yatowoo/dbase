@@ -57,8 +57,8 @@ class ValCondition : public TObject
   protected:
 
     FairDbDetector::Detector_t       fDetector;
-    DataType::DataType_t         fDataType;
-    ValTimeStamp               fTimeStamp;
+    DataType::DataType_t             fDataType;
+    ValTimeStamp                     fTimeStamp;
 
   private:
 

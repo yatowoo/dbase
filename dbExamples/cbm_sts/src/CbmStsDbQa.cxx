@@ -36,7 +36,7 @@ using boost::bad_lexical_cast;
 ClassImp(CbmStsDbQa);
 
 
-static FairDbParRegistry<CbmStsDbQa> qa_par("StsQaPar"); 
+static FairDbParRegistry<CbmStsDbQa> qa_par("StsDbQa"); 
 
 CbmStsDbQa::CbmStsDbQa(const char* name, const char* title, const char* context, Bool_t own)
   : FairDbParSet(name,title,context, own),
@@ -556,7 +556,7 @@ void CbmStsDbQa::LoadDataFromIvFile(const string& vendor, int& b_id, const strin
 {
 
   string bname = remove_ext(basename(fname));
-  cout << "-I- CbmStsQa::LOadDataFromIvDir: Analysing file ----> " << bname << endl;
+  cout << "-I- CbmStsQa::LoadDataFromIvDir: Analysing file ----> " << bname << endl;
 
   boost::regex re("([0-9]+)");
   boost::sregex_iterator m_itr(bname.begin(), bname.end(), re);

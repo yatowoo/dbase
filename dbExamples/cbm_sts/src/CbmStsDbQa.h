@@ -66,14 +66,14 @@ using TObject::Compare;
     void   AddSUID(CbmStsDbQaSUID *s){fSUID->Add(s);}  
     void   AddSUIDAt(CbmStsDbQaSUID *s, int idx){fSUID->AddAtAndExpand(s,idx);}  
     TObjArray* GetListOfSUID() {return fSUID;}
-    Int_t GetNumSUID() {return fSUID->GetEntries();} 
+    Int_t      GetNumSUID() const {return fSUID->GetEntries();} 
     CbmStsDbQaSUID* GetSUIDAt(Int_t idx){return (CbmStsDbQaSUID*) fSUID->At(idx);} 
 
 	// List Summary    
     void   AddSensor(CbmStsDbQaSensorNewPar *s){fSensors->Add(s);}  
     void   AddSensorAt(CbmStsDbQaSensorNewPar *s, int idx){fSensors->AddAt(s,idx);}  
-    TObjArray* GetListOfSensors() {return fSensors;}
-    Int_t GetNumSensors() {return fSensors->GetEntries();} 
+    TObjArray* GetListOfSensors() const {return fSensors;}
+    Int_t     GetNumSensors() const  {return fSensors->GetEntries();} 
     CbmStsDbQaSensorNewPar* GetSensorAt(Int_t idx){return (CbmStsDbQaSensorNewPar*) fSensors->At(idx);} 
 
 	// List Channel Map
@@ -108,8 +108,8 @@ using TObject::Compare;
    // IV curves
     void   AddIvMeas(CbmStsDbQaIvNewPar *s){fIvMeas->Add(s);}  
     void   AddIvMeasAt(CbmStsDbQaIvNewPar *s, int idx){fIvMeas->AddAt(s,idx);}  
-    TObjArray* GetListOfIvMeas() {return fIvMeas;}
-    Int_t GetNumIvMeas() {return fIvMeas->GetEntries();} 
+    TObjArray* GetListOfIvMeas() const {return fIvMeas;}
+    Int_t GetNumIvMeas() const {return fIvMeas->GetEntries();} 
     CbmStsDbQaIvNewPar* GetIvMeasAt(Int_t idx){return (CbmStsDbQaIvNewPar*) fIvMeas->At(idx);} 
 
    // Db Readers

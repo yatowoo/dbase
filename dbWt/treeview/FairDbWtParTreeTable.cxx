@@ -25,11 +25,11 @@ void FairDbWtParTreeTable::createTableLayout(FairDbWtParTreeTableNode *pNode)
  // addColumn("Last Modified", 150);
  // header(1)->setStyleClass("date");
  
-  // Create the tree  
-  pNode->createTree();
-  setTreeRoot(pNode, "FairDb Contents");
+   // Create the tree  
+   pNode->createTree();
+   setTreeRoot(pNode, "FairDb Contents");
 
-  treeRoot()->setImagePack("icons/");
-  treeRoot()->expand();
-  resize(300,300);
+   treeRoot()->setImagePack("icons/");
+   treeRoot()->expand();
+   resize(300,300);
 }

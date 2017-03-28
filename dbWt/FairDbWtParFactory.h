@@ -57,8 +57,8 @@ class FairDbWtParFactory
 
 
 
-     static  FairDbWtParFactory& Instance();
-     static  Bool_t IsActive() { return fgInstance ? kTRUE: kFALSE; }
+ static  FairDbWtParFactory& Instance();
+ static  Bool_t IsActive() { return fgInstance ? kTRUE: kFALSE; }
     
     
     template <typename T>
@@ -245,6 +245,7 @@ class FairDbWtParFactory
      return fParInfo[pName];
 
     }
+
 
     // Create all WtTable for all Qa Parameters
     void CreateWTables(WContainerWidget* aParent);

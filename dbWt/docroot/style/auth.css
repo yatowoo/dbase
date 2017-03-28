@@ -1,9 +1,15 @@
+/*
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+*/
+
 body {
     font-family: arial, sans-serif;
 }
+
 /*
-DB try it out
+<DB 8.02 2017 customized css for login widget>
 */
+
 .Wt-auth-login{
  position: fixed;
  top: 32.5%;
@@ -11,22 +17,11 @@ DB try it out
  margin-top: -32.5 ptx;
  margin-left: -32.5 ptx;
  font-size: 80%;
- background-color: rgba(211,225,243,0.7);  
+ background-color: rgba(169,200,241,0.71);  
  box-shadow: 1px 1px 1px 1px grey;
  padding:6px 20px 6px 20px;
- border-radius: 8px;
+ border-radius: 5px;
  border: 4px;
-/*
- right: 10 ptx;
- left:  10 ptx; 
- margin-top: auto;
- margin-left: auto;
- margin-right: auto;
- width: 10 em;
- min-height: 10em;
- min-width: 10em;
-*/
- 
 } 
 
 .Wt-auth-logged-in {
@@ -34,7 +29,9 @@ DB try it out
     right: 0px;
     top: 6px;
     font-size: 90%;
+/*
     background-color: rgba(39,133,160,0.16);
+*/
 }
 
 .Wt-auth-icon {
@@ -57,6 +54,7 @@ DB try it out
     background-position: centered;
     backgroun-size: cover;
 */
+
 }
 
 .footer{

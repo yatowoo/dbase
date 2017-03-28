@@ -9,7 +9,7 @@
 #include "FairDbStreamer.h"
 #include "FairUtilStream.h"
 
-
+#include "TClass.h"
 #include "TBufferFile.h"
 #include <iostream>                     // for cout
 using std::cout;
@@ -27,15 +27,14 @@ FairDbStreamer::FairDbStreamer()
 }
 
 FairDbStreamer::FairDbStreamer(const TObject* obj,FairDb::DataTypes type)
-  : TObject(),
-    fString(FairDb::StreamAsString(obj,fSize)), 
-    fSize(0),
-    fType(type)
+  : TObject()
+    //    fString(FairDb::StreamAsString(obj,fSize)), 
+    //    fSize(0),
+    //    fType(type)
 {
-/*
   fString = FairDb::StreamAsString(obj,fSize);
   fType=type;
-*/
+
 }
 
 FairDbStreamer::FairDbStreamer(const Int_t* iarr, Int_t size, FairDb::DataTypes type)
@@ -277,18 +276,13 @@ void FairDbStreamer::Fill(Double_t* arr)
 
 void FairDbStreamer::Fill(TObject* obj)
 {
-  // Filling  the Object
-  TObject* cobj=obj->Clone();
-  TBufferFile b_write(TBuffer::kWrite);
-  cobj->Streamer(b_write);
-  Int_t   ll   = b_write.Length();
-  if (cobj) { delete cobj; }
+  // <DB> changed according to Jorg Förtsch
+  //      date 28.03.2017
   // Decryption str
   std::string str_hex(fString.Data());
-  Char_t read_buf[ll];
+  size_t halb = str_hex.length()/2;
+  UChar_t read_buf[halb];
   Util::BinFromHex(str_hex,read_buf);
-
-  TBufferFile b_read(TBuffer::kRead,ll, read_buf,kFALSE);
+  TBufferFile b_read(TBuffer::kRead,halb, read_buf,kFALSE);
   obj->Streamer(b_read);
-
 }

@@ -91,10 +91,10 @@ setContentAlignment(AlignCenter);
 //setOverflow(OverflowAuto);
 
 // Modifying column width
-int max_col = n_cols-3;
-for(int i=0;i<max_col;i++) {
-  fTableView->setColumnWidth(i,100);
-}
+ int max_col = n_cols-3;
+ for(int i=0;i<max_col;i++) {
+   fTableView->setColumnWidth(i,100);
+ }
  fTableView->resize(55+8*100, 20*20);
 }
 
@@ -240,8 +240,8 @@ void CbmStsQaSensorTableViewNew::popupAction()
       if (text=="Close")
       fPopupActionBox->buttonClicked().connect(this, &CbmStsQaSensorTableViewNew::dialogDone);
       else if (text=="I=f(V)")
-      fPopupActionBox->buttonClicked().connect(
-        boost::bind(&CbmStsQaSensorTableViewNew::displayIV, this, fTableView->selectedIndexes()));
+        fPopupActionBox->buttonClicked().connect(
+                                                 boost::bind(&CbmStsQaSensorTableViewNew::displayIV, this, fTableView->selectedIndexes()));
         else if (text=="Geometry")
         fPopupActionBox->buttonClicked().connect(
           boost::bind(&CbmStsQaSensorTableViewNew::displayGeo, this, fTableView->selectedIndexes()));

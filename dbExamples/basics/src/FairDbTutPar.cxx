@@ -32,7 +32,7 @@ using namespace std;
 ClassImp(FairDbTutPar);
 
 
-static FairDbGenericParRegistry<FairDbTutPar> qa_iv("FairDbTutPar", FairDbDetector::kGfi, DataType::kData);
+static FairDbGenericParRegistry<FairDbTutPar> qa_iv("FairDbTutPar", FairDbDetector::kSts, DataType::kData);
 
 
 #include "FairDbGenericParSet.tpl"

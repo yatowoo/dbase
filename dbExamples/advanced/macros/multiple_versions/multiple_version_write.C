@@ -59,8 +59,6 @@ void multiple_version_write(){
                        time_end/10000, time_end/100%100, time_end%100);
     
     
-   
-    
     cout << "-I- created Validity Time Range " << t_start.AsString()
          << " : " 
          << t_end.AsString() 

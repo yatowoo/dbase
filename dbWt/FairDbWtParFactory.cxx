@@ -17,7 +17,7 @@ FairDbWtParFactory::FairDbWtParFactory()
 FairDbWtParFactory& FairDbWtParFactory::Instance()
 {
   if ( ! fgInstance ) {
-         fgInstance = new FairDbWtParFactory();
+    fgInstance = new FairDbWtParFactory();
   }
 
   return *fgInstance;

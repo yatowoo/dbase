@@ -5,4 +5,20 @@
       Logged in as <b>${user-name}</b> | ${logout}
     </div>
   </message>
+
+
+  <message id="toolbar-template">
+    <div class="form-inline">
+      <div class="form-group">
+        ${menu}
+      </div>
+      <div class="form-group">
+          ${status}
+        </div>
+        <div class="form-group">
+          ${out}
+        </div>
+      </div>
+  </message>
+
 </messages>

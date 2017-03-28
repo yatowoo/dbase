@@ -164,7 +164,7 @@ void multiple_version_read(){
   cout << " ******* Test moving to adjacent validity intervals ******* " << endl;
 
   // Date interval Stepping forward
-  for (int step = 0; step < 5; ++step) {
+  for (int step = 0; step < 6; ++step) {
     rr_par1.NextQuery();
     Int_t nextDateGot = rr_par1.GetValidityRec()->GetValInterval()
       .GetTimeStart().GetDate();
@@ -176,7 +176,7 @@ void multiple_version_read(){
 
 
   // Date interval Stepping backward
-  for (int step = 0; step < 5; ++step) {
+  for (int step = 0; step < 6; ++step) {
     rr_par1.NextQuery(kFALSE);
     nextDateGot = rr_par1.GetValidityRec()->GetValInterval()
       .GetTimeStart().GetDate();

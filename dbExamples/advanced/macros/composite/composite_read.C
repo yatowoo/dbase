@@ -28,8 +28,8 @@ void composite_read(){
   };
   
   Test_t tests[] = {
-    {20140110,000000,20160131, 000000, 20140131,  000000, 0, 20, 30, 110, 102., 103., 111.}
-    {20140110,000000,20160131, 000000, 20140131,  000000, 1, 50, 80, 130, 105., 108., 113.}
+    {20140110,000000,20160131, 000000, 20140131,  000000, 195, 20, 30, 110, 102., 103., 111.}
+    {20140110,000000,20160131, 000000, 20140131,  000000, 1098, 50, 80, 130, 105., 108., 113.}
   };
   
   for (int itest=0; itest<1; ++itest ) {
@@ -114,6 +114,54 @@ void composite_read(){
     cout << "-I- Row validity record ------ " << endl;
     cout << "-I- Row Start - End date   " << startDateGot << " - " << endDateGot <<endl;
     cout << endl;	  
+
+
+   
+    // Collect up all validity records for the EXPAR2 table
+    int dbEntry = 0; // first entry in list of DB    
+    FairDbValRecordMap vrs("EXPAR2", dbEntry);
+    cout << " -I- number of rows in validity table EXPAR2 " << vrs.GetNumRows() << endl;
+    for (unsigned int irec = 0; irec < vrs.GetNumRows(); ++irec) 
+      {
+        const FairDbValRecord* vrec = vrs.GetObjTableMap(irec);
+        const ValInterval& rg = vrec->GetValInterval(); 
+        Int_t startDate = rg.GetTimeStart().GetDate();
+        Int_t endDate   = rg.GetTimeEnd().GetDate();
+        
+        cout << endl;
+        cout << "-I- Validity record ------ " << irec <<  endl;
+        cout << "-I- Start - End date   " << startDate << " - " << endDate << endl;
+        cout << endl;
+        
+        // Get the corresponding SeqNo and NRows 
+        FairDbReader<FairDbConfigData> cfs("EXPAR2", *vrec);
+        
+        // Get seqNo number and corresponding number of Rows 
+        int nRows = cfs.GetNumRows();
+        int seqNo = vrec->GetSeqNo();
+        int dbNo  = vrec->GetDbNo();      
+        cout << "In Db entry# "
+             << dbNo << "found  seqNo "
+             << seqNo << " corresponding n_rows  in data table: " << nRows << endl;
+        
+        // Get the corresponding rows in data table         
+        // FairDbReader<FairDbExPar2> rp("EXPAR2", *vrec);
+        FairDbReader<FairDbExPar2> rp("EXPAR2", seqNo, dbNo);
+        int numRows= rp.GetNumRows(); 
+        cout << " found corresponding n_rows  in data table: " << numRows << endl;
+        
+        // Loop over the selected rows corresponding
+        // to this validity record
+        FairDbExPar2* cgd=NULL;    
+        for (int i = 0; i < numRows; ++i) {
+          cgd = (FairDbExPar2*) rp.GetRow(i);
+          if (!cgd) { continue; }
+          Int_t fIdSystem =  cgd->GetIdSystem();
+          cout << " @ row = " << i << " found subsystem id: " << fIdSystem <<
+            " with data: " << cgd->GetData() << endl;
+        }
+      }
+
     
   }//!(itest)
   

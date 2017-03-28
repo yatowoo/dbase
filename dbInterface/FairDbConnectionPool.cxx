@@ -97,7 +97,11 @@ FairDbConnectionPool::FairDbConnectionPool():
     // First check
     if ( ! stmtDb.get() ) { continue; }
 
-    // Apply
+    // <DB> 3-02-2017 
+    // This assume  the table GLOBALSEQNO already exists
+    // In case it does not exists it will generate a SQL error
+    // ... justs ignore it.
+
     TSQLStatement* stmt = NULL;
     size_t found = url.find("sqlite://");
     if (found!=string::npos) {

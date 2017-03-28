@@ -248,26 +248,26 @@ FairDbWtParTreeTable* FairDbWtTreeView::TreeTableView(){
 }
 
 void FairDbWtTreeView::TreeTableChanged() {
-// Get the tree
-WTree* aTree = fFileTreeTable->tree(); 
-// Get Tree Node
-FairDbWtParTreeTableNode* tNode = (FairDbWtParTreeTableNode*) fFileTreeTable->treeRoot();
+  // Get the tree
+  WTree* aTree = fFileTreeTable->tree(); 
+  // Get Tree Node
+  FairDbWtParTreeTableNode* tNode = (FairDbWtParTreeTableNode*) fFileTreeTable->treeRoot();
   
-  for (WTreeNodeSet::const_iterator i = aTree->selectedNodes().begin(); 
-                                  i != aTree->selectedNodes().end(); ++i){
-     WTreeNode *aNode=(*i);
+ for (WTreeNodeSet::const_iterator i = aTree->selectedNodes().begin(); 
+      i != aTree->selectedNodes().end(); ++i){
+   WTreeNode *aNode=(*i);
 
-     cout << "-I Server: FairDbWtTreeView::TreeTableChanged() Node:" <<  aNode->label()->text().value() << endl;     
+   cout << "-I Server: FairDbWtTreeView::TreeTableChanged() Node:" <<  aNode->label()->text().value() << endl;     
  
-     string pName= aNode->label()->text().toUTF8();
-     Wt::WTable* table = tNode->createDataTable(this,pName); 
-     if (table){ 
-       WMenuItem *tab = fTabWidget_top->addTab(table, pName, WTabWidget::PreLoading);
-        int index = fTabWidget_top->indexOf(table);
-        fTabWidget_top->setCurrentIndex(index);
-        tab->setCloseable(false);
-     }
-  }
+   string pName= aNode->label()->text().toUTF8();
+   Wt::WTable* table = tNode->createDataTable(this,pName); 
+   if (table){ 
+     WMenuItem *tab = fTabWidget_top->addTab(table, pName, WTabWidget::PreLoading);
+     int index = fTabWidget_top->indexOf(table);
+     fTabWidget_top->setCurrentIndex(index);
+     tab->setCloseable(false);
+   }
+ }
 
 }
 
@@ -331,7 +331,7 @@ void FairDbWtTreeView::popupAction_Lup() {
 
 void FairDbWtTreeView::showPopup_Rtop(const WMouseEvent& event) 
 {
-    if (event.button() == WMouseEvent::RightButton) {
+  if (event.button() == WMouseEvent::RightButton) {
     // CHECK ME suboptimal
     if (fPopup) {delete fPopup; fPopup=NULL;} 
     
@@ -348,11 +348,11 @@ void FairDbWtTreeView::showPopup_Rtop(const WMouseEvent& event)
       fPopup->aboutToHide().connect(this, &FairDbWtTreeView::popupAction_Rtop);
     }
 
-      if (fPopup->isHidden())
-         fPopup->popup(event);
-      else
-         fPopup->hide();
-     }//! if (event) 
+    if (fPopup->isHidden())
+      fPopup->popup(event);
+    else
+      fPopup->hide();
+  }//! if (event) 
 }
 
 void FairDbWtTreeView::popupAction_Rtop() 
@@ -371,15 +371,15 @@ void FairDbWtTreeView::popupAction_Rtop()
 
 void FairDbWtTreeView::dialogDone_Rtop() 
 {
-    if (fTabWidget_top->currentIndex()>=0)
-      {
-       int index =  fTabWidget_top->currentIndex();
-       fTabWidget_top->removeTab(fTabWidget_top->widget(index));
-       }
-    if (fPopupActionBox) {
-        delete fPopupActionBox;
-        fPopupActionBox = 0;
+  if (fTabWidget_top->currentIndex()>=0)
+    {
+      int index =  fTabWidget_top->currentIndex();
+      fTabWidget_top->removeTab(fTabWidget_top->widget(index));
     }
+  if (fPopupActionBox) {
+    delete fPopupActionBox;
+    fPopupActionBox = 0;
+  }
 }
 
 void FairDbWtTreeView::showPopup_Rdown(const WMouseEvent& event) 

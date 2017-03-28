@@ -41,7 +41,7 @@ class FairParamList;
 class FairDbTutPar : public FairDbGenericParSet<FairDbTutPar>
 {
  public :
-  FairDbTutPar (const FairDbDetector::Detector_t detid=FairDbDetector::kGfi,
+  FairDbTutPar (const FairDbDetector::Detector_t detid=FairDbDetector::kSts,
                 const DataType::DataType_t dataid=DataType::kData,
                 const char* name="ExTutPar",
                 const char* title="Tutorial  parameter",

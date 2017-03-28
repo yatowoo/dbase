@@ -26,7 +26,6 @@ class FairDbStreamer : public TObject
     // Constructors and destructors.
     FairDbStreamer();
     FairDbStreamer(const TObject* obj,  FairDb::DataTypes type=FairDb::kBinary);
-
     FairDbStreamer(const Int_t* iarr, Int_t size, FairDb::DataTypes type=FairDb::kInt);
     FairDbStreamer(const UInt_t* iarr, Int_t size, FairDb::DataTypes type=FairDb::kInt);
     FairDbStreamer(const Short_t* iarr, Int_t size, FairDb::DataTypes type=FairDb::kInt);

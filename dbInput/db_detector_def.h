@@ -33,21 +33,15 @@ class FairDbDetector
      typedef enum EDetector {
        kUnknown          = 0x00,
        kCal              = 0x01,
-       kCalCrystal       = 0x02,
-       kDch              = 0x04,
-       kGfi              = 0x08,
-       kLand             = 0x10,
-       kMtof             = 0x12,
-       kTof              = 0x14,
-       kTracker          = 0x16,
-       kLos              = 0x18,
-       kSts              = 0x20
+       kSts              = 0x02,
+       kRich             = 0x04,
+       kTof              = 0x08
      } Detector_t;
   
 
   
     static Int_t       FullMask() {
-      return kCal|kCalCrystal|kDch|kGfi|kLand|kMtof|kTof|kTracker|kLos|kSts;
+      return kCal|kSts|kRich|kTof;
     }
 
 
@@ -57,34 +51,16 @@ class FairDbDetector
         return "Unknown";
         break;
       case kCal:
-        return "Califa";
-        break;
-      case kCalCrystal:
-        return "CrystalBall";
-        break;
-      case kDch:
-        return "Dch";
-        break;
-      case kGfi:
-        return "Gfi";
-        break;
-      case kLand:
-        return "Land";
-        break;
-      case kMtof:
-        return "Mtof";
-        break;
-      case kTof:
-        return "Tof";
-        break;
-      case kTracker:
-        return "Tracker";
-        break;
-      case kLos:
-        return "Los";
+        return "Calorimeter";
         break;
       case kSts:
         return "Sts";
+        break;
+      case kRich:
+        return "Rich";
+        break;
+      case kTof:
+        return "Tof";
         break;
       default:
         return "?Unknown?";
@@ -101,36 +77,17 @@ class FairDbDetector
       case 'c':
       case '2':
       case 0x02:
-        return kCalCrystal;
+        return kSts;
       case 'D':
       case 'd':
       case '4':
       case 0x04:
-        return kDch;
+        return kRich;
       case 'G':
       case 'g':
       case '8':
       case 0x08:
-        return kGfi;
-      case 'L':
-      case 'l':
-      case 0x10:
-        return kLand;
-      case 'M':
-      case 'm':
-      case 0x12:
-        return kMtof;
-      case 't':
-      case 0x14:
         return kTof;
-      case 'T':
-      case 0x16:
-        return kTracker;
-      case 'O':
-      case 0x18:
-        return kLos;
-      case 0x20:
-        return kSts;
       default:
         return kUnknown;
       }
@@ -164,15 +121,9 @@ class FairDbDetector
 
       thestring.ToLower();
       if (thestring.Contains("C")) { mask |= kCal; }
-      if (thestring.Contains("c")) { mask |= kCalCrystal; }
-      if (thestring.Contains("D")) { mask |= kDch; }
-      if (thestring.Contains("G")) { mask |= kGfi; }
-      if (thestring.Contains("L")) { mask |= kLand; }
-      if (thestring.Contains("M")) { mask |= kMtof; }
-      if (thestring.Contains("t")) { mask |= kTof; }
-      if (thestring.Contains("T")) { mask |= kTracker; }
-      if (thestring.Contains("O")) { mask |= kLos; }
-      if (thestring.Contains("S")) { mask |= kSts; }
+      if (thestring.Contains("c")) { mask |= kSts; }
+      if (thestring.Contains("D")) { mask |= kRich; }
+      if (thestring.Contains("G")) { mask |= kTof; }
 
       return mask;
     }
@@ -189,32 +140,14 @@ class FairDbDetector
       case kCal:
         return kCal;
         break;
-      case kCalCrystal:
-        return kCalCrystal;
+      case kSts:
+        return kSts;
         break;
-      case kDch:
-        return kDch;
-        break;
-      case kGfi:
-        return kGfi;
-        break;
-      case kLand:
-        return kLand;
-        break;
-      case kMtof:
-        return kMtof;
+      case kRich:
+        return kRich;
         break;
       case kTof:
         return kTof;
-        break;
-      case kTracker:
-        return kTracker;
-        break;
-      case kLos:
-        return kLos;
-        break;
-      case kSts:
-        return kSts;
         break;
       default:
         return kUnknown;
@@ -227,16 +160,10 @@ class FairDbDetector
 
       FairDbDetector::Detector_t  fDetType=FairDbDetector::kUnknown;
 
-      if      ( detMask & FairDbDetector::kCal )       { fDetType = FairDbDetector::kCal; }
-      else if ( detMask & FairDbDetector::kCalCrystal) { fDetType = FairDbDetector::kCalCrystal; }
-      else if ( detMask & FairDbDetector::kDch)        { fDetType = FairDbDetector::kDch; }
-      else if ( detMask & FairDbDetector::kGfi)        { fDetType = FairDbDetector::kGfi; }
-      else if ( detMask & FairDbDetector::kLand)       { fDetType = FairDbDetector::kLand; }
-      else if ( detMask & FairDbDetector::kMtof)       { fDetType = FairDbDetector::kMtof; }
-      else if ( detMask & FairDbDetector::kTof)        { fDetType = FairDbDetector::kTof; }
-      else if ( detMask & FairDbDetector::kTracker)    { fDetType = FairDbDetector::kTracker; }
-      else if ( detMask & FairDbDetector::kLos)        { fDetType = FairDbDetector::kLos; }
-      else if ( detMask & FairDbDetector::kSts)        { fDetType = FairDbDetector::kSts; }
+      if      ( detMask & FairDbDetector::kCal )       { fDetType = FairDbDetector::kCal;  }
+      else if ( detMask & FairDbDetector::kSts)        { fDetType = FairDbDetector::kSts;  }
+      else if ( detMask & FairDbDetector::kRich)       { fDetType = FairDbDetector::kRich; }
+      else if ( detMask & FairDbDetector::kTof)        { fDetType = FairDbDetector::kTof;  }
 
       return fDetType;
     }

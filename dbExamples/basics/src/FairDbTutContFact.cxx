@@ -74,7 +74,7 @@ FairParSet* FairDbTutContFact::createContainer(FairContainer* c)
   cout << "-I- FairDbTutContFact::createContainer " << name << " : " << cname << endl;
   FairDbParSet* p=NULL;
   if (strcmp(name,"TUTParDefault")==0) {
-    p=new FairDbTutPar( FairDbDetector::kGfi, DataType::kData,
+    p=new FairDbTutPar( FairDbDetector::kSts, DataType::kData,
                         c->getConcatName().Data(),c->GetTitle(),c->getContext(), kTRUE);
     // Set Arguments needed for SQL versioning managment
     p->SetVersion(0);
@@ -84,7 +84,7 @@ FairParSet* FairDbTutContFact::createContainer(FairContainer* c)
   }
 
   if (strcmp(name,"TUTParAlternative")==0) {
-    p=new FairDbTutPar(FairDbDetector::kGfi, DataType::kData,
+    p=new FairDbTutPar(FairDbDetector::kSts, DataType::kData,
                        c->getConcatName().Data(),c->GetTitle(),c->getContext(), kTRUE);
     // Set Arguments needed for SQL versioning managment
     p->SetVersion(0);
@@ -94,7 +94,7 @@ FairParSet* FairDbTutContFact::createContainer(FairContainer* c)
   }
 
   if (strcmp(name,"TUTParBin")==0) {
-    p=new FairDbTutParBin(FairDbDetector::kGfi, DataType::kData,
+    p=new FairDbTutParBin(FairDbDetector::kSts, DataType::kData,
                           c->getConcatName().Data(),c->GetTitle(),c->getContext(),kTRUE);
     // Set Arguments needed for SQL versioning managment
     p->SetVersion(0);

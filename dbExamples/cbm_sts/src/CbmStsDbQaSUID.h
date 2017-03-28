@@ -59,7 +59,8 @@ using TObject::Compare;
 
     string GetVendor()    { return fVendor;}
     string GetBatchId()   { return fBatchId;}
-    string GetBatchTime() { return fBatchTime;}      
+    string GetBatchTime() { return fBatchTime;}
+    Int_t  GetWaferId()   { return fWaferId;}
     Int_t  GetSensorId()  { return fSensorId;}
     
     // Random Access via UID

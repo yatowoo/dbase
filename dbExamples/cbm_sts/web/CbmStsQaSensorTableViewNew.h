@@ -21,11 +21,11 @@ public:
   CbmStsQaSensorTableViewNew(WContainerWidget *parent, string pName);
   virtual ~CbmStsQaSensorTableViewNew();
 
-// Event notify
+  // Event notify
   void editFile(const WModelIndex& item, const WMouseEvent& event);
   void editFiled(const WModelIndex& item, WAbstractItemModel* model);
 
-// Menus
+  // Menusg
   void showPopup(const WModelIndex& item, const WMouseEvent& event);
   void popupAction();
   void displayIV(const WModelIndexSet& aSet);
@@ -38,11 +38,11 @@ public:
 
 
 private:
-WPopupMenu *fPopup;
-WMessageBox *fPopupActionBox;
-CbmStsQaWTreeView *fView;
-WTableView* fTableView;
-Int_t fOption;
+  WPopupMenu *fPopup;
+  WMessageBox *fPopupActionBox;
+  CbmStsQaWTreeView *fView;
+  WTableView* fTableView;
+  Int_t fOption;
 };
 
 

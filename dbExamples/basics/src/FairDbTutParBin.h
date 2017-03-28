@@ -48,7 +48,7 @@ class FairDbValRecord;
 class FairDbTutParBin : public FairDbGenericParSet<FairDbTutParBin>
 {
  public :
-  FairDbTutParBin (  const FairDbDetector::Detector_t detid=FairDbDetector::kGfi,
+  FairDbTutParBin (  const FairDbDetector::Detector_t detid=FairDbDetector::kSts,
                      const DataType::DataType_t dataid=DataType::kData,                     
                      const char* name="ExTutParBin",
                      const char* title="Tutorial  parameter",

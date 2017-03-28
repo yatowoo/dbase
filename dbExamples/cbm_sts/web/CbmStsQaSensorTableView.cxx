@@ -24,16 +24,16 @@ CbmStsQaSensorTableView::CbmStsQaSensorTableView(WContainerWidget *parent, strin
 // Set version of Data Model
 fView = static_cast<CbmStsQaWTreeView*> (parent);
 
-FairDbWtParFactory::parInfo p_Info = FairDbWtParFactory::Instance().GetParInfo(pName);
-FairDbTableMetaData t_meta = p_Info.fTableInterface->GetMetaData();
+ FairDbWtParFactory::parInfo p_Info = FairDbWtParFactory::Instance().GetParInfo(pName);
+ FairDbTableMetaData t_meta = p_Info.fTableInterface->GetMetaData();
 
-cout << "-I- CbmStsQaSensorTableView::  Table View name " << t_meta.TableName()
-     << " nCols:  " << t_meta.NumCols() << endl;
+ cout << "-I- CbmStsQaSensorTableView::  Table View name " << t_meta.TableName()
+      << " nCols:  " << t_meta.NumCols() << endl;
 
 int n_cols = t_meta.NumCols();
-fTableView = new Wt::WTableView(parent);
-// Try it out
-fTableView->decorationStyle().font().setSize(WFont::Small);
+ fTableView = new Wt::WTableView(parent);
+ // Try it out
+ fTableView->decorationStyle().font().setSize(WFont::Small);
 
 // Create the Data Model
 CbmStsQaSensorDataModel *t_model =
@@ -95,8 +95,8 @@ CbmStsQaSensorTableView::~CbmStsQaSensorTableView()
 void CbmStsQaSensorTableView::editFile(const WModelIndex& item, const WMouseEvent& event)
 {
 
- cout << "-I- CbmStsQaSensorTableView:: single clicked node :: item  row# "
-      << item.row() <<  " column = " << item.column() << endl;
+  cout << "-I- CbmStsQaSensorTableView:: single clicked node :: item  row# "
+       << item.row() <<  " column = " << item.column() << endl;
 
 
   if (fTableView){
@@ -127,7 +127,7 @@ void CbmStsQaSensorTableView::editFile(const WModelIndex& item, const WMouseEven
 }
 
 void CbmStsQaSensorTableView::editFiled(const WModelIndex& item,
-                                          WAbstractItemModel* model)
+                                        WAbstractItemModel* model)
 {
  cout << "-I- CbmStsQaSensorTableView:: doubleClicked :: item  row# " << item.row()
       <<  " column = " << item.column()

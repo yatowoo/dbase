@@ -29,7 +29,7 @@ FairDbWtParTreeTable* CbmStsQaWTreeView::TreeTableView(){
   treeTable->treeRoot()->setNodeVisible(false);
   treeTable->treeRoot()->setChildCountPolicy(WTreeNode::Enabled);
   treeTable->tree()->itemSelectionChanged()
-                    .connect(this, &FairDbWtTreeView::TreeTableChanged);
+    .connect(this, &FairDbWtTreeView::TreeTableChanged);
 
   setTreeTable(treeTable);
   return treeTable;
@@ -208,7 +208,7 @@ void CbmStsQaWTreeView::Show_Results(vector<int>& sid){
   item_down->setCloseable(false);
 }
 
- void CbmStsQaWTreeView::Show_Iv(int sid){
+void CbmStsQaWTreeView::Show_Iv(int sid){
 
   cout << "-I- CbmStsQaWTreeView::Show_Iv -----  " << endl;
   CbmStsQaIvChartView *iv_view = new CbmStsQaIvChartView(sid, this);

@@ -16,7 +16,7 @@ FairDbWtParTreeTableNode::FairDbWtParTreeTableNode(FairDbObjTableMap *aPar,
                                                    WString& pName, bool isDir)
   : WTreeTableNode(pName, createIcon(isDir))
 {
-   label()->setTextFormat(PlainText);
+  label()->setTextFormat(PlainText);
 
      if (!isDir) {
       setColumnWidget(1, new WText("Created"));
@@ -29,8 +29,8 @@ FairDbWtParTreeTableNode::FairDbWtParTreeTableNode(FairDbObjTableMap *aPar,
     }
       
 
-  // Get the first connected DB instance
-  fConnections = FairDbParFactory::Instance().GetConnections();
+     // Get the first connected DB instance
+     fConnections = FairDbParFactory::Instance().GetConnections();
 
 }
 

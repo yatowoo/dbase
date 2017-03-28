@@ -32,7 +32,7 @@ using std::endl;
 
 ClassImp(FairDbTutParBin);
 
-static FairDbGenericParRegistry<FairDbTutParBin> qa_iv("FairDbTutParBin", FairDbDetector::kGfi, DataType::kData);
+static FairDbGenericParRegistry<FairDbTutParBin> qa_iv("FairDbTutParBin", FairDbDetector::kSts, DataType::kData);
 
 #include "FairDbGenericParSet.tpl"
 template class  FairDbGenericParSet<FairDbTutParBin>;
