@@ -211,7 +211,7 @@ void FairDbGenericParSet<T>::store(UInt_t rid)
   //                      DbEntry          ,            Int_t                   set via cont. factory
   //                      LogTitle         ,            std::string             set via cont. factory
   
-  fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(), atr.Data());
+  fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(), GetLogTitle());
   // Object to Table mapping
   // DB CHECK ME !!!!!!
   T* par = (T*) (this);
@@ -269,7 +269,7 @@ FairDbWriter<T>* FairDbGenericParSet<T>::ActivateWriter(Int_t rid)
 
     // Writer Meta-Class Instance
     fParam_Writer = GetParamWriter();
-    fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(),atr.Data()); 
+    fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(),GetLogTitle());
     return fParam_Writer;
   }
   return NULL;
