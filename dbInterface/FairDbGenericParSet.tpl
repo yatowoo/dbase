@@ -163,6 +163,37 @@ void FairDbGenericParSet<T>::fill(UInt_t rid)
 }
 
 template<typename T>
+TObjArray* FairDbGenericParSet<T>::FillArray(Int_t compId, UInt_t rid)
+{
+  T instance;
+  FairDbReader<T> paramReader;
+
+  paramReader.Activate(instance.GetContext(rid), instance.GetVersion());
+  Int_t numRows = paramReader.GetNumRows();
+  if (!numRows)
+    return NULL;
+
+  TObjArray* result = new TObjArray(numRows);
+  for (Int_t i=0; i < numRows; i++)
+  {
+    T *inst = (T*)paramReader.GetRow(i);
+    if (!inst)
+      continue;
+
+    // Read grouped
+    if (compId != -1)
+    {
+      const FairDbValRecord *valRecord = paramReader.GetValidityRec(inst);
+      if (valRecord->GetAggregateNo() != compId)
+        continue;
+    }
+    result->Add(inst);
+  }
+
+  return result;
+}
+
+template<typename T>
 void FairDbGenericParSet<T>::store(UInt_t rid)
 {
   // Boolean IO test variable
@@ -224,6 +255,47 @@ void FairDbGenericParSet<T>::store(UInt_t rid)
   }
 }
 
+template <typename T>
+void FairDbGenericParSet<T>::StoreArray(TObjArray *array, Int_t compId, UInt_t rid)
+{
+  Int_t numRows = array->GetEntries();
+  if (!numRows)
+    return;
+
+  T* parSet = (T*) array->At(0);
+  if (!parSet)
+    return;
+
+  // Store grouped
+  if (compId != -1)
+  {
+    parSet->SetCompId(compId);
+    FairDbWriter<T> *paramWriter = parSet->ActivateWriter(rid);
+    paramWriter->SetComboNo(compId);
+
+    for (Int_t i=0; i<numRows; i++)
+    {
+      parSet = (T*) array->At(i);
+      if (!parSet)
+        continue;
+
+      parSet->SetCompId(compId);
+      *paramWriter << *parSet;
+    }
+
+    paramWriter->Close();
+  } else {
+    // Store individually
+    for (Int_t i=0; i<numRows; i++)
+    {
+      parSet = (T*) array->At(i);
+      if (!parSet)
+        continue;
+
+      parSet->store(rid);
+    }
+  }
+}
 
 template<typename T>
 FairDbWriter<T>* FairDbGenericParSet<T>::ActivateWriter(Int_t rid)
