@@ -276,6 +276,9 @@ void FairDbStreamer::Fill(Double_t* arr)
 
 void FairDbStreamer::Fill(TObject* obj)
 {
+  if (!obj || fString.IsNull())
+    return;
+
   // <DB> changed according to Jorg Förtsch
   //      date 28.03.2017
   // Decryption str
