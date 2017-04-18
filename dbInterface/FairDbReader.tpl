@@ -312,49 +312,49 @@ const T* FairDbReader<T>::GetRow(UInt_t rowNum) const
 template<class T>
 const T* FairDbReader<T>::GetRowByIndex(UInt_t index) const
 {
-
+  
   return ( fResult && FairDbTableInterfaceStore::IsActive() ) ?
-         dynamic_cast<const T*>(fResult->GetObjTableMapByIndex(index))
-         : 0;
+    dynamic_cast<const T*>(fResult->GetObjTableMapByIndex(index))
+    : 0;
 }
 
 
 template<class T>
 const FairDbValRecord* FairDbReader<T>::GetValidityRec(
-  const FairDbObjTableMap* row) const
+                                                       const FairDbObjTableMap* row) const
 {
-
+  
   return ( fResult && FairDbTableInterfaceStore::IsActive() )
-         ? &(fResult->GetValidityRec(row)) : 0 ;
-
+    ? &(fResult->GetValidityRec(row)) : 0 ;
+  
 }
 
 
 template<class T>
 UInt_t FairDbReader<T>::NextQuery(Bool_t forwards)
 {
-
-// Door stops.
+  
+  // Door stops.
   static ValTimeStamp startOfTime(0,0);
   static ValTimeStamp endOfTime(0x7FFFFFFF,0);
-
+  
   if ( ! fResult ) { return 0; }
-
+  
   DBLOG("FairDb",FairDbLog::kInfo)   << "\n\nStarting next query: direction "
                                      << ( forwards ?  "forwards" : "backwards" ) << "\n" << endl;
-
+  
   const FairDbValRecord& vrec = fResult->GetValidityRec();
   const ValInterval& vrnge      = vrec.GetValInterval();
-
+  
   // If we are heading towards the final boundary, just return the same query.
   if (   forwards && vrnge.GetTimeEnd()   == endOfTime ) { return fResult->GetNumRows(); }
   if ( ! forwards && vrnge.GetTimeStart() == startOfTime ) { return fResult->GetNumRows(); }
-
+  
   // Step across boundary and construct new context.
   // The end time limit is exclusive, so stepping to the end
   // does cross the boundary
   time_t ts = forwards ? vrnge.GetTimeEnd().GetSec()
-              : vrnge.GetTimeStart().GetSec() - 1;
+    : vrnge.GetTimeStart().GetSec() - 1;
   ValCondition vc(fDetType,fSimType,ValTimeStamp(ts,0));
 
   return this->NewQuery(vc,vrec.GetVersion(), true);

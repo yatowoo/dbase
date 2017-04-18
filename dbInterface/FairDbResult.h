@@ -170,31 +170,33 @@ class FairDbResult
     virtual ~FairDbResult();
 
 
-    virtual                Bool_t CanReuse() const  { return fCanReuse; }
-    virtual                Bool_t CanSave() const  { return kTRUE; }
-    virtual                  void Connect() const { ++fNumClients; }
+    virtual                   Bool_t CanReuse() const  { return fCanReuse; }
+    virtual                   Bool_t CanSave() const  { return kTRUE; }
+    virtual                   void   Connect() const { ++fNumClients; }
     virtual         FairDbResultKey* CreateKey() const = 0;
-    virtual                  void Disconnect() const { --fNumClients; }
-    Int_t GetID() const { return fID; }
+    virtual                     void Disconnect() const { --fNumClients; }
+    Int_t                            GetID() const { return fID; }
     virtual   const FairDbResultKey* GetKey() const;
-    virtual                UInt_t GetNumAggregates() const =0;
-    virtual                UInt_t GetNumClients() const {
-      return fNumClients;
-    }
-    virtual                UInt_t GetNumRows() const =0;
-    const std::string& GetSqlQualifiers() const { return fSqlQualifiers; }
-    virtual    const FairDbObjTableMap* GetObjTableMap(UInt_t rowNum) const =0;
-    virtual    const FairDbObjTableMap* GetObjTableMapByIndex(UInt_t index) const;
-    virtual const FairDbValRecord& GetValidityRec(
-      const FairDbObjTableMap* row = 0) const {
-      return GetValidityRecGlobal();
-    }
-    virtual const FairDbValRecord& GetValidityRecGlobal() const {
-      return fEffVRec;
-    }
-    Bool_t IsExtendedContext() const {
-      return this->GetSqlQualifiers() != "";
-    }
+    virtual                   UInt_t GetNumAggregates() const =0;
+    virtual                   UInt_t GetNumClients() const { return fNumClients; }
+    virtual                   UInt_t GetNumRows() const =0;
+
+    const std::string&               GetSqlQualifiers() const { return fSqlQualifiers; }
+    virtual const FairDbObjTableMap* GetObjTableMap(UInt_t rowNum) const =0;
+    virtual const FairDbObjTableMap* GetObjTableMapByIndex(UInt_t index) const;
+
+    virtual const FairDbValRecord&   GetValidityRec(const FairDbObjTableMap* row = 0) const
+                                                              {
+                                                                  return GetValidityRecGlobal();
+                                                              }
+    virtual const FairDbValRecord&   GetValidityRecGlobal() const
+                                                              {
+                                                                  return fEffVRec;
+                                                              }
+    Bool_t                           IsExtendedContext() const {
+                                                                  return this->GetSqlQualifiers() != "";
+                                                               }
+    
     virtual  Bool_t Owns(const FairDbObjTableMap* table) const { return kFALSE; }
     Bool_t ResultsFromDb() const { return fResultsFromDb; }
     virtual const std::string& TableName() const { return fTableName; }

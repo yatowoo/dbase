@@ -28,8 +28,8 @@ void composite_read(){
   };
   
   Test_t tests[] = {
-    {20140110,000000,20160131, 000000, 20140131,  000000, 195, 20, 30, 110, 102., 103., 111.}
-    {20140110,000000,20160131, 000000, 20140131,  000000, 1098, 50, 80, 130, 105., 108., 113.}
+    {20140110,000000,20160131, 000000, 20140131,  000000, 1, 20, 30, 110, 102., 103., 111.}
+    {20140110,000000,20160131, 000000, 20140131,  000000, 2, 50, 80, 130, 105., 108., 113.}
   };
   
   for (int itest=0; itest<1; ++itest ) {
@@ -99,11 +99,10 @@ void composite_read(){
       }
     }
     
-    // Test getting a FairDbVaRecord for a row.
+    // Test getting an Effective FairDbVaRecord with date out of the
+    // interval of validity used to write the parameter object.
     ValTimeStamp tstamp2(2016, 02, 03, 12, 0, 0);
     ValCondition vc2(FairDbDetector::kSts, DataType::kData,tstamp2);
-    Int_t startDateReq = 20010103;
-    Int_t endDateReq   = 20010104;
     
     FairDbReader<FairDbExPar2> rp(vc2);
     const ValInterval& rng = rp.GetValidityRec()->GetValInterval(); 
@@ -111,12 +110,11 @@ void composite_read(){
     Int_t endDateGot   = rng.GetTimeEnd().GetDate();
     
     cout << endl;
-    cout << "-I- Row validity record ------ " << endl;
-    cout << "-I- Row Start - End date   " << startDateGot << " - " << endDateGot <<endl;
+    cout << "-I- Effective validity record ------ " << endl;
+    cout << "-I- Effective Start - End date   " << startDateGot << " - " << endDateGot <<endl;
     cout << endl;	  
 
-
-   
+ 
     // Collect up all validity records for the EXPAR2 table
     int dbEntry = 0; // first entry in list of DB    
     FairDbValRecordMap vrs("EXPAR2", dbEntry);
