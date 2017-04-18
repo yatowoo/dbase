@@ -39,8 +39,6 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsDefectType* GetDefectTypeById(Int_t defectTypId, UInt_t runId = 0);
-
     Int_t    GetId()              const { return fId; }
     string   GetTypeName()        const { return fTypeName; }
     Double_t GetWeight()          const { return fWeight; }

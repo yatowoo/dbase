@@ -120,44 +120,17 @@ void StsSensorVendor::Print()
   std::cout                                                         << std::endl;
 }
 
-StsSensorVendor* StsSensorVendor::GetVendorById(Int_t vendorId, UInt_t runId)
-{
-  StsSensorVendor vendor;
-  FairDbReader<StsSensorVendor> r_vendor = *vendor.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_vendor.Activate(context, vendor.GetVersion());
-  return (StsSensorVendor *)r_vendor.GetRowByIndex(vendorId);
-}
-
 StsSensorVendor* StsSensorVendor::GetVendorByName(string vendorName, UInt_t runId)
 {
-  StsSensorVendor vendor;
-  FairDbReader<StsSensorVendor> r_vendor;
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_vendor.Activate(context, vendor.GetVersion());
-  Int_t numRows = r_vendor.GetNumRows();
-  if (!numRows)
-    return NULL;
-
-  for (Int_t i=0; i < numRows; i++)
+  TObjArray *vendors = StsSensorVendor::GetArray(-1, runId);
+  for (Int_t i = 0; i<vendors->GetEntries(); i++)
   {
-    StsSensorVendor *vend = (StsSensorVendor*)r_vendor.GetRow(i);
-    if (!vend)
+    StsSensorVendor *vendor = (StsSensorVendor*)vendors->At(i);
+    if (!vendor)
       continue;
 
-    if (vend->GetVendorName() == vendorName)
-      return vend;
+    if (vendor->GetVendorName() == vendorName)
+      return vendor;
   }
 
   return NULL;

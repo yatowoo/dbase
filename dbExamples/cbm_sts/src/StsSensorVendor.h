@@ -39,7 +39,6 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsSensorVendor* GetVendorById(Int_t vendorId, UInt_t runId = 0);
     static StsSensorVendor* GetVendorByName(string vendorName, UInt_t runId = 0);
 
     Int_t    GetId()              const { return fId; }

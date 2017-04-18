@@ -204,78 +204,30 @@ void StsDefect::Print()
   std::cout                                                                    << std::endl;
 }
 
-StsDefect* StsDefect::GetDefectById(Int_t defectId, UInt_t runId)
-{
-  StsDefect defect;
-  FairDbReader<StsDefect> r_defect = *defect.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_defect.Activate(context, defect.GetVersion());
-  return (StsDefect *)r_defect.GetRowByIndex(defectId);
-}
-
 TObjArray* StsDefect::GetDefectsByImageId(Int_t inspectionImageId, UInt_t runId)
 {
-  StsDefect defect;
-  FairDbReader<StsDefect> r_defect;
+  StsInspectionImage *image = StsInspectionImage::GetById(inspectionImageId, runId);
+  TObjArray *defects = StsDefect::GetDefectsByInspectionId(image->GetInspectionId(), runId);
+  Int_t numRows = defects->GetEntries();
 
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_defect.Activate(context, defect.GetVersion());
-  Int_t numRows = r_defect.GetNumRows();
-  if (!numRows)
-    return NULL;
-
-  TObjArray* defects = new TObjArray(numRows);
+  TObjArray *result = new TObjArray(numRows);
   for (Int_t i=0; i < numRows; i++)
   {
-    StsDefect *def = (StsDefect*)r_defect.GetRow(i);
+    StsDefect *def = (StsDefect*)defects->At(i);
     if (!def)
       continue;
 
     if (def->GetImageId() == inspectionImageId) {
-      defects->Add(def);
+      result->Add(def);
     }
   }
 
-  return defects;
-}
-
-TObjArray* StsDefect::GetDefectsByInspectionId(Int_t inspectionId, UInt_t runId)
-{
-  StsDefect defect;
-  FairDbReader<StsDefect> r_defect;
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_defect.Activate(context, defect.GetVersion());
-  Int_t numRows = r_defect.GetNumRows();
-  if (!numRows)
+  if (result->GetEntries()){
+    return result;
+  } else {
+    delete result;
     return NULL;
-
-  TObjArray* defects = new TObjArray(numRows);
-  for (Int_t i=0; i < numRows; i++)
-  {
-    StsDefect *def = (StsDefect*)r_defect.GetRow(i);
-    if (!def)
-      continue;
-
-    if (def->GetInspectionId() == inspectionId)
-      defects->Add(def);
   }
-
-  return defects;
 }
 
 string StsDefect::GetTableDefinition(const char* Name)

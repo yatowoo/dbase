@@ -39,8 +39,6 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsDefectContext* GetDefectContextById(Int_t defectId, UInt_t runId = 0);
-
     Int_t    GetId()              const { return fId; }
     string   GetContextName()     const { return fContextName; }
     Double_t GetWeight()          const { return fWeight; }

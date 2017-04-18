@@ -116,21 +116,6 @@ void StsSensorBatch::Print()
   std::cout                                                         << std::endl;
 }
 
-StsSensorBatch* StsSensorBatch::GetBatchById(Int_t batchId, UInt_t runId)
-{
-  StsSensorBatch batch;
-  FairDbReader<StsSensorBatch> r_batch = *batch.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_batch.Activate(context, batch.GetVersion());
-  return (StsSensorBatch *)r_batch.GetRowByIndex(batchId);
-}
-
 TObjArray* StsSensorBatch::GetSensors()
 {
   if (!fSensors)

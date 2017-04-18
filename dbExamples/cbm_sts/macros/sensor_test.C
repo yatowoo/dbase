@@ -99,6 +99,7 @@ void prime_defect()
     defect.SetLogTitle(logTitle);
     defect.SetCompId(0);
     defect.SetId(i);
+    defect.SetLeft(i);
 
     w_defect << defect;
   }
@@ -299,7 +300,7 @@ void prime_sensor()
 
 void sensor_read(Int_t sensorId = 0, UInt_t runId = 0)
 {
-  StsSensor* sensor = StsSensor::GetSensorById(sensorId, runId);
+  StsSensor* sensor = StsSensor::GetById(sensorId, runId);
   print_sensor(sensor);
 }
 
@@ -366,7 +367,7 @@ void prime_inspection_image()
 
 void inspection_read(int id = 0, UInt_t runId = 0)
 {
-  StsOpticalInspection* inspection = StsOpticalInspection::GetInspectionById(id, runId);
+  StsOpticalInspection* inspection = StsOpticalInspection::GetById(id, runId);
   if (!inspection)
     return;
   inspection->Print();
@@ -381,7 +382,7 @@ void inspection_read(int id = 0, UInt_t runId = 0)
 
 void test_relations()
 {
-  StsSensorBatch *batch = StsSensorBatch::GetBatchById(0);
+  StsSensorBatch *batch = StsSensorBatch::GetById(0);
   batch->Print();
   StsSensor *sensor = batch->GetSensors()->At(0);
   sensor->Print();
@@ -405,7 +406,7 @@ void test_relations()
 
 void test_backward_relations()
 {
-  StsDefect *defect = StsDefect::GetDefectById(0);
+  StsDefect *defect = StsDefect::GetById(0);
   defect->Print();
   StsInspectionImage *image = defect->GetDefectImage();
   image->Print();

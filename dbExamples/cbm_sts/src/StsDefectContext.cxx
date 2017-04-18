@@ -102,21 +102,6 @@ void StsDefectContext::Print()
   std::cout                                                         << std::endl;
 }
 
-StsDefectContext* StsDefectContext::GetDefectContextById(Int_t contextId, UInt_t runId)
-{
-  StsDefectContext defcontext;
-  FairDbReader<StsDefectContext> r_defcontext = *defcontext.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_defcontext.Activate(context, defcontext.GetVersion());
-  return (StsDefectContext *)r_defcontext.GetRowByIndex(contextId);
-}
-
 string StsDefectContext::GetTableDefinition(const char* Name)
 {
   string sql("create table ");

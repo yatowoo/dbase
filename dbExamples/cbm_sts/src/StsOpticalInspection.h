@@ -47,7 +47,6 @@ using TObject::Compare;
     TObjArray* GetInspectionImages();
     TObjArray* GetDefects();
 
-    static StsOpticalInspection* GetInspectionById(Int_t inspectionId, UInt_t runId = 0);
     static TObjArray* GetInspections(Int_t sensorId, UInt_t runId = 0);
 
 

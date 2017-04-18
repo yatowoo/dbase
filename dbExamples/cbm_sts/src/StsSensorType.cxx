@@ -138,21 +138,6 @@ void StsSensorType::clear()
   fComment = "";
 }
 
-StsSensorType* StsSensorType::GetTypeById(Int_t typeId, UInt_t runId)
-{
-  StsSensorType type;
-  FairDbReader<StsSensorType> r_type = *type.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_type.Activate(context, type.GetVersion());
-  return (StsSensorType *)r_type.GetRowByIndex(typeId);
-}
-
 void StsSensorType::Print()
 {
   std::cout << "Sts Sensor Type Instance:"                          << std::endl;

@@ -112,21 +112,6 @@ void StsSensorLocation::Print()
   std::cout                                                           << std::endl;
 }
 
-StsSensorLocation* StsSensorLocation::GetLocationById(Int_t locationId, UInt_t runId)
-{
-  StsSensorLocation location;
-  FairDbReader<StsSensorLocation> r_location = *location.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_location.Activate(context, location.GetVersion());
-  return (StsSensorLocation *)r_location.GetRowByIndex(locationId);
-}
-
 string StsSensorLocation::GetTableDefinition(const char* Name)
 {
   string sql("create table ");
