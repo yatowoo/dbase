@@ -54,17 +54,17 @@ using TObject::Compare;
       return fInspection;
     }
 
-    StsDefectType* GetType() {
+    StsDefectType* GetDefectType() {
       if (!fType) fType = StsDefectType::GetDefectTypeById(fTypeId);
       return fType;
     }
 
-    StsDefectContext* GetContext() {
+    StsDefectContext* GetDefectContext() {
       if (!fContext) fContext = StsDefectContext::GetDefectContextById(fContextId);
       return fContext;
     }
 
-    StsInspectionImage* GetImage() {
+    StsInspectionImage* GetDefectImage() {
       if (!fImage) fImage = StsInspectionImage::GetInspectionImageById(fImageId);
       return fImage;
     }

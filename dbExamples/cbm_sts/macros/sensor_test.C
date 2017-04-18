@@ -397,9 +397,9 @@ void test_relations()
   image->Print();
   StsDefect *defect = image->GetDefects()->At(0);
   defect->Print();
-  StsDefectType *defectType = defect->GetType();
+  StsDefectType *defectType = defect->GetDefectType();
   defectType->Print();
-  StsDefectContext *defectContext = defect->GetContext();
+  StsDefectContext *defectContext = defect->GetDefectContext();
   defectContext->Print();
 }
 
@@ -407,7 +407,7 @@ void test_backward_relations()
 {
   StsDefect *defect = StsDefect::GetDefectById(0);
   defect->Print();
-  StsInspectionImage *image = defect->GetImage();
+  StsInspectionImage *image = defect->GetDefectImage();
   image->Print();
   StsOpticalInspection *inspection = defect->GetInspection();
   inspection->Print();
