@@ -68,7 +68,7 @@ StsOpticalInspection::StsOpticalInspection(FairDbDetector::Detector_t detid,
   fSensor = NULL;
   fInspectionImages = NULL;
   fDefects = NULL;
-  fWarp = new TObject();
+  fWarp = NULL;
 }
 
 StsOpticalInspection::~StsOpticalInspection()
@@ -240,6 +240,12 @@ void StsOpticalInspection::Fill(FairDbResultPool& res_in,
          >> fQualityGrade
          >> fPassed
          >> fComment;
+
+  if (!warpStreamer.AsString().IsNull())
+  {
+    if (!fWarp) fWarp = new TGraph2D();
+    warpStreamer.Fill(fWarp);
+  }
 }
 
 void StsOpticalInspection::Store(FairDbOutTableBuffer& res_out,
