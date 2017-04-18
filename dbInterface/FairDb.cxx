@@ -276,6 +276,12 @@ TString FairDb::StreamAsString(const Double_t* arr, Int_t size)
 
 TString FairDb::StreamAsString(const TObject* obj, Int_t& size)
 {
+  if (!obj)
+  {
+    size = 0;
+    return "";
+  }
+
   // ROOT IO is used to create a packed
   // hexadecimal string out of the object
 
