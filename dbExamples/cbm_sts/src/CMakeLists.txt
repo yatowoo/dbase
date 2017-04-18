@@ -40,6 +40,16 @@ CbmStsDbQa.cxx
 CbmStsDbQaSUID.cxx
 CbmStsDbQaSensor.cxx
 CbmStsDbQaIv.cxx
+StsSensorBatch.cxx
+StsDefect.cxx
+StsDefectContext.cxx
+StsDefectType.cxx
+StsInspectionImage.cxx
+StsOpticalInspection.cxx
+StsSensor.cxx
+StsSensorLocation.cxx
+StsSensorType.cxx
+StsSensorVendor.cxx
 )
 
 set(HEADERS
@@ -60,6 +70,16 @@ CbmStsDbQa.h
 CbmStsDbQaSUID.h
 CbmStsDbQaSensor.h
 CbmStsDbQaIv.h
+StsSensorBatch.h
+StsDefect.h
+StsDefectContext.h
+StsDefectType.h
+StsInspectionImage.h
+StsOpticalInspection.h
+StsSensor.h
+StsSensorLocation.h
+StsSensorType.h
+StsSensorVendor.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbWriter.h
 )

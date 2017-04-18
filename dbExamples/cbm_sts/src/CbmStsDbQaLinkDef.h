@@ -54,4 +54,55 @@
 #pragma link C++ class  CbmStsDbQaSensor+;
 #pragma link C++ class  CbmStsDbQaIv+;
 
+//-----------
+#pragma link C++ class FairDbReader<StsSensorBatch>+;
+#pragma link C++ class FairDbWriter<StsSensorBatch>+;
+#pragma link C++ class FairDbGenericParSet<StsSensorBatch>+;
+#pragma link C++ class StsSensorBatch+;
+
+#pragma link C++ class FairDbReader<StsDefect>+;
+#pragma link C++ class FairDbWriter<StsDefect>+;
+#pragma link C++ class FairDbGenericParSet<StsDefect>+;
+#pragma link C++ class StsDefect+;
+
+#pragma link C++ class FairDbReader<StsDefectContext>+;
+#pragma link C++ class FairDbWriter<StsDefectContext>+;
+#pragma link C++ class FairDbGenericParSet<StsDefectContext>+;
+#pragma link C++ class StsDefectContext+;
+
+#pragma link C++ class FairDbReader<StsDefectType>+;
+#pragma link C++ class FairDbWriter<StsDefectType>+;
+#pragma link C++ class FairDbGenericParSet<StsDefectType>+;
+#pragma link C++ class StsDefectType+;
+
+#pragma link C++ class FairDbReader<StsInspectionImage>+;
+#pragma link C++ class FairDbWriter<StsInspectionImage>+;
+#pragma link C++ class FairDbGenericParSet<StsInspectionImage>+;
+#pragma link C++ class StsInspectionImage+;
+
+#pragma link C++ class FairDbReader<StsOpticalInspection>+;
+#pragma link C++ class FairDbWriter<StsOpticalInspection>+;
+#pragma link C++ class FairDbGenericParSet<StsOpticalInspection>+;
+#pragma link C++ class StsOpticalInspection+;
+
+#pragma link C++ class FairDbReader<StsSensor>+;
+#pragma link C++ class FairDbWriter<StsSensor>+;
+#pragma link C++ class FairDbGenericParSet<StsSensor>+;
+#pragma link C++ class StsSensor+;
+
+#pragma link C++ class FairDbReader<StsSensorLocation>+;
+#pragma link C++ class FairDbWriter<StsSensorLocation>+;
+#pragma link C++ class FairDbGenericParSet<StsSensorLocation>+;
+#pragma link C++ class StsSensorLocation+;
+
+#pragma link C++ class FairDbReader<StsSensorType>+;
+#pragma link C++ class FairDbWriter<StsSensorType>+;
+#pragma link C++ class FairDbGenericParSet<StsSensorType>+;
+#pragma link C++ class StsSensorType+;
+
+#pragma link C++ class FairDbReader<StsSensorVendor>+;
+#pragma link C++ class FairDbWriter<StsSensorVendor>+;
+#pragma link C++ class FairDbGenericParSet<StsSensorVendor>+;
+#pragma link C++ class StsSensorVendor+;
+
 #endif
