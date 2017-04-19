@@ -168,7 +168,7 @@ TObjArray* FairDbGenericParSet<T>::FillArray(Int_t compId, UInt_t rid)
   T instance;
   FairDbReader<T> paramReader;
   
-  paramReader.Activate( ((FairDbGenericParSet<T>) instance).GetContext(rid), instance.GetVersion());
+  paramReader.Activate(instance.GetContext(rid), instance.GetVersion());
   Int_t numRows = paramReader.GetNumRows();
   if (!numRows)
     return NULL;
