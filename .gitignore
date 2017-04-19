@@ -1,2 +1,4 @@
 TAGS
-.DS_Store
+*.DS_Store
+*fairdbinfo.log
+*test.sqlite
