@@ -133,18 +133,20 @@ void FairDbGenericParSet<T>::fill(UInt_t rid)
 {
   // Get Reader Meta Class
   fParam_Reader=GetParamReader();
-  
+
   // Get Context associated to par. T
   ValCondition context = GetContext(rid);
-  
+
   // Activate reading for this Context
   fParam_Reader->Activate(context, GetVersion());
   
   // By default use the latest row entry
   // (Other rows would correspond to outdated versions)
+
   Int_t numRows = fParam_Reader->GetNumRows();
   if ( numRows > 1 ) { numRows = 1; }
-  
+
+  T par;
   for (int i = 0; i < numRows; ++i) {
     T* cgd = (T*) fParam_Reader->GetRow(i);
     if (!cgd) { continue; }
@@ -154,12 +156,12 @@ void FairDbGenericParSet<T>::fill(UInt_t rid)
     // self assign the object (close to std::swap)    
     // This assume that = operator and copy ctor
     // are defined in the parameter class.
-    
-    T par = (*cgd);
+
+    par = (*cgd);
     T* copy = (T*) this;
-    *copy = par;    
+    *copy = par;
   }
-  
+
 }
 
 template<typename T>

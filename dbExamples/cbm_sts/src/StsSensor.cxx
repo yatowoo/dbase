@@ -265,6 +265,6 @@ StsSensor& StsSensor::operator=(const StsSensor& from){
   fQuality = from.fQuality;
   fQualityGrade = from.fQualityGrade;
   fComment = from.fComment;
-
+  
   return *this;
 }
