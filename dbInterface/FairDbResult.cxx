@@ -1008,6 +1008,7 @@ FairDbResultNonCombo::FairDbResultNonCombo(FairDbResultPool* resultSet,
 
     //cout << " -I- FairDbResultNonCombo:: ObjTableMap::Fill() called  " << endl;
     row->Fill(rs,vrec);
+    if ( vrec) { row->SetComboNo(vrec->GetAggregateNo()); }
     //cout << " -I- FairDbResultNonCombo:: ObjTableMap::Fill() IO done ...  " << endl;
 
     if ( vrec) { FairDbStopWatchManager::gStopWatchManager.StartSubWatch(2); }
