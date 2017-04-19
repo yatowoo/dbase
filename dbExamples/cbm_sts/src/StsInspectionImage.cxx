@@ -123,7 +123,7 @@ void StsInspectionImage::clear()
 
 void StsInspectionImage::Print()
 {
-  std::cout << "Sts Inspection Image Instance:"                   << std::endl;
+  std::cout << "Sts Optical Inspection Image Instance:"            << std::endl;
   std::cout << "   Image Id             = "    << fId             << std::endl;
   std::cout << "   Inspection Id        = "    << fInspectionId   << std::endl;
   std::cout << "   ROI X                = "    << fX              << std::endl;
@@ -134,82 +134,20 @@ void StsInspectionImage::Print()
   std::cout                                                       << std::endl;
 }
 
-StsInspectionImage* StsInspectionImage::GetInspectionImageById(Int_t inspectionImageId, UInt_t runId)
-{
-  StsInspectionImage image;
-  FairDbReader<StsInspectionImage> r_image = *image.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_image.Activate(context, image.GetVersion());
-  return (StsInspectionImage *)r_image.GetRowByIndex(inspectionImageId);
-}
-
-
 StsInspectionImage* StsInspectionImage::GetInspectionImage(Int_t inspectionId, Int_t X, Int_t Y, UInt_t runId)
 {
-  StsInspectionImage image;
-  FairDbReader<StsInspectionImage> r_image;
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_image.Activate(context, image.GetVersion());
-  Int_t numRows = r_image.GetNumRows();
-  if (!numRows)
-    return NULL;
-
-  for (Int_t i=0; i < numRows; i++)
+  TObjArray *images = StsInspectionImage::GetArray(inspectionId, runId);
+  for (Int_t i = 0; i<images->GetEntries(); i++)
   {
-    StsInspectionImage *img = (StsInspectionImage*)r_image.GetRow(i);
+    StsInspectionImage *img = (StsInspectionImage*)images->At(i);
     if (!img)
       continue;
 
-    if (img->GetInspectionId() == inspectionId && img->GetX() == X && img->GetY() == Y)
+    if (img->GetX() == X && img->GetY() == Y)
       return img;
   }
 
   return NULL;
-}
-
-TObjArray* StsInspectionImage::GetInspectionImages(Int_t inspectionId, UInt_t runId)
-{
-  StsInspectionImage image;
-  FairDbReader<StsInspectionImage> r_image;
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_image.Activate(context, image.GetVersion());
-  Int_t numRows = r_image.GetNumRows();
-  if (!numRows)
-    return NULL;
-
-  TObjArray* images = new TObjArray(numRows);
-  for (Int_t i=0; i < numRows; i++)
-  {
-    StsInspectionImage *img = (StsInspectionImage*)r_image.GetRow(i);
-    if (!img)
-      continue;
-
-    if (img->GetInspectionId() == inspectionId)
-      images->Add(img);
-  }
-
-  return images;
-}
-
-StsOpticalInspection* StsInspectionImage::GetInspection() {
-  if (!fInspection) fInspection = StsOpticalInspection::GetInspectionById(fInspectionId);
-  return fInspection;
 }
 
 TObjArray* StsInspectionImage::GetDefects() {

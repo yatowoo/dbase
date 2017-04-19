@@ -102,21 +102,6 @@ void StsDefectType::Print()
   std::cout                                                         << std::endl;
 }
 
-StsDefectType* StsDefectType::GetDefectTypeById(Int_t typeId, UInt_t runId)
-{
-  StsDefectType type;
-  FairDbReader<StsDefectType> r_type = *type.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_type.Activate(context, type.GetVersion());
-  return (StsDefectType *)r_type.GetRowByIndex(typeId);
-}
-
 string StsDefectType::GetTableDefinition(const char* Name)
 {
   string sql("create table ");

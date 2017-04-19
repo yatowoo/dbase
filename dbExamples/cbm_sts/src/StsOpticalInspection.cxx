@@ -68,7 +68,7 @@ StsOpticalInspection::StsOpticalInspection(FairDbDetector::Detector_t detid,
   fSensor = NULL;
   fInspectionImages = NULL;
   fDefects = NULL;
-  fWarp = new TObject();
+  fWarp = NULL;
 }
 
 StsOpticalInspection::~StsOpticalInspection()
@@ -180,7 +180,7 @@ void StsOpticalInspection::Print()
 }
 
 StsSensor* StsOpticalInspection::GetSensor() {
-  if (!fSensor) fSensor = StsSensor::GetSensorById(fSensorId);
+  if (!fSensor) fSensor = StsSensor::GetById(fSensorId);
   return fSensor;
 }
 
@@ -194,48 +194,9 @@ TObjArray* StsOpticalInspection::GetDefects() {
   return fDefects;
 }
 
-StsOpticalInspection* StsOpticalInspection::GetInspectionById(Int_t inspectionId, UInt_t runId)
-{
-  StsOpticalInspection inspection;
-  FairDbReader<StsOpticalInspection> r_inspection = *inspection.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_inspection.Activate(context, inspection.GetVersion());
-  return (StsOpticalInspection *)r_inspection.GetRowByIndex(inspectionId);
-}
-
 TObjArray* StsOpticalInspection::GetInspections(Int_t sensorId, UInt_t runId)
 {
-  StsOpticalInspection inspection;
-  FairDbReader<StsOpticalInspection> r_inspection;
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_inspection.Activate(context, inspection.GetVersion());
-  Int_t numRows = r_inspection.GetNumRows();
-  if (!numRows)
-    return NULL;
-
-  TObjArray* inspections = new TObjArray(numRows);
-  for (Int_t i=0; i < numRows; i++)
-  {
-    StsOpticalInspection *insp = (StsOpticalInspection*)r_inspection.GetRow(i);
-    if (!insp)
-      continue;
-
-    if (insp->GetSensorId() == sensorId)
-      inspections->Add(insp);
-  }
-
-  return inspections;
+  return StsOpticalInspection::GetArray(sensorId, runId);
 }
 
 string StsOpticalInspection::GetTableDefinition(const char* Name)
@@ -279,6 +240,12 @@ void StsOpticalInspection::Fill(FairDbResultPool& res_in,
          >> fQualityGrade
          >> fPassed
          >> fComment;
+
+  if (!warpStreamer.AsString().IsNull())
+  {
+    if (!fWarp) fWarp = new TGraph2D();
+    warpStreamer.Fill(fWarp);
+  }
 }
 
 void StsOpticalInspection::Store(FairDbOutTableBuffer& res_out,

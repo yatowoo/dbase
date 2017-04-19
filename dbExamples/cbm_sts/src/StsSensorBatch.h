@@ -22,7 +22,7 @@ using TObject::Compare;
     StsSensorBatch(FairDbDetector::Detector_t detid = FairDbDetector::kSts, 
               DataType::DataType_t dataid = DataType::kData, 
               const char* name = "StsSensorBatch", 
-              const char* title = "Sts Batch Data", 
+              const char* title = "Sts Sensor Batch Entity", 
               const char* context = "StsDefaultContext", 
               Bool_t ownership=kTRUE);
 
@@ -39,8 +39,7 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsSensorBatch* GetBatchById(Int_t batchId, UInt_t runId = 0);
-    TObjArray*             GetSensors();
+    TObjArray*   GetSensors();
 
     Int_t        GetId()            const { return fId; }
     string       GetNumber()        const { return fNumber; }

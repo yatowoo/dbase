@@ -39,8 +39,6 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsSensorType* GetTypeById(Int_t typeId, UInt_t runId = 0);
-
     Int_t    GetId()            const { return fId; }
     string   GetTypeName()      const { return fTypeName; }
     string   GetProcessing()    const { return fProcessing; }

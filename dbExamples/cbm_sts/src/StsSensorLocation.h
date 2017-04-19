@@ -39,8 +39,6 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsSensorLocation* GetLocationById(Int_t locationId, UInt_t runId = 0);
-
     Int_t    GetId()              const { return fId; }
     string   GetLocation()        const { return fLocation; }
     string   GetOwner()           const { return fOwner; }

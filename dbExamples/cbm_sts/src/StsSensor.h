@@ -44,30 +44,32 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsSensor* GetSensorById(Int_t sensorId, UInt_t runId = 0);
-    static TObjArray* GetSensors(Int_t batchId, UInt_t runId = 0);
+    static TObjArray* GetSensors(Int_t batchId, UInt_t runId = 0) {
+      return StsSensor::GetArray(batchId, runId);
+    }
     
     StsSensorBatch* GetBatch() {
-      if (!fBatch) fBatch = StsSensorBatch::GetBatchById(fBatchId);
+      if (!fBatch) fBatch = StsSensorBatch::GetById(fBatchId);
       return fBatch;
     }
 
-    TObjArray* GetOpticalInspections();
-
     StsSensorLocation* GetLocation() {
-      if (!fLocation) fLocation = StsSensorLocation::GetLocationById(fLocationId);
+      if (!fLocation) fLocation = StsSensorLocation::GetById(fLocationId);
       return fLocation;
     }
 
     StsSensorType* GetType() {
-      if (!fType) fType = StsSensorType::GetTypeById(fTypeId);
+      if (!fType) fType = StsSensorType::GetById(fTypeId);
       return fType;
     }
 
     StsSensorVendor* GetVendor() {
-      if (!fVendor) fVendor = StsSensorVendor::GetVendorById(fVendorId);
+      if (!fVendor) fVendor = StsSensorVendor::GetById(fVendorId);
       return fVendor;
     }
+
+    TObjArray* GetOpticalInspections();
+
 
     Int_t  GetId()           const { return fId; }
     Int_t  GetBatchId()      const { return fBatchId; }

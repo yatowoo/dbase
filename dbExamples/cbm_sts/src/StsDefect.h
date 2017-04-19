@@ -27,7 +27,7 @@ using TObject::Compare;
     StsDefect(FairDbDetector::Detector_t detid = FairDbDetector::kSts, 
               DataType::DataType_t dataid = DataType::kData, 
               const char* name = "StsDefect", 
-              const char* title = "Sts Defect Type Static Data", 
+              const char* title = "Sts Defect Entity",
               const char* context = "StsDefaultContext", 
               Bool_t ownership=kTRUE);
 
@@ -44,28 +44,28 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsDefect* GetDefectById(Int_t defectId, UInt_t runId = 0);
     static TObjArray* GetDefectsByImageId(Int_t inspectionImageId, UInt_t runId = 0);
-    static TObjArray* GetDefectsByInspectionId(Int_t inspection, UInt_t runId = 0);
-
+    static TObjArray* GetDefectsByInspectionId(Int_t inspectionId, UInt_t runId = 0) {
+          return StsDefect::GetArray(inspectionId, runId);
+    }
 
     StsOpticalInspection* GetInspection() {
-      if (!fInspection) fInspection = StsOpticalInspection::GetInspectionById(fInspectionId);
+      if (!fInspection) fInspection = StsOpticalInspection::GetById(fInspectionId);
       return fInspection;
     }
 
     StsDefectType* GetDefectType() {
-      if (!fType) fType = StsDefectType::GetDefectTypeById(fTypeId);
+      if (!fType) fType = StsDefectType::GetById(fTypeId);
       return fType;
     }
 
     StsDefectContext* GetDefectContext() {
-      if (!fContext) fContext = StsDefectContext::GetDefectContextById(fContextId);
+      if (!fContext) fContext = StsDefectContext::GetById(fContextId);
       return fContext;
     }
 
     StsInspectionImage* GetDefectImage() {
-      if (!fImage) fImage = StsInspectionImage::GetInspectionImageById(fImageId);
+      if (!fImage) fImage = StsInspectionImage::GetById(fImageId);
       return fImage;
     }
 

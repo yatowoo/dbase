@@ -163,7 +163,31 @@ void FairDbGenericParSet<T>::fill(UInt_t rid)
 }
 
 template<typename T>
-TObjArray* FairDbGenericParSet<T>::FillArray(Int_t compId, UInt_t rid)
+T* FairDbGenericParSet<T>::Get(UInt_t rid)
+{
+  T* instance = new T();
+  instance->fill(rid);
+  return instance;
+}
+
+template<typename T>
+T* FairDbGenericParSet<T>::GetById(Int_t id, UInt_t rid)
+{
+  return FairDbGenericParSet<T>::GetByIndex(id, rid);
+}
+
+template<typename T>
+T* FairDbGenericParSet<T>::GetByIndex(Int_t index, UInt_t rid)
+{
+  T instance;
+  FairDbReader<T> paramReader;
+
+  paramReader.Activate( instance.GetContext(rid), instance.GetVersion());
+  return (T*)paramReader.GetRowByIndex(index);
+}
+
+template<typename T>
+TObjArray* FairDbGenericParSet<T>::GetArray(Int_t compId, UInt_t rid)
 {
   T instance;
   FairDbReader<T> paramReader;
@@ -190,7 +214,12 @@ TObjArray* FairDbGenericParSet<T>::FillArray(Int_t compId, UInt_t rid)
     result->Add(inst);
   }
 
-  return result;
+  if (result->GetEntries()) {
+    return result;
+  } else {
+    delete result;
+    return NULL;
+  }
 }
 
 template<typename T>

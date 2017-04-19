@@ -177,57 +177,9 @@ void StsSensor::Print()
   std::cout                                                 << std::endl;
 }
 
-StsSensor* StsSensor::GetSensorById(Int_t sensorId, UInt_t runId)
-{
-  StsSensor sensor;
-  FairDbReader<StsSensor> r_sensor = *sensor.GetParamReader();
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_sensor.Activate(context, sensor.GetVersion());
-  return (StsSensor *)r_sensor.GetRowByIndex(sensorId);
-}
-
-TObjArray* StsSensor::GetSensors(Int_t batchId, UInt_t runId)
-{
-  StsSensor sensor;
-  FairDbReader<StsSensor> r_sensor;
-
-  ValTimeStamp ts;
-  if (runId)
-    ts = ValTimeStamp(runId);
-  ValCondition context(FairDbDetector::kSts,DataType::kData,ts);
-
-  r_sensor.Activate(context, sensor.GetVersion());
-  Int_t numRows = r_sensor.GetNumRows();
-  if (!numRows)
-    return NULL;
-
-  TObjArray* sensors = new TObjArray(numRows);
-  for (Int_t i=0; i < numRows; i++)
-  {
-    StsSensor *sens = (StsSensor*)r_sensor.GetRow(i);
-    if (!sens)
-      continue;
-
-    if (sens->GetBatchId() == batchId)
-      sensors->Add(sens);
-  }
-
-  return sensors;
-}
-
 TObjArray* StsSensor::GetOpticalInspections()
 {
-  if (!fOpticalInspections)
-  {
-    fOpticalInspections = StsOpticalInspection::GetInspections(fId);
-  }
-
+  if (!fOpticalInspections) fOpticalInspections = StsOpticalInspection::GetInspections(fId);
   return fOpticalInspections;
 }
 

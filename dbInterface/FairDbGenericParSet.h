@@ -60,7 +60,10 @@ class FairDbGenericParSet : public FairDbParSet
     // RuntimeDb IO 
     virtual void clear();
     virtual void fill(UInt_t rid=0);
-    static TObjArray* FillArray(Int_t compId=-1, UInt_t rid=0);
+    static T* Get(UInt_t rid=0);
+    static T* GetById(Int_t id, UInt_t rid=0);
+    static T* GetByIndex(Int_t index, UInt_t rid=0);
+    static TObjArray* GetArray(Int_t compId=-1, UInt_t rid=0);
     virtual void store(UInt_t rid=0);
     static void StoreArray(TObjArray *array, Int_t compId=-1, UInt_t rid=0);
 

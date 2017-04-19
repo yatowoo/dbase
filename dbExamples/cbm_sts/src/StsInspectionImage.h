@@ -24,7 +24,7 @@ using TObject::Compare;
     StsInspectionImage(FairDbDetector::Detector_t detid = FairDbDetector::kSts, 
               DataType::DataType_t dataid = DataType::kData, 
               const char* name = "StsInspectionImage", 
-              const char* title = "Sts Defect Type Static Data", 
+              const char* title = "Sts Inspection Image Entity", 
               const char* context = "StsDefaultContext", 
               Bool_t ownership=kTRUE);
 
@@ -41,13 +41,18 @@ using TObject::Compare;
     void   Print();
 
     /// Getter Functions
-    static StsInspectionImage* GetInspectionImageById(Int_t inspectionImageId, UInt_t runId = 0);
+    static TObjArray* GetInspectionImages(Int_t inspectionId, UInt_t runId = 0) {
+      return StsInspectionImage::GetArray(inspectionId, runId);
+    }
+
+    StsOpticalInspection* GetInspection() {
+      if (!fInspection) fInspection = StsOpticalInspection::GetById(fInspectionId);
+      return fInspection;
+    }
+
     static StsInspectionImage* GetInspectionImage(Int_t inspectionId, Int_t X, Int_t Y, UInt_t runId = 0);
-    static TObjArray* GetInspectionImages(Int_t inspectionId, UInt_t runId = 0);
 
-
-    StsOpticalInspection* GetInspection();
-    TObjArray*            GetDefects();
+    TObjArray* GetDefects();
 
     Int_t    GetId()                    const { return fId; }
     Int_t    GetInspectionId()          const { return fInspectionId; }

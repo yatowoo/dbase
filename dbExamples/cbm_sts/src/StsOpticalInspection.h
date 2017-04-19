@@ -6,6 +6,7 @@
 #include "DataType.h"         
 #include "FairDbGenericParSet.h"
 
+#include "TGraph2D.h"
 #include "TObjArray.h"
 #include "TGeoMaterial.h" 
 #include "Rtypes.h"                     // for Double_t, Int_t, UInt_t, etc
@@ -47,7 +48,6 @@ using TObject::Compare;
     TObjArray* GetInspectionImages();
     TObjArray* GetDefects();
 
-    static StsOpticalInspection* GetInspectionById(Int_t inspectionId, UInt_t runId = 0);
     static TObjArray* GetInspections(Int_t sensorId, UInt_t runId = 0);
 
 
@@ -58,7 +58,7 @@ using TObject::Compare;
     ValTimeStamp GetDate()   const { return fDate; }
     string GetSensorSide()   const { return fSensorSide; }
     Double_t GetMaxWarp()    const { return fMaxWarp; }
-    TObject* GetWarp()       const { return fWarp; }
+    TGraph2D* GetWarp()       const { return fWarp; }
     Double_t GetThickness()  const { return fThickness; }
     Double_t GetQuality()    const { return fQuality; }
     string GetQualityGrade() const { return fQualityGrade; }
@@ -78,7 +78,7 @@ using TObject::Compare;
     void SetDate(ValTimeStamp value)   { fDate = value; }
     void SetSensorSide(string value)   { fSensorSide = value; }
     void SetMaxWarp(Double_t value)    { fMaxWarp = value; }
-    void SetWarp(TObject* value)       { if (fWarp) delete fWarp; fWarp = value ? value->Clone() : NULL; }
+    void SetWarp(TGraph2D* value)      { if (fWarp) delete fWarp; fWarp = value ? new TGraph2D(*value) : NULL; }
     void SetThickness(Double_t value)  { fThickness = value; }
     void SetQuality(Double_t value)    { fQuality = value; } 
     void SetQualityGrade(string value) { fQualityGrade = value; }
@@ -107,7 +107,7 @@ using TObject::Compare;
     ValTimeStamp fDate;
     string fSensorSide;
     Double_t fMaxWarp;
-    TObject* fWarp;
+    TGraph2D* fWarp;
     Double_t fThickness;
     Double_t fQuality;
     string fQualityGrade;
