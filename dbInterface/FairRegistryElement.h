@@ -18,6 +18,8 @@
 #include <iosfwd>                       // for istream, ostream
 #include <typeinfo>                     // for type_info
 
+using namespace std;
+
 class FairRegistryElement : public TObject
 {
 

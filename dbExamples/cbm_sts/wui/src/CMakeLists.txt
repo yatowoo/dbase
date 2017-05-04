@@ -77,7 +77,7 @@ if (Boost_FOUND)
   set(DEPENDENCIES
     RHTTP
     Base FairDB ParBase
-    boost_thread boost_system boost_serialization boost_signals
+    boost_thread boost_system boost_serialization boost_signals boost_locale
     boost_date_time  boost_regex boost_program_options boost_signals boost_random boost_system
     ${Wt_LIBRARY} ${Wt_HTTP_LIBRARY} ${Wt_LIBRARIES}
 )

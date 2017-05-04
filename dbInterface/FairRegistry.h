@@ -23,6 +23,8 @@
 class FairRegistryElement;
 class TBrowser;
 
+using namespace std;
+
 class FairRegistry : public TNamed
 {
   public:

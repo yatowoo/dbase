@@ -84,7 +84,7 @@ using TObject::Compare;
     virtual void fill(UInt_t rid);
     virtual void store(UInt_t rid);
     void AddSensor(const string& vendor, const Int_t& batch_id, const ValTimeStamp& btime,
-                   const Int_t& wafer_id , const Int_t& sensor_id );
+                   const Int_t& wafer_id , const Int_t& sensor_id ){;}
 
     // Validity frame definition
     virtual ValCondition GetContext(UInt_t rid){

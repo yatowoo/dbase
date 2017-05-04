@@ -18,6 +18,9 @@
 
 #include <iostream>                     // IWYU pragma: keep
 #include <typeinfo>                     // for type_info
+
+using namespace std;
+
 class FairRegistry;
 
 template<class T> class FairRegistryElementGeneric : public FairRegistryElement
