@@ -17,14 +17,14 @@ Tutorials how to write/read parameter classes are provided in the
 dbExamples (https://github.com/denisbertini/dbase/tree/dev/dbExamples)
 directory.
 
-* [Basics] (https://github.com/FairRootGroup/FairRoot/tree/master/example/Tutorial5)
+* [Basics](https://github.com/denisbertini/dbase/tree/dev/dbExamples/basics)
 shows how to use the FairDB interface to read and write objects using the generic parameter interface to any supported
 database system i.e MySQL, PosGreSQL and SQLite.
 Two type of parameter classes are implemented with
 simple data members [FairDbTutPar](https://github.com/denisbertini/dbase/blob/dev/dbExamples/basics/src/FairDbTutPar.h)
-complex data members i.e ROOT object [FairDbTutParBin.](https://github.com/denisbertini/dbase/blob/dev/dbExamples/basics/src/FairDbTutPar.h)
+complex data members i.e ROOT object [FairDbTutParBin](https://github.com/denisbertini/dbase/blob/dev/dbExamples/basics/src/FairDbTutPar.h)
 
-* [Advanced] (https://github.com/denisbertini/dbase/tree/dev/dbExamples/advanced)
+* [Advanced](https://github.com/denisbertini/dbase/tree/dev/dbExamples/advanced)
   shows how to use more advanced features like dedicated validity intervals, composite objects and caching mechanism.
 
 In both cases, corresponding macro to read and write as well as a script. To setup the database to be used (dbconfig.sh) are available from the macro directory
