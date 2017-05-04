@@ -9,7 +9,7 @@ The **FairDB** Database interface is on Object Relational Mapping library
 
 You need to first install the FairRoot framework and then follow the
 instructions at the
-[FairRoot github page.] (https://github.com/FairRootGroup/FairRoot)
+[FairRoot github page.](https://github.com/FairRootGroup/FairRoot)
 
 ## Getting started
 
