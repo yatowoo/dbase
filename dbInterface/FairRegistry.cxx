@@ -408,7 +408,7 @@ FairRegistry FairRegistry::GetFairRegistry(const char* key) const
   }
 }
 
-const type_info& FairRegistry::GetType(const char* key) const
+const std::type_info& FairRegistry::GetType(const char* key) const
 {
   tRegMap::const_iterator mit = fMap.find(key);
   if (mit == fMap.end()) { return typeid(void); }

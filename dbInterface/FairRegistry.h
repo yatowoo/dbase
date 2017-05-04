@@ -79,7 +79,7 @@ class FairRegistry : public TNamed
     bool Get(const char* key, double& d) const;
     bool Get(const char* key, FairRegistry& r) const;
 
-    const type_info& GetType(const char* key) const;
+    const std::type_info& GetType(const char* key) const;
 
     std::string GetTypeAsString(const char* key) const;
 

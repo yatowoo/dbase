@@ -33,7 +33,7 @@ class FairRegistryElement : public TObject
     virtual std::istream& ReadStream(std::istream& is) = 0;
     virtual void Print(Option_t* option="") const = 0;
 
-    virtual const type_info& GetType() const = 0;
+    virtual const std::type_info& GetType() const = 0;
     virtual const char* GetTypeAsString() const = 0;
 
 

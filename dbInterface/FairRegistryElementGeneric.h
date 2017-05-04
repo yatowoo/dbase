@@ -43,7 +43,7 @@ template<class T> class FairRegistryElementGeneric : public FairRegistryElement
       return is >> *fData;
     }
 
-    virtual const type_info& GetType() const { return typeid(T); }
+    virtual const std::type_info& GetType() const { return typeid(T); }
     virtual const char* GetTypeAsString() const { return "void"; }
 
   private:
