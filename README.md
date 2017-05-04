@@ -5,29 +5,30 @@ The **FairDB** Database interface is on Object Relational Mapping library
 (ORM) which implements a time based version management for parameter handling.
 
 
-##Installation
+## Installation
 
 You need to first install the FairRoot framework and then follow the
 instructions at the
 [FairRoot github page.] (https://github.com/FairRootGroup/FairRoot)
 
-##Getting started
+## Getting started
 
 Tutorials how to write/read parameter classes are provided in the
-[FairRoot example] (https://github.com/FairRootGroup/FairRoot/tree/master/example)
+dbExamples (https://github.com/denisbertini/dbase/tree/dev/dbExamples)
 directory.
 
-* [Tutorial5] (https://github.com/FairRootGroup/FairRoot/tree/master/example/Tutorial5)
-shows how to use the FairDB interface to read and write parameter to any supported
+* [Basics] (https://github.com/FairRootGroup/FairRoot/tree/master/example/Tutorial5)
+shows how to use the FairDB interface to read and write objects using the generic parameter interface to any supported
 database system i.e MySQL, PosGreSQL and SQLite.
 Two type of parameter classes are implemented with
-simple data members [FairDbTutPar](https://github.com/FairRootGroup/FairRoot/blob/master/example/Tutorial5/src/FairDbTutPar.h)
-complex data members i.e ROOT object [FairDbTutParBin.](https://github.com/FairRootGroup/FairRoot/blob/master/example/Tutorial5/src/FairDbTutParBin.h)
+simple data members [FairDbTutPar](https://github.com/denisbertini/dbase/blob/dev/dbExamples/basics/src/FairDbTutPar.h)
+complex data members i.e ROOT object [FairDbTutParBin.](https://github.com/denisbertini/dbase/blob/dev/dbExamples/basics/src/FairDbTutPar.h)
+
+* [Advanced] (https://github.com/denisbertini/dbase/tree/dev/dbExamples/advanced)
+  shows how to use more advanced features like dedicated validity intervals, composite objects and caching mechanism.
 
 In both cases, corresponding macro to read and write as well as a script. To setup the database to be used (dbconfig.sh) are available from the macro directory
 
-* [Tutorial6] (https://github.com/FairRootGroup/FairRoot/tree/master/example/Tutorial6)
-  shows how to use the **zeroMQ** front end of **FairDB**.
 
 ## FairDB Web Interface
 FairDB uses the powerful [Wt framework](htpp://www.webtoolkit.eu/wt) to allow the user to
