@@ -14,8 +14,7 @@ instructions at the
 ## Getting started
 
 Tutorials how to write/read parameter classes are provided in the
-dbExamples (https://github.com/denisbertini/dbase/tree/dev/dbExamples)
-directory.
+[dbExamples](https://github.com/denisbertini/dbase/tree/dev/dbExamples) subdirectory.
 
 * [Basics](https://github.com/denisbertini/dbase/tree/dev/dbExamples/basics)
 shows how to use the FairDB interface to read and write objects using the generic parameter interface to any supported
