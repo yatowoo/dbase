@@ -15,10 +15,8 @@ CbmStsQaSensorIvModel::CbmStsQaSensorIvModel(int id, int rows, int columns, WObj
       rows_(rows),
       columns_(columns)
 { 
-   fConnections = FairDbParFactory::Instance().GetConnections();
-
-   fillheader();
-  
+  fConnections = FairDbTableInterfaceStore::Instance().fConnectionPool;  
+  fillheader();
 }
 
 

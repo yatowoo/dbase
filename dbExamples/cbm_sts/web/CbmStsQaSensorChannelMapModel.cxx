@@ -16,9 +16,7 @@ CbmStsQaSensorChannelMapModel::CbmStsQaSensorChannelMapModel(int id, int rows, i
       columns_(columns)
 {
    fConnections = FairDbParFactory::Instance().GetConnections();
-
    fillheader();
-
 }
 
 

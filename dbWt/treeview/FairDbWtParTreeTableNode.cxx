@@ -30,7 +30,8 @@ FairDbWtParTreeTableNode::FairDbWtParTreeTableNode(FairDbObjTableMap *aPar,
       
 
      // Get the first connected DB instance
-     fConnections = FairDbParFactory::Instance().GetConnections();
+     fConnections = FairDbTableInterfaceStore::Instance().fConnectionPool;
+     //fConnections = FairDbParFactory::Instance().GetConnections();
 
 }
 

@@ -10,20 +10,20 @@ using namespace std;
 FairDbParFactory* FairDbParFactory::fgInstance  = 0;
 
 
-FairDbParFactory::FairDbParFactory():
-  fConnectionPool(FairDbTableInterfaceStore::Instance().fConnectionPool)
+FairDbParFactory::FairDbParFactory()
+ //:fConnectionPool(FairDbTableInterfaceStore::Instance().fConnectionPool)
 {
-  DBLOG("FairDb",FairDbLog::kInfo) << "FairDbParFactory created " << endl;
+  // DBLOG("FairDb",FairDbLog::kInfo) << "FairDbParFactory created " << endl;
 }
 
 FairDbParFactory::~FairDbParFactory()
 { 
-  DBLOG("FairDb",FairDbLog::kInfo) << "FairDbParFactory dtor called " << endl;
+  // DBLOG("FairDb",FairDbLog::kInfo) << "FairDbParFactory dtor called " << endl;
   
-  if (fConnectionPool) {
-    delete fConnectionPool;
-    fConnectionPool = 0;
-  }
+  //if (fConnectionPool) {
+  //  delete fConnectionPool;
+  //  fConnectionPool = 0;
+  //}
   
   FairDbParFactory::fgInstance = 0;
   

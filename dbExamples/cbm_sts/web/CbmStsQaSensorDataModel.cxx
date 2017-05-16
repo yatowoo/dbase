@@ -14,10 +14,8 @@ CbmStsQaSensorDataModel::CbmStsQaSensorDataModel(int rows, int columns, WObject 
       rows_(rows),
       columns_(columns)
 { 
-   fConnections = FairDbParFactory::Instance().GetConnections();
-
-   fillheader();
-  
+  fConnections = FairDbTableInterfaceStore::Instance().fConnectionPool;  
+  fillheader();
 }
 
 

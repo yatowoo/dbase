@@ -14,12 +14,9 @@ CbmStsQaSensorDataModelNew::CbmStsQaSensorDataModelNew(int rows, int columns, WO
       rows_(rows),
       columns_(columns)
 {
-   fConnections = FairDbParFactory::Instance().GetConnections();
-
-   fillheader();
-
+  fConnections = FairDbTableInterfaceStore::Instance().fConnectionPool;  
+  fillheader();
 }
-
 
 
 int CbmStsQaSensorDataModelNew::rowCount(const Wt::WModelIndex& parent) const

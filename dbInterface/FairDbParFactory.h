@@ -25,7 +25,7 @@ class FairDbParFactory
   public:
      static  FairDbParFactory& Instance();
      static  Bool_t IsActive() { return fgInstance ? kTRUE: kFALSE; }
-     FairDbConnectionPool* GetConnections() { return fConnectionPool; }
+     //FairDbConnectionPool* GetConnections() { return fConnectionPool; }
 
     
     void RegisterFactoryFunction(string name, 
@@ -51,7 +51,7 @@ class FairDbParFactory
      map<string, shared_ptr<FairDbParSet>> fParMap; 
   #endif
 
-     FairDbConnectionPool* fConnectionPool;
+     //FairDbConnectionPool* fConnectionPool;
      FairDbParFactory(const FairDbParFactory&);
      FairDbParFactory& operator=(const FairDbParFactory&);
      static FairDbParFactory* fgInstance;

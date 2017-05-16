@@ -17,9 +17,9 @@ namespace Database
   CbmStsWtQaDataObjects::CbmStsWtQaDataObjects()
   {
     QA_LOG(DB,DEBUG) << "CbmStsWtQaDataObjects::ctor()";
-    
-    // Get the first connected DB instance
-    fConnections = FairDbParFactory::Instance().GetConnections();
+
+    // Get the first connected DB instance    
+    fConnections = FairDbTableInterfaceStore::Instance().fConnectionPool;  
 
     // Init Vendor Map 
     fVendor_name[+Vendor::CIS] = "CiS";

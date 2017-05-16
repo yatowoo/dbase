@@ -16,14 +16,14 @@ Bool_t CompareTimeStamps(const char *label,
 
 void test_timestamp(void)
 {
-   //Purpose: Test ValTimeStamp functionality
+  // Check Time interval validity.   
 
-   cout << "-I- The tests for ValTimeStamp begins ..." << endl << endl;
+  cout << "-I- The tests for ValTimeStamp begins ..." << endl << endl;
 
    Int_t fail = 0;
    Int_t tests = 0;
 
-   cout << "-I- Instanciate a object:    " << flush;
+   cout << "-I- Instanciate an object:    " << flush;
 
    ValTimeStamp anObjectT;
    anObjectT.Print("");
@@ -40,8 +40,7 @@ void test_timestamp(void)
    cout  << "-I- original time_spec:  [" << nowtime << "," << nsec << "] " << endl;
 
    ValTimeStamp val_now(nowts);
-   // calls are done separately since the  AsString()
-   // method is reusing a common buffer
+
    cout    << "-I- val_now default AsString: " << val_now.AsString("") << endl;
    cout    << "-I- val_now local   AsString: " << val_now.AsString("l") << endl;
    cout    << "-I- val_now as timespec: " << val_now.AsString("2") << endl;   
@@ -51,28 +50,16 @@ void test_timestamp(void)
    tests++;
    if (nowts.tv_sec != thents.tv_sec || nowts.tv_nsec != thents.tv_nsec){
      fail++;
-     cout << "-E- Problem ecountered in original-forwarded timespec failures: " << fail << endl;
+     cout << "-E- Problems are found in original-forwarded timespec failures: " << fail << endl;
    }
 
-   // test various ctor's
    // Reference date: Jan 04 2017, 01:26:03 GMT
-   //time_t   mytime = 978571563;
    time_t   mytime = 1485250410;
    Long_t   arbitrary = 123456; // 
 
    timespec mytimespec = {mytime,arbitrary};
    ValTimeStamp vatr(mytime,arbitrary);
    ValTimeStamp vatsr(mytimespec);
-
-   /*
-   Int_t    year  = 2001;
-   Int_t    month = 1;
-   Int_t    day   = 4;
-   Int_t    hour  = 1;
-   Int_t    min   = 26;
-   Int_t    sec   = 3;
-   Int_t    secOffset = vatr.GetZoneOffset();
-   */
 
    Int_t    year  = 2017;
    Int_t    month = 1;
@@ -103,7 +90,6 @@ void test_timestamp(void)
    cout  << endl;
    cout  << "-I- standard (vatr) " << vatr.AsString()  << endl;
 
-   //TString byhand = "Thu, 04 Jan 2017 01:26:03 UTC +   123456 nsec";
    TString byhand = "Tue, 24 Jan 2017 09:33:30 UTC +   123456 nsec";
    TString byclass = vatr.AsString();
 

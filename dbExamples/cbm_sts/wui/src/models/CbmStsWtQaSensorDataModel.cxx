@@ -18,7 +18,7 @@ namespace Models{
       rows_(rows),
       columns_(columns)
   {
-    fConnections = FairDbParFactory::Instance().GetConnections();
+    fConnections = FairDbTableInterfaceStore::Instance().fConnectionPool;  
     fillheader(); 
   }
   
