@@ -672,3 +672,31 @@ std::string CbmStsDbQa::remove_ext( std::string const& filename )
     ? filename
     : std::string( filename.begin(), pivot.base() - 1 );
 }
+
+
+Int_t CbmStsDbQa::GetSUID(string vendor, string batch, Int_t wafer, Int_t sensor)
+{
+  Int_t not_found = 1;
+  
+  if (fSUID->IsEmpty()) LoadSUIDFromDB();
+  for (Int_t i=0; i<fSUID->GetEntriesFast(); i++)
+    {
+      CbmStsDbQaSUID* suid = (CbmStsDbQaSUID*) (fSUID->At(i));
+      if ( suid )
+        {
+          if
+            ( 
+             (strcmp(suid->GetVendor().c_str(), vendor.c_str()) == 0)
+             &&
+             (strcmp(suid->GetBatchId().c_str(), batch.c_str()) == 0)
+             &&
+             (suid->GetWaferId() == wafer)
+             &&
+             (suid->GetSensorId() ==sensor)
+              ) return suid->GetCompId();
+          else continue;   
+        }  
+    }
+  cout << "-I- CbmStsDbQa::GetSUID() :  cannot found the SUID in the database list"<< endl; 
+  return not_found;
+}

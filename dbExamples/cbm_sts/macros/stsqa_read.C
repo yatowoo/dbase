@@ -41,6 +41,14 @@ Int_t  stsqa_read()
 
   stsQa->Print();
 
+  string vendor = "CiS";
+  string batch  = "351135";
+  int    wafer  = 1;
+  int    sensor = 0;
+  cout << "-I- get the SUID for address -->"  <<  vendor << " : " << batch << " : " << wafer << " : " <<  sensor << endl;   
+  cout << " SUID---> " << stsQa->GetSUID(vendor, batch, wafer,sensor) << endl;   
+
+    
   cout << endl;
 
   t.Stop();

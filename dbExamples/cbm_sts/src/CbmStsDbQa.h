@@ -110,7 +110,10 @@ using TObject::Compare;
     void   AddIvMeasAt(CbmStsDbQaIvNewPar *s, int idx){fIvMeas->AddAt(s,idx);}  
     TObjArray* GetListOfIvMeas() const {return fIvMeas;}
     Int_t GetNumIvMeas() const {return fIvMeas->GetEntries();} 
-    CbmStsDbQaIvNewPar* GetIvMeasAt(Int_t idx){return (CbmStsDbQaIvNewPar*) fIvMeas->At(idx);} 
+    CbmStsDbQaIvNewPar* GetIvMeasAt(Int_t idx){return (CbmStsDbQaIvNewPar*) fIvMeas->At(idx);}
+
+   // Additionnal Getters 
+    Int_t GetSUID(string vendor, string batch, Int_t wafer, Int_t sensor);
 
    // Db Readers
     FairDbReader<CbmStsDbQaSUID>*          GetReaderSUID()      {return fReader_SUID;}
