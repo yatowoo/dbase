@@ -208,7 +208,15 @@ void CbmStsDbQaStrip::fill(UInt_t rid)
     CbmStsDbQaStrip* cgd = (CbmStsDbQaStrip*) fParam_Reader->GetRow(i);
     if (!cgd) { continue; }
     fCompId = cgd->GetCompId();
-    
+  	fUID    = cgd->GetUID();
+		fEdge   = cgd->GetEdge();	
+		fStripId= cgd->GetStripId();	
+		fIstrip = cgd->GetStripCurrent();	
+		fPinhole= cgd->GetPinhole();	
+		fAlShortL= cgd->GetAlShortLeft();	
+		fAlShortR= cgd->GetAlShortRight();	
+		fCCouplingCp= cgd->GetCCouplingCp();	
+		fCCouplingDF= cgd->GetCCouplingDF();	
 
   }
 
@@ -369,7 +377,7 @@ FairDbWriter<CbmStsDbQaStrip>* CbmStsDbQaStrip::ActivateWriter(Int_t rid)
     
     // Writer Meta-Class Instance
     fParam_Writer = GetParamWriter();
-    fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(),"STS Sensor UID");
+    fParam_Writer->Activate(GetValInterval(rid),GetComboNo(), GetVersion(),GetDbEntry(),"STS Strip UID");
     return fParam_Writer;
   }
   return NULL;
