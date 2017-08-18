@@ -113,6 +113,7 @@ using TObject::Compare;
 		Double_t fAlShortL;
 		Double_t fAlShortR;
 		Double_t fCCouplingCp;
+		Double_t fCCouplingDF;
 
     // Data Parameters
     Int_t  fCompId;    

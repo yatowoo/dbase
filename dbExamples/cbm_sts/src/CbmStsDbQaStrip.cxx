@@ -51,6 +51,8 @@ CbmStsDbQaStrip::CbmStsDbQaStrip(const char* name, const char* title, const char
 		fAlShortL(0.),
 		fAlShortR(0.),
 		fCCouplingCp(0.),
+		fCCouplingDF(0.),
+
 		fCompId(-1),
     fVendor(""),
     fBatchId(""),
@@ -155,6 +157,7 @@ string CbmStsDbQaStrip::GetTableDefinition(const char* Name)
   sql += "  AL_SHORT_L            DOUBLE,";
   sql += "  AL_SHORT_R            DOUBLE,";
   sql += "  CCOUPLING_CP          DOUBLE,";
+  sql += "  CCOUPLING_DF          DOUBLE,";
  	 
 	/*
 	sql += "  VENDOR                CHAR(64),";
@@ -175,7 +178,7 @@ void CbmStsDbQaStrip::Fill(FairDbResultPool& res_in,
 {
   //res_in >> fCompId  >> fVendor >> fBatchId  >> fBatchTime >> fWaferId >> fSensorId;
 	res_in >> fCompId >> fUID >> fEdge >> fSensorId >> fIstrip >> fPinhole
-		>> fAlShortL >> fAlShortR >> fCCouplingCp;
+		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF;
 }
 
 void CbmStsDbQaStrip::Store(FairDbOutTableBuffer& res_out,
@@ -183,7 +186,7 @@ void CbmStsDbQaStrip::Store(FairDbOutTableBuffer& res_out,
 {
 	//res_out << fCompId << fVendor << fBatchId << fBatchTime << fWaferId << fSensorId;
 	res_out << fCompId << fUID << fEdge << fSensorId << fIstrip << fPinhole
-		<< fAlShortL << fAlShortR << fCCouplingCp;
+		<< fAlShortL << fAlShortR << fCCouplingCp << fCCouplingDF;
 }
 
 
@@ -287,13 +290,16 @@ void CbmStsDbQaStrip::store(UInt_t rid)
 
 void CbmStsDbQaStrip::Print()
 {
-  std::cout<<"   CbmStsDbQaStrip Parameters: " << std::endl;
-  std::cout<<"   CompId:    "<<  fCompId    <<  std::endl;
-  std::cout<<"   Vendor:    "<<  fVendor   <<  std::endl;
-  std::cout<<"   BatchId:   "<<  fBatchId   <<  std::endl;
-  std::cout<<"   BatchTime: "<<  fBatchTime <<  std::endl;
-  std::cout<<"   WaferId:   "<<  fWaferId   <<  std::endl;
-  std::cout<<"   SensorId:  "<<  fSensorId  <<  std::endl;
+	std::cout<<"-O- CBM-STS QA Strip Test " << std::endl;
+	std::cout<<" Unique-ID: " << fUID << "\tCompNo : " << fCompId << std::endl;
+  std::cout<<"   Edge        : "<<  fEdge       <<  std::endl;
+  std::cout<<"   Strip_ID    : "<<  fStripId    <<  std::endl;
+  std::cout<<"   I_Strip     : "<<  fIstrip     <<  std::endl;
+  std::cout<<"   Pinhole     : "<<  fPinhole    <<  std::endl;
+  std::cout<<"   Al_Short_L  : "<<  fAlShortL   <<  std::endl;
+  std::cout<<"   Al_Short_R  : "<<  fAlShortR   <<  std::endl;
+  std::cout<<"   CCoupling_Cp: "<<  fCCouplingCp<<  std::endl;
+  std::cout<<"   CCoupling_DF: "<<  fCCouplingDF<<  std::endl;
 }
 
 
