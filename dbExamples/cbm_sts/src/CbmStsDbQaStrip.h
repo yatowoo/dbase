@@ -60,13 +60,7 @@ using TObject::Compare;
 		void  SetAlShortRight(Double_t ial) {fAlShortR = ial;}
 		void  SetCCouplingCp(Double_t cccp) {fCCouplingCp = cccp;}
 		void  SetCCouplingDF(Double_t ccdf) {fCCouplingDF = ccdf;}
-/*
-    void  SetVendor(string v)  { fVendor = v;}
-    void  SetBatchId(string id) { fBatchId = id;}  
-    void  SetBatchTime(string batch_time) { fBatchTime = batch_time;}  
-    void  SetWaferId(Int_t id)  { fWaferId = id;}
-    void  SetSensorId(Int_t id) { fSensorId = id;}  
-*/
+		
 		Int_t    GetUID()          { return fUID;        }
 		Int_t    GetEdge()         { return fEdge;       }
 		Int_t    GetStripId()      { return fStripId;    }
@@ -77,13 +71,6 @@ using TObject::Compare;
 		Double_t GetCCouplingCp () { return fCCouplingCp;}
 		Double_t GetCCouplingDF()  { return fCCouplingDF;}
 		
-/*
-    string GetVendor()    { return fVendor;}
-    string GetBatchId()   { return fBatchId;}
-    string GetBatchTime() { return fBatchTime;}
-    Int_t  GetWaferId()   { return fWaferId;}
-    Int_t  GetSensorId()  { return fSensorId;}
-*/  
     // Random Access via UID
     UInt_t GetIndex(UInt_t /*def*/) const { return fCompId; }
     Bool_t Compare(const CbmStsDbQaStrip& that ) const;
@@ -126,6 +113,7 @@ using TObject::Compare;
 
 
  private:
+		// Data Parameters
 		Int_t fUID;
 		Int_t fEdge;
 		Int_t fStripId;
@@ -135,14 +123,7 @@ using TObject::Compare;
 		Double_t fAlShortR;
 		Double_t fCCouplingCp;
 		Double_t fCCouplingDF;
-
-    // Data Parameters
     Int_t  fCompId;    
-    string fVendor;
-    string fBatchId;
-    string fBatchTime;   
-    Int_t  fWaferId;
-    Int_t  fSensorId;
     
     // Parameter Container SQL Writer Meta-Class
     FairDbWriter<CbmStsDbQaStrip>* fParam_Writer; //!

@@ -52,13 +52,7 @@ CbmStsDbQaStrip::CbmStsDbQaStrip(const char* name, const char* title, const char
 		fAlShortR(0.),
 		fCCouplingCp(0.),
 		fCCouplingDF(0.),
-
 		fCompId(-1),
-    fVendor(""),
-    fBatchId(""),
-    fBatchTime(""),
-    fWaferId(-1),
-    fSensorId(-1)
 {
   
   // Set the default Db Entry to the first slot
@@ -155,14 +149,6 @@ string CbmStsDbQaStrip::GetTableDefinition(const char* Name)
   sql += "  AL_SHORT_R            DOUBLE,";
   sql += "  CCOUPLING_CP          DOUBLE,";
   sql += "  CCOUPLING_DF          DOUBLE,";
- 	 
-	/*
-	sql += "  VENDOR                CHAR(64),";
-  sql += "  BATCH_ID              CHAR(64),";
-  sql += "  BATCH_TIME            CHAR(64),";
-  sql += "  WAFER_ID              INT,";
-  sql += "  SENSOR_ID             INT,";
-	*/
   sql += "  primary key(SEQNO,ROW_ID),"; 
   sql += "index(COMP_ID))";
 
@@ -173,7 +159,6 @@ string CbmStsDbQaStrip::GetTableDefinition(const char* Name)
 void CbmStsDbQaStrip::Fill(FairDbResultPool& res_in,
                         const FairDbValRecord* valrec)
 {
-  //res_in >> fCompId  >> fVendor >> fBatchId  >> fBatchTime >> fWaferId >> fSensorId;
 	res_in >> fCompId >> fUID >> fEdge >> fSensorId >> fIstrip >> fPinhole
 		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF;
 }
@@ -181,7 +166,6 @@ void CbmStsDbQaStrip::Fill(FairDbResultPool& res_in,
 void CbmStsDbQaStrip::Store(FairDbOutTableBuffer& res_out,
                          const FairDbValRecord* valrec) const
 {
-	//res_out << fCompId << fVendor << fBatchId << fBatchTime << fWaferId << fSensorId;
 	res_out << fCompId << fUID << fEdge << fSensorId << fIstrip << fPinhole
 		<< fAlShortL << fAlShortR << fCCouplingCp << fCCouplingDF;
 }
@@ -217,7 +201,6 @@ void CbmStsDbQaStrip::fill(UInt_t rid)
 		fAlShortR= cgd->GetAlShortRight();	
 		fCCouplingCp= cgd->GetCCouplingCp();	
 		fCCouplingDF= cgd->GetCCouplingDF();	
-
   }
 
 }
