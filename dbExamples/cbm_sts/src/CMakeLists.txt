@@ -26,6 +26,7 @@ set(SRCS
 CbmStsDbQaContFact.cxx
 CbmStsDbQaIvPar.cxx
 CbmStsDbQaIvNewPar.cxx
+CbmStsDbQaCvNewPar.cxx
 CbmStsDbQaChannelMapPar.cxx
 CbmStsDbQaGeometryPar.cxx
 CbmStsDbQaOwnershipPar.cxx
@@ -40,6 +41,7 @@ CbmStsDbQa.cxx
 CbmStsDbQaSUID.cxx
 CbmStsDbQaSensor.cxx
 CbmStsDbQaIv.cxx
+CbmStsDbQaCv.cxx
 StsSensorBatch.cxx
 StsDefect.cxx
 StsDefectContext.cxx
@@ -50,12 +52,14 @@ StsSensor.cxx
 StsSensorLocation.cxx
 StsSensorType.cxx
 StsSensorVendor.cxx
+CbmStsDbQaStrip.cxx
 )
 
 set(HEADERS
 CbmStsDbQaContFact.h
 CbmStsDbQaIvPar.h
 CbmStsDbQaIvNewPar.h
+CbmStsDbQaCvNewPar.h
 CbmStsDbQaChannelMapPar.h
 CbmStsDbQaGeometryPar.h
 CbmStsDbQaOwnershipPar.h
@@ -70,6 +74,7 @@ CbmStsDbQa.h
 CbmStsDbQaSUID.h
 CbmStsDbQaSensor.h
 CbmStsDbQaIv.h
+CbmStsDbQaCv.h
 StsSensorBatch.h
 StsDefect.h
 StsDefectContext.h
@@ -80,6 +85,7 @@ StsSensor.h
 StsSensorLocation.h
 StsSensorType.h
 StsSensorVendor.h
+CbmStsDbQaStrip.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbReader.h
 ${CMAKE_SOURCE_DIR}/dbase/dbInterface/FairDbWriter.h
 )

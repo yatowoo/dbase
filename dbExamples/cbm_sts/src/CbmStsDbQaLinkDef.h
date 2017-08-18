@@ -4,10 +4,15 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
+#pragma link C++ class FairDbReader<CbmStsDbQaStrip>+;
+#pragma link C++ class FairDbWriter<CbmStsDbQaStrip>+;
+
 #pragma link C++ class FairDbReader<CbmStsDbQaIvPar>+;
 #pragma link C++ class FairDbWriter<CbmStsDbQaIvPar>+;
 #pragma link C++ class FairDbReader<CbmStsDbQaIvNewPar>+;
 #pragma link C++ class FairDbWriter<CbmStsDbQaIvNewPar>+;
+#pragma link C++ class FairDbReader<CbmStsDbQaCvNewPar>+;
+#pragma link C++ class FairDbWriter<CbmStsDbQaCvNewPar>+;
 #pragma link C++ class FairDbReader<CbmStsDbQaSensorPar>+;
 #pragma link C++ class FairDbWriter<CbmStsDbQaSensorPar>+;
 
@@ -34,9 +39,15 @@
 #pragma link C++ class FairDbReader<CbmStsDbQaIv>+;
 #pragma link C++ class FairDbWriter<CbmStsDbQaIv>+;
 
+#pragma link C++ class FairDbReader<CbmStsDbQaCv>+;
+#pragma link C++ class FairDbWriter<CbmStsDbQaCv>+;
+
+
+#pragma link C++ class  CbmStsDbQaStrip+;
 #pragma link C++ class  CbmStsDbQaContFact+;
 #pragma link C++ class  CbmStsDbQaIvPar+;
 #pragma link C++ class  CbmStsDbQaIvNewPar+;
+#pragma link C++ class  CbmStsDbQaCvNewPar+;
 #pragma link C++ class  CbmStsDbQaChannelMapPar+;
 #pragma link C++ class  CbmStsDbQaGeometryPar+;
 #pragma link C++ class  CbmStsDbQaResultsPar+;
@@ -53,6 +64,7 @@
 #pragma link C++ class  CbmStsDbQa+;
 #pragma link C++ class  CbmStsDbQaSensor+;
 #pragma link C++ class  CbmStsDbQaIv+;
+#pragma link C++ class  CbmStsDbQaCv+;
 
 //-----------
 #pragma link C++ class FairDbReader<StsSensorBatch>+;
