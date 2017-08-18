@@ -42,6 +42,7 @@ void StripTest(bool update=false){
 	strip.SetLogTitle("Strip");
 	strip.SetCompId(0);
 	strip.Print();
+	strip.CreateStringUID();
   strip.CreateDbTable(0);
 
   // Create the Writer 
@@ -56,6 +57,7 @@ void StripTest(bool update=false){
       w_strip.SetComboNo(0);
       strip.SetCompId(0);
       w_strip << strip;
+			strip.clear();
 			strip.Print();
   } else {
     // update the last component

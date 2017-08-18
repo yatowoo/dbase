@@ -102,41 +102,38 @@ void CbmStsDbQaStrip::putParams(FairParamList* list)
   std::cout<<"-I- CbmStsDbQaStrip::putParams() called"<<std::endl;
   if(!list) { return; }
   list->add("comp_id",  fCompId);
-  list->add("vendor",   (Text_t*) fVendor.c_str());
-  list->add("batch_id", (Text_t*) fBatchId.c_str());
-
-  list->add("batch_time", (Text_t*) fBatchTime.c_str());
-  list->add("wafer_id",   fWaferId);
-  list->add("sensor_id",  fSensorId);
+  list->add("unique_id", fUID);
+	list->add("edge", fEdge);
+	list->add("strip_id", fStripId);
+	list->add("i_strip", fIstrip);
+	list->add("pinhole", fPinhole);
+	list->add("al_short_L", fAlShortL);
+	list->add("al_short_R", fAlShortR);
+	list->add("ccoupling_cp", fCCouplingCp);
+	list->add("ccoupling_df", fCCouplingDF);
 }
 
 Bool_t CbmStsDbQaStrip::getParams(FairParamList* list)
 {
   if (!list) { return kFALSE; }
   if (!list->fill("comp_id", &fCompId)) { return kFALSE; }
+  if (!list->fill("unique_id", &fUID)){ return kFALSE;}
+	if (!list->fill("edge", &fEdge)){ return kFALSE;}
+	if (!list->fill("strip_id", &fStripId)){ return kFALSE;}
+	if (!list->fill("i_strip", &fIstrip)){ return kFALSE;}
+	if (!list->fill("pinhole", &fPinhole)){ return kFALSE;}
+	if (!list->fill("al_short_L", &fAlShortL)){ return kFALSE;}
+	if (!list->fill("al_short_R", &fAlShortR)){ return kFALSE;}
+	if (!list->fill("ccoupling_cp", &fCCouplingCp)){ return kFALSE;}
+	if (!list->fill("ccoupling_df", &fCCouplingDF)){ return kFALSE;}
 
-  Text_t aName[155];
-  if (!list->fill("vendor",     aName, 155 )) { return kFALSE;}
-  fVendor = aName;
-
-  Text_t bName[155];
-  if (!list->fill("batch_id",   bName, 155 )) { return kFALSE; }
-  fBatchId = bName;
-  
-  Text_t tName[155];
-  if (!list->fill("batch_time", tName, 155)) { return kFALSE; }
-  fBatchTime = tName;
-  
-  if (!list->fill("wafer_id", &fWaferId)) { return kFALSE; }
-  if (!list->fill("sensor_id", &fSensorId)) { return kFALSE; }
-  
   return kTRUE;
 }
 
 void CbmStsDbQaStrip::clear()
 {
-  fCompId=fWaferId=fSensorId=-1;
-  fVendor= fBatchId=fBatchTime="";
+  fCompId=fEdge=fStripId=-1;
+	fIstrip=fPinhole=fAlShortL=fAlShortR=fCCouplingCp=fCCouplingDF=0.;
 }
 
 
@@ -307,10 +304,14 @@ Bool_t CbmStsDbQaStrip::Compare(const CbmStsDbQaStrip& that ) const {
   //
   Bool_t test_h =
     (   fCompId     == that.fCompId) 
-    && (fBatchId    == that.fBatchId)
-    && (fBatchTime  == that.fBatchTime)
-    && (fWaferId    == that.fWaferId)
-    && (fSensorId   == that.fSensorId);
+    && (fEdge       == that.fEdge)
+    && (fStripId    == that.fStripId)
+    && (fIstrip     == that.fIstrip)
+    && (fPinhole    == that.fPinhole)
+    && (fAlShortL   == that.fAlShortL)
+    && (fAlShortR   == that.fAlShortR)
+    && (fCCouplingCp== that.fCCouplingCp)
+    && (fCCouplingDF== that.fCCouplingDF);
   return test_h;
 }
 
@@ -426,9 +427,9 @@ void CbmStsDbQaStrip::CreateDbTable(Int_t db_entry)
 string CbmStsDbQaStrip::CreateStringUID(){
   // Generate string based ID
   std::ostringstream str_id;
-  str_id << fVendor << "_" << fBatchId << "_" << fWaferId << "_" << fSensorId;   
+  str_id << fUID << "_" << fEdge << "_" << fStripId;   
   string res_id = str_id.str();
-  //cout << "-I- CbmStsDbQaStrip:CreateStringUID ----> " << res_id << endl;
+	std::cout << "-I- CbmStsDbQaStrip:CreateStringUID ----> " << res_id << std::endl;
   return res_id;
 }
 
@@ -439,9 +440,9 @@ Bool_t CbmStsDbQaStrip::IsEqual(const TObject* that ) const {
   Bool_t test_h = kFALSE;
   // DB I remove here the test with batch time
   test_h =
-       (fBatchId    == cthat->fBatchId)
-    && (fWaferId    == cthat->fWaferId)
-    && (fSensorId   == cthat->fSensorId);
+       (fUID        == cthat->fUID)
+    && (fEdge       == cthat->fEdge)
+    && (fStripId    == cthat->fStripId);
   
   return test_h;
 }
