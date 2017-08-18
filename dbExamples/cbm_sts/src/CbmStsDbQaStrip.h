@@ -51,18 +51,39 @@ using TObject::Compare;
     Int_t GetCompId()   const {return fCompId;}
     void  SetCompId(Int_t x)  {SetComboNo(x); fCompId=x;}
 
+		void  SetUID(Int_t uid)  { fUID = uid;}
+		void  SetEdge(Int_t edge) {fEdge = edge;}
+		void  SetStripId(Int_t sid) {fStripId = sid;}
+		void  SetStripCurrent(Double_t is) {fIstrip = is;}
+		void  SetPinhole(Double_t ip) {fPinhole = ip;}
+		void  SetAlShortLeft(Double_t ial) {fAlShortL = ial;}
+		void  SetAlShortRight(Double_t ial) {fAlShortR = ial;}
+		void  SetCCouplingCp(Double_t cccp) {fCCouplingCp = cccp;}
+		void  SetCCouplingDF(Double_t ccdf) {fCCouplingDF = ccdf;}
+/*
     void  SetVendor(string v)  { fVendor = v;}
     void  SetBatchId(string id) { fBatchId = id;}  
     void  SetBatchTime(string batch_time) { fBatchTime = batch_time;}  
     void  SetWaferId(Int_t id)  { fWaferId = id;}
     void  SetSensorId(Int_t id) { fSensorId = id;}  
-
+*/
+		Int_t    GetUID()          { return fUID;        }
+		Int_t    GetEdge()         { return fEdge;       }
+		Int_t    GetStripId()      { return fStripId;    }
+		Double_t GetStripCurrent() { return fIstrip;     }
+		Double_t GetPinhole()      { return fPinhole;    }
+		Double_t GetAlShortLeft()  { return fAlShortL;   }
+		Double_t GetAlShortRight() { return fAlShortR;   }
+		Double_t GetCCouplingCp () { return fCCouplingCp;}
+		Double_t GetCCouplingDF()  { return fCCouplingDF;}
+		
+/*
     string GetVendor()    { return fVendor;}
     string GetBatchId()   { return fBatchId;}
     string GetBatchTime() { return fBatchTime;}
     Int_t  GetWaferId()   { return fWaferId;}
     Int_t  GetSensorId()  { return fSensorId;}
-    
+*/  
     // Random Access via UID
     UInt_t GetIndex(UInt_t /*def*/) const { return fCompId; }
     Bool_t Compare(const CbmStsDbQaStrip& that ) const;
