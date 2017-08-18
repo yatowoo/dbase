@@ -110,7 +110,8 @@ using TObject::Compare;
     FairDbWriter<CbmStsDbQaStrip>* GetParamWriter();
     FairDbWriter<CbmStsDbQaStrip>* ActivateWriter(Int_t rid=0);
     
-
+		// Import data from string / files
+		Bool_t Import(Int_t compid, string value);
 
  private:
 		// Data Parameters

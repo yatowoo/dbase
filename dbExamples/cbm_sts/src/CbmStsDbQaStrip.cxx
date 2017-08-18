@@ -52,7 +52,7 @@ CbmStsDbQaStrip::CbmStsDbQaStrip(const char* name, const char* title, const char
 		fAlShortR(0.),
 		fCCouplingCp(0.),
 		fCCouplingDF(0.),
-		fCompId(-1),
+		fCompId(-1)
 {
   
   // Set the default Db Entry to the first slot
@@ -159,14 +159,14 @@ string CbmStsDbQaStrip::GetTableDefinition(const char* Name)
 void CbmStsDbQaStrip::Fill(FairDbResultPool& res_in,
                         const FairDbValRecord* valrec)
 {
-	res_in >> fCompId >> fUID >> fEdge >> fSensorId >> fIstrip >> fPinhole
+	res_in >> fCompId >> fUID >> fEdge >> fStripId >> fIstrip >> fPinhole
 		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF;
 }
 
 void CbmStsDbQaStrip::Store(FairDbOutTableBuffer& res_out,
                          const FairDbValRecord* valrec) const
 {
-	res_out << fCompId << fUID << fEdge << fSensorId << fIstrip << fPinhole
+	res_out << fCompId << fUID << fEdge << fStripId << fIstrip << fPinhole
 		<< fAlShortL << fAlShortR << fCCouplingCp << fCCouplingDF;
 }
 
@@ -436,5 +436,21 @@ Bool_t CbmStsDbQaStrip::IsEqual(const TObject* that ) const {
     && (fStripId    == cthat->fStripId);
   
   return test_h;
+}
+
+#include<sstream>
+Bool_t CbmStsDbQaStrip::Import(Int_t compid, string value)
+{
+
+	fCompId = compid;
+
+	stringstream sstr;
+	sstr << value;
+	
+	// TODO : Check value
+	sstr >> fEdge >> fStripId >> fIstrip >> fPinhole
+		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF;
+
+	return kTRUE;
 }
 
