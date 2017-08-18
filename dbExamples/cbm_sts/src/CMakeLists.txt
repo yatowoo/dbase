@@ -26,7 +26,6 @@ set(SRCS
 CbmStsDbQaContFact.cxx
 CbmStsDbQaIvPar.cxx
 CbmStsDbQaIvNewPar.cxx
-CbmStsDbQaCvNewPar.cxx
 CbmStsDbQaChannelMapPar.cxx
 CbmStsDbQaGeometryPar.cxx
 CbmStsDbQaOwnershipPar.cxx
@@ -41,7 +40,6 @@ CbmStsDbQa.cxx
 CbmStsDbQaSUID.cxx
 CbmStsDbQaSensor.cxx
 CbmStsDbQaIv.cxx
-CbmStsDbQaCv.cxx
 StsSensorBatch.cxx
 StsDefect.cxx
 StsDefectContext.cxx
@@ -59,7 +57,6 @@ set(HEADERS
 CbmStsDbQaContFact.h
 CbmStsDbQaIvPar.h
 CbmStsDbQaIvNewPar.h
-CbmStsDbQaCvNewPar.h
 CbmStsDbQaChannelMapPar.h
 CbmStsDbQaGeometryPar.h
 CbmStsDbQaOwnershipPar.h
@@ -74,7 +71,6 @@ CbmStsDbQa.h
 CbmStsDbQaSUID.h
 CbmStsDbQaSensor.h
 CbmStsDbQaIv.h
-CbmStsDbQaCv.h
 StsSensorBatch.h
 StsDefect.h
 StsDefectContext.h
