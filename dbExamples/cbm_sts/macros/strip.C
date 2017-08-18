@@ -47,28 +47,31 @@ void StripTest(bool update=false){
 
   // Create the Writer 
   FairDbWriter<CbmStsDbQaStrip> w_strip;
+  w_strip.Activate(range, 0, strip.GetVersion(), strip.GetDbEntry(), strip.GetLogTitle());
   // Writer activation:  val_range   comp.  version   db_entry   logtitle
 
   ValTimeStamp now;
 
-  
-  if (!update) {
-      w_strip.Activate(range, 0, strip.GetVersion(), strip.GetDbEntry(), strip.GetLogTitle());
-      w_strip.SetComboNo(0);
-      strip.SetCompId(0);
+ 	ifstream fin(
+			"/home/student/strip-test_123456/170713_11-24-08_P_Measure.dat");
+	if(!fin.is_open()){
+		cout << "File not found or failed to open." << endl;
+		return 1;
+	}
+	char buf[1024];
+	fin.getline(buf,1024);
+	int compid = 0;
+	while(fin.is_open()){
+			fin.getline(buf,1024);
+			if(strlen(buf) < 10)
+				break;
+			compid++;
+      w_strip.SetComboNo(compid);
+      strip.Import(compid,buf);
       w_strip << strip;
-			strip.clear();
 			strip.Print();
-  } else {
-    // update the last component
-    int i = 199;  
-    w_strip.Activate(range, i, strip.GetVersion(), strip.GetDbEntry(), strip.GetLogTitle());
-    w_strip.SetComboNo(i);
-    strip.SetCompId(i);
-    w_strip << strip;
-    
   }
-  
+ 	fin.close(); 
   if(!w_strip.Close()){
       cout << "-E- IO error writing par1 " << endl;
    }
