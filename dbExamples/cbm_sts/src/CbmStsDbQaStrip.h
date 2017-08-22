@@ -111,7 +111,8 @@ using TObject::Compare;
     FairDbWriter<CbmStsDbQaStrip>* ActivateWriter(Int_t rid=0);
     
 		// Import data from string / files
-		Bool_t Import(Int_t compid, string value);
+		// Return strip number if is defective
+		Int_t Import(Int_t compid, string value);
 
 		// Compare the value with criteria and find defect
 		Bool_t CheckValue();

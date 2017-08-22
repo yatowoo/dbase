@@ -439,7 +439,7 @@ Bool_t CbmStsDbQaStrip::IsEqual(const TObject* that ) const {
 }
 
 #include<sstream>
-Bool_t CbmStsDbQaStrip::Import(Int_t compid, string value)
+Int_t CbmStsDbQaStrip::Import(Int_t compid, string value)
 {
 
 	fCompId = compid;
@@ -453,9 +453,10 @@ Bool_t CbmStsDbQaStrip::Import(Int_t compid, string value)
 	if(CheckValue()){
 		std::cout << "-X- Strip : " << fEdge << "-" << fStripId 
 			<< " is defect" << std::endl;
+		return fStripId;
 	}
 	
-	return kTRUE;
+	return -1;
 }
 
 #include "TMath.h"

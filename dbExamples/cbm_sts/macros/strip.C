@@ -52,12 +52,24 @@ void StripTest(bool update=false){
 
   ValTimeStamp now;
 
- 	ifstream fin(
-			"/home/student/strip-test_123456/170713_11-24-08_P_Measure.dat");
+	const char* dataFileName = 
+			"/home/student/strip-test_123456/170713_11-24-08_P_Measure.dat";
+	const char* outputFileName = "defective_strips.txt";
+ 	ifstream fin(dataFileName);
 	if(!fin.is_open()){
 		cout << "File not found or failed to open." << endl;
 		return 1;
 	}
+	ofstream fout(outputFileName);
+	if(!fout.is_open()){
+		cout << "-X- Failed to open output file - " << outputFileName << endl;
+		return 1;
+	}
+	fout << "# Data import from -\n\t" << dataFileName << endl
+		<< "# Strip ID" << endl;
+
+
+	// Read data
 	char buf[1024];
 	fin.getline(buf,1024);
 	int compid = 0;
@@ -67,11 +79,16 @@ void StripTest(bool update=false){
 				break;
 			compid++;
       w_strip.SetComboNo(compid);
-      strip.Import(compid,buf);
+      Int_t sid = strip.Import(compid,buf);
+			if(sid != -1) // defect found
+				fout << sid << endl;
       w_strip << strip;
 			strip.Print();
   }
- 	fin.close(); 
+
+	// End
+ 	fin.close();
+	fout.close();
   if(!w_strip.Close()){
       cout << "-E- IO error writing par1 " << endl;
    }
