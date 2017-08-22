@@ -113,6 +113,9 @@ using TObject::Compare;
 		// Import data from string / files
 		Bool_t Import(Int_t compid, string value);
 
+		// Compare the value with criteria and find defect
+		Bool_t CheckValue();
+
  private:
 		// Data Parameters
 		Int_t fUID;

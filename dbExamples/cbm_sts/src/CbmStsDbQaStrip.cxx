@@ -450,7 +450,26 @@ Bool_t CbmStsDbQaStrip::Import(Int_t compid, string value)
 	// TODO : Check value
 	sstr >> fEdge >> fStripId >> fIstrip >> fPinhole
 		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF;
-
+	if(CheckValue()){
+		std::cout << "-X- Strip : " << fEdge << "-" << fStripId 
+			<< " is defect" << std::endl;
+	}
+	
 	return kTRUE;
+}
+
+#include "TMath.h"
+
+Bool_t CbmStsDbQaStrip::CheckValue()
+{
+	using TMath::Abs;
+	static const Double_t I_SENSOR = 10e-6;  // Unit : A
+	static const Double_t LENGTH_STRIP = 6.; // Unit : cm
+	Bool_t isDefect = 
+	    (Abs(fIstrip) >= 5 * I_SENSOR / 1024) 
+	 || (Abs(fPinhole) >= 10e-9) 
+	 || (Abs(fCCouplingCp) <= 10e-12 * LENGTH_STRIP);
+	
+	return isDefect;
 }
 
