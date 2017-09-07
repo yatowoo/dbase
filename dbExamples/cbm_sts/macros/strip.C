@@ -1,6 +1,6 @@
 //#include "Strip.h"
 //#include "Test.hpp"
-
+/*
 #include "CbmStsDbQaStrip.h"
 #include "CbmStsDbQaSUID.h"
 #include "CbmStsDbQaSensor.h"
@@ -8,7 +8,7 @@
 #include "TStopwatch.h"
 #include "ValTimeStamp.h"
 #include "ValInterval.h"
-
+*/
 #include<fstream>
 #include<string>
 
