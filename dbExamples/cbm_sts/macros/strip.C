@@ -1,7 +1,6 @@
 //#include "Strip.h"
 //#include "Test.hpp"
 
-#if __GNUC__ != 3
 #include "CbmStsDbQaStrip.h"
 #include "CbmStsDbQaSUID.h"
 #include "CbmStsDbQaSensor.h"
@@ -9,8 +8,8 @@
 #include "TStopwatch.h"
 #include "ValTimeStamp.h"
 #include "ValInterval.h"
-#endif
 
+#include<fstream>
 #include<string>
 
 void StripTest(bool update=false){
