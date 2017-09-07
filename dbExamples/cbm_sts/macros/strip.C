@@ -25,7 +25,7 @@ void StripTest(bool update=false){
   FairParTSQLIo *sql_io = new FairParTSQLIo();
   sql_io->open();
   sql_io->SetVerbosity(0);
-/*
+
   //Write skipping 0 entry 
   Int_t db_entry = 0;
   
@@ -91,12 +91,12 @@ void StripTest(bool update=false){
   if(!w_strip.Close()){
       cout << "-E- IO error writing par1 " << endl;
    }
-*/  
+ 
   t.Stop();
   t.Print();
   
   // Close DB Connection 
-  if (sql_io) sql_io->Close();
+  //if (sql_io) sql_io->Close();
 }
 
 void strip()
