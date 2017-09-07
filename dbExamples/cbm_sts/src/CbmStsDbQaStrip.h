@@ -60,7 +60,8 @@ using TObject::Compare;
 		void  SetAlShortRight(Double_t ial) {fAlShortR = ial;}
 		void  SetCCouplingCp(Double_t cccp) {fCCouplingCp = cccp;}
 		void  SetCCouplingDF(Double_t ccdf) {fCCouplingDF = ccdf;}
-		
+		void  SetPassed(Int_t passed) {fPassed = passed;}
+
 		Int_t    GetUID()          { return fUID;        }
 		Int_t    GetEdge()         { return fEdge;       }
 		Int_t    GetStripId()      { return fStripId;    }
@@ -70,7 +71,8 @@ using TObject::Compare;
 		Double_t GetAlShortRight() { return fAlShortR;   }
 		Double_t GetCCouplingCp () { return fCCouplingCp;}
 		Double_t GetCCouplingDF()  { return fCCouplingDF;}
-		
+		Int_t    GetPassed()       { return fPassed;     }
+
     // Random Access via UID
     UInt_t GetIndex(UInt_t /*def*/) const { return fCompId; }
     Bool_t Compare(const CbmStsDbQaStrip& that ) const;
@@ -129,7 +131,9 @@ using TObject::Compare;
 		Double_t fCCouplingCp;
 		Double_t fCCouplingDF;
     Int_t  fCompId;    
-    
+   
+		Int_t fPassed;
+
     // Parameter Container SQL Writer Meta-Class
     FairDbWriter<CbmStsDbQaStrip>* fParam_Writer; //!
     // Parameter Container SQL Writer Meta-Class

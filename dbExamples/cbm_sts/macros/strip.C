@@ -53,7 +53,7 @@ void StripTest(bool update=false){
   ValTimeStamp now;
 
 	const char* dataFileName = 
-			"/home/student/strip-test_123456/170713_11-24-08_P_Measure.dat";
+			"strip-test_123456/170713_11-24-08_P_Measure.dat";
 	const char* outputFileName = "defective_strips.txt";
  	ifstream fin(dataFileName);
 	if(!fin.is_open()){

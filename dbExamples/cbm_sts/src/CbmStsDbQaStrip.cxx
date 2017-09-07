@@ -52,7 +52,8 @@ CbmStsDbQaStrip::CbmStsDbQaStrip(const char* name, const char* title, const char
 		fAlShortR(0.),
 		fCCouplingCp(0.),
 		fCCouplingDF(0.),
-		fCompId(-1)
+		fCompId(-1),
+		fPassed(kFALSE)
 {
   
   // Set the default Db Entry to the first slot
@@ -105,6 +106,7 @@ void CbmStsDbQaStrip::putParams(FairParamList* list)
 	list->add("al_short_R", fAlShortR);
 	list->add("ccoupling_cp", fCCouplingCp);
 	list->add("ccoupling_df", fCCouplingDF);
+	list->add("passed", fPassed);
 }
 
 Bool_t CbmStsDbQaStrip::getParams(FairParamList* list)
@@ -120,6 +122,7 @@ Bool_t CbmStsDbQaStrip::getParams(FairParamList* list)
 	if (!list->fill("al_short_R", &fAlShortR)){ return kFALSE;}
 	if (!list->fill("ccoupling_cp", &fCCouplingCp)){ return kFALSE;}
 	if (!list->fill("ccoupling_df", &fCCouplingDF)){ return kFALSE;}
+	if (!list->fill("passed", &fPassed)){ return kFALSE;}
 
   return kTRUE;
 }
@@ -128,6 +131,7 @@ void CbmStsDbQaStrip::clear()
 {
   fCompId=fEdge=fStripId=-1;
 	fIstrip=fPinhole=fAlShortL=fAlShortR=fCCouplingCp=fCCouplingDF=0.;
+	fPassed=kFALSE;
 }
 
 
@@ -149,6 +153,7 @@ string CbmStsDbQaStrip::GetTableDefinition(const char* Name)
   sql += "  AL_SHORT_R            DOUBLE,";
   sql += "  CCOUPLING_CP          DOUBLE,";
   sql += "  CCOUPLING_DF          DOUBLE,";
+  sql += "  PASSED                INT,";
   sql += "  primary key(SEQNO,ROW_ID),"; 
   sql += "index(COMP_ID))";
 
@@ -160,14 +165,14 @@ void CbmStsDbQaStrip::Fill(FairDbResultPool& res_in,
                         const FairDbValRecord* valrec)
 {
 	res_in >> fCompId >> fUID >> fEdge >> fStripId >> fIstrip >> fPinhole
-		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF;
+		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF >> fPassed;
 }
 
 void CbmStsDbQaStrip::Store(FairDbOutTableBuffer& res_out,
                          const FairDbValRecord* valrec) const
 {
 	res_out << fCompId << fUID << fEdge << fStripId << fIstrip << fPinhole
-		<< fAlShortL << fAlShortR << fCCouplingCp << fCCouplingDF;
+		<< fAlShortL << fAlShortR << fCCouplingCp << fCCouplingDF << fPassed;
 }
 
 
@@ -200,7 +205,8 @@ void CbmStsDbQaStrip::fill(UInt_t rid)
 		fAlShortL= cgd->GetAlShortLeft();	
 		fAlShortR= cgd->GetAlShortRight();	
 		fCCouplingCp= cgd->GetCCouplingCp();	
-		fCCouplingDF= cgd->GetCCouplingDF();	
+		fCCouplingDF= cgd->GetCCouplingDF();
+	  fPassed = cgd->GetPassed();	
   }
 
 }
@@ -288,6 +294,7 @@ void CbmStsDbQaStrip::Print()
   std::cout<<"   Al_Short_R  : "<<  fAlShortR   <<  std::endl;
   std::cout<<"   CCoupling_Cp: "<<  fCCouplingCp<<  std::endl;
   std::cout<<"   CCoupling_DF: "<<  fCCouplingDF<<  std::endl;
+  std::cout<<"   Passed      : "<<  fPassed     <<  std::endl;
 }
 
 
@@ -302,7 +309,8 @@ Bool_t CbmStsDbQaStrip::Compare(const CbmStsDbQaStrip& that ) const {
     && (fAlShortL   == that.fAlShortL)
     && (fAlShortR   == that.fAlShortR)
     && (fCCouplingCp== that.fCCouplingCp)
-    && (fCCouplingDF== that.fCCouplingDF);
+    && (fCCouplingDF== that.fCCouplingDF)
+		&& (fPassed     == that.fPassed);
   return test_h;
 }
 
@@ -450,7 +458,8 @@ Int_t CbmStsDbQaStrip::Import(Int_t compid, string value)
 	// TODO : Check value
 	sstr >> fEdge >> fStripId >> fIstrip >> fPinhole
 		>> fAlShortL >> fAlShortR >> fCCouplingCp >> fCCouplingDF;
-	if(CheckValue()){
+	fPassed = CheckValue();
+	if(!fPassed){
 		std::cout << "-X- Strip : " << fEdge << "-" << fStripId 
 			<< " is defect" << std::endl;
 		return fStripId;
@@ -471,6 +480,6 @@ Bool_t CbmStsDbQaStrip::CheckValue()
 	 || (Abs(fPinhole) >= 10e-9) 
 	 || (Abs(fCCouplingCp) <= 10e-12 * LENGTH_STRIP);
 	
-	return isDefect;
+	return (!isDefect);
 }
 
